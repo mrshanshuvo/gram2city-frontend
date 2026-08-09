@@ -57,20 +57,22 @@ const Feedback = () => {
         <div className="w-20 h-20 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mx-auto shadow-sm">
           <FiHeart className="text-4xl animate-pulse" />
         </div>
-        <h2 className="text-3xl font-black text-gray-800 tracking-tight">How are we doing?</h2>
-        <p className="text-gray-400 font-bold text-xs uppercase tracking-[0.2em]">
+        <h2 className="text-3xl font-black text-gray-800 dark:text-slate-100 tracking-tight">
+          How are we doing?
+        </h2>
+        <p className="text-gray-400 dark:text-slate-500 font-bold text-xs uppercase tracking-[0.2em]">
           Your feedback fuels our progress
         </p>
       </div>
 
       {/* Feedback Card */}
-      <div className="bg-white rounded-2xl shadow-2xl shadow-gray-200/50 p-8 md:p-12 border border-gray-100 relative overflow-hidden">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl shadow-gray-200/50 dark:shadow-none p-8 md:p-12 border border-gray-100 dark:border-slate-800 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-2xl"></div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-10 relative z-10">
           {/* Rating Section */}
           <div className="space-y-4 text-center">
-            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+            <p className="text-[10px] font-black text-gray-400 dark:text-slate-500 uppercase tracking-widest">
               Global Satisfaction
             </p>
             <Controller
@@ -85,13 +87,13 @@ const Feedback = () => {
                       onClick={() => field.onChange(star)}
                       onMouseEnter={() => setHover(star)}
                       onMouseLeave={() => setHover(0)}
-                      className="transition-all duration-300 hover:scale-125 active:scale-95"
+                      className="transition-all duration-300 hover:scale-125 active:scale-95 cursor-pointer"
                     >
                       <FiStar
                         className={`text-4xl ${
                           (hover || field.value) >= star
                             ? 'text-amber-400 fill-amber-400'
-                            : 'text-gray-200'
+                            : 'text-gray-200 dark:text-slate-800'
                         } transition-colors`}
                       />
                     </button>
@@ -99,7 +101,7 @@ const Feedback = () => {
                 </div>
               )}
             />
-            <p className="text-xs font-bold text-gray-500">
+            <p className="text-xs font-bold text-gray-500 dark:text-slate-400">
               {ratingValue === 5
                 ? 'Incredible experience!'
                 : ratingValue === 4
@@ -112,7 +114,7 @@ const Feedback = () => {
 
           {/* Category Selection */}
           <div className="space-y-4">
-            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2">
+            <p className="text-[10px] font-black text-gray-400 dark:text-slate-500 uppercase tracking-widest px-2">
               Primary Focus
             </p>
             <Controller
@@ -125,10 +127,10 @@ const Feedback = () => {
                       key={cat}
                       type="button"
                       onClick={() => field.onChange(cat)}
-                      className={`px-4 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                      className={`px-4 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all cursor-pointer ${
                         field.value === cat
-                          ? 'bg-gray-900 text-white shadow-xl shadow-gray-900/20'
-                          : 'bg-gray-50 text-gray-400 hover:bg-gray-100'
+                          ? 'bg-gray-900 dark:bg-primary text-white dark:text-slate-950 shadow-xl shadow-gray-900/20 dark:shadow-primary/20 scale-[1.02]'
+                          : 'bg-gray-50 dark:bg-slate-800 text-gray-400 dark:text-slate-400 hover:bg-gray-100 dark:hover:bg-slate-700'
                       }`}
                     >
                       {cat}
@@ -142,24 +144,24 @@ const Feedback = () => {
           {/* Comment Section */}
           <div className="space-y-4">
             <div className="flex justify-between items-center px-2">
-              <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+              <p className="text-[10px] font-black text-gray-400 dark:text-slate-500 uppercase tracking-widest">
                 Detailed Insights
               </p>
-              <span className="text-[10px] font-bold text-gray-300">
+              <span className="text-[10px] font-bold text-gray-400 dark:text-slate-500">
                 {commentValue.length} / 500
               </span>
             </div>
             <textarea
               {...register('comment')}
               placeholder="What can we improve? Share your thoughts with our engineering team..."
-              className="w-full h-40 bg-gray-50 border-none rounded-2xl p-8 text-sm font-medium focus:ring-4 focus:ring-primary/10 transition-all resize-none"
+              className="w-full h-40 bg-gray-50 dark:bg-slate-800 border border-transparent dark:border-slate-800 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 rounded-2xl p-8 text-sm font-medium focus:ring-4 focus:ring-primary/10 transition-all outline-none resize-none"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-5 bg-primary text-gray-900 rounded-2xl font-black uppercase tracking-[0.2em] shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3"
+            className="w-full py-5 bg-primary text-white rounded-2xl font-black uppercase tracking-[0.2em] shadow-xl shadow-primary/20 hover:bg-primary/90 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 cursor-pointer"
           >
             {loading ? (
               <span className="loading loading-spinner"></span>
@@ -174,28 +176,28 @@ const Feedback = () => {
 
       {/* Proof of Progress */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-20">
-        <div className="p-6 bg-gray-50 rounded-3xl flex items-center gap-4">
-          <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm text-primary">
+        <div className="p-6 bg-gray-50 dark:bg-slate-900 rounded-3xl border border-gray-100 dark:border-slate-800 flex items-center gap-4">
+          <div className="w-12 h-12 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center shadow-sm text-primary">
             <FiMessageCircle className="text-xl" />
           </div>
           <div>
-            <p className="text-[10px] font-black text-gray-800 uppercase tracking-widest">
+            <p className="text-[10px] font-black text-gray-800 dark:text-slate-100 uppercase tracking-widest">
               24/7 Monitoring
             </p>
-            <p className="text-[9px] font-bold text-gray-400 uppercase tracking-tighter mt-0.5">
+            <p className="text-[9px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-tighter mt-0.5">
               Reviewed by our management team
             </p>
           </div>
         </div>
-        <div className="p-6 bg-gray-50 rounded-3xl flex items-center gap-4">
-          <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm text-primary">
+        <div className="p-6 bg-gray-50 dark:bg-slate-900 rounded-3xl border border-gray-100 dark:border-slate-800 flex items-center gap-4">
+          <div className="w-12 h-12 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center shadow-sm text-primary">
             <FiCheckCircle className="text-xl" />
           </div>
           <div>
-            <p className="text-[10px] font-black text-gray-800 uppercase tracking-widest">
+            <p className="text-[10px] font-black text-gray-800 dark:text-slate-100 uppercase tracking-widest">
               Closed-Loop System
             </p>
-            <p className="text-[9px] font-bold text-gray-400 uppercase tracking-tighter mt-0.5">
+            <p className="text-[9px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-tighter mt-0.5">
               We act on every verified suggestion
             </p>
           </div>

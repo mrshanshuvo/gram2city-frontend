@@ -111,11 +111,19 @@ const MakeAdmins = () => {
     );
 
   return (
-    <div className="space-y-8 pb-20">
-      <div className="flex justify-end">
+    <div className="space-y-8 pb-20 font-outfit">
+      <div className="flex justify-between items-center">
+        <div>
+          <h2 className="text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
+            Staff Roles & Authority
+          </h2>
+          <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">
+            Global account management and role hierarchy
+          </p>
+        </div>
         <button
           onClick={downloadReport}
-          className="btn btn-sm bg-secondary text-white border-none hover:bg-blue-700 shadow-lg shadow-blue-500/20 px-8 rounded-xl font-black uppercase tracking-widest h-11"
+          className="btn btn-sm bg-secondary text-white border-none hover:bg-blue-700 shadow-lg shadow-blue-500/20 px-8 rounded-xl font-black uppercase tracking-widest h-11 cursor-pointer"
         >
           <FiDownload className="mr-2" /> Export Staff Directory
         </button>
@@ -154,12 +162,12 @@ const MakeAdmins = () => {
             className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm flex items-center gap-4 group hover:shadow-xl transition-all"
           >
             <div
-              className={`w-12 h-12 bg-${card.color}-50 dark:bg-${card.color}-950/40 text-${card.color}-600 rounded-2xl flex items-center justify-center text-xl group-hover:scale-110 transition-transform`}
+              className={`w-12 h-12 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-2xl flex items-center justify-center text-xl group-hover:scale-110 transition-transform`}
             >
               <card.icon />
             </div>
             <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+              <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">
                 {card.label}
               </p>
               <p className="text-2xl font-black text-slate-800 dark:text-slate-100">
@@ -172,7 +180,7 @@ const MakeAdmins = () => {
 
       {/* Search Bar */}
       <div className="relative group">
-        <FiSearch className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 text-xl group-focus-within:text-[#1E5AA8] transition-colors" />
+        <FiSearch className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 text-xl group-focus-within:text-[#1E5AA8] transition-colors" />
         <input
           type="email"
           placeholder="Lookup user by email to manage authority..."
@@ -196,27 +204,30 @@ const MakeAdmins = () => {
         <div className="overflow-x-auto">
           <table className="table w-full">
             <thead>
-              <tr className="text-[10px] font-black text-slate-400 uppercase tracking-widest border-none">
+              <tr className="text-[10px] font-black text-slate-400 dark:text-slate-400 uppercase tracking-widest border-b border-slate-100 dark:border-slate-800">
                 <th className="px-10 py-6">Identity</th>
                 <th>Privilege Level</th>
                 <th>Status</th>
                 <th className="text-right px-10">Authority Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-50">
+            <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
               {displayUsers.map((user: UserRecord) => (
-                <tr key={user.email} className="hover:bg-slate-50/50 transition-colors group">
+                <tr
+                  key={user.email}
+                  className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors group"
+                >
                   <td className="px-10 py-6">
                     <div className="flex items-center gap-4">
                       <div className="avatar placeholder">
-                        <div className="bg-slate-100 text-slate-400 rounded-2xl w-12 h-12 font-black text-sm">
+                        <div className="bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-300 rounded-2xl w-12 h-12 font-black text-sm flex items-center justify-center">
                           {user.photoURL ? (
                             <Image
                               src={user.photoURL}
                               alt="User"
                               width={48}
                               height={48}
-                              className="object-cover"
+                              className="object-cover rounded-2xl"
                             />
                           ) : (
                             (user.displayName?.[0] || user.name?.[0] || user.email[0]).toUpperCase()
@@ -224,10 +235,10 @@ const MakeAdmins = () => {
                         </div>
                       </div>
                       <div>
-                        <div className="font-black text-slate-800 text-sm">
+                        <div className="font-black text-slate-800 dark:text-slate-100 text-sm">
                           {user.displayName || user.name || 'Anonymous User'}
                         </div>
-                        <div className="text-[10px] text-slate-400 font-bold font-mono">
+                        <div className="text-[10px] text-slate-400 dark:text-slate-500 font-bold font-mono">
                           {user.email}
                         </div>
                       </div>
@@ -238,14 +249,14 @@ const MakeAdmins = () => {
                       <span
                         className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest w-fit ${
                           user.role === 'superAdmin'
-                            ? 'bg-indigo-50 text-indigo-600'
+                            ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-900/40'
                             : user.role === 'admin'
-                              ? 'bg-emerald-50 text-emerald-600'
+                              ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/40'
                               : user.role === 'merchant'
-                                ? 'bg-purple-50 text-purple-600'
+                                ? 'bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-300 border border-purple-100 dark:border-purple-900/40'
                                 : user.role === 'rider'
-                                  ? 'bg-amber-50 text-amber-600'
-                                  : 'bg-slate-50 text-slate-400'
+                                  ? 'bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-300 border border-amber-100 dark:border-amber-900/40'
+                                  : 'bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                         }`}
                       >
                         {user.role || 'User'}
@@ -255,7 +266,9 @@ const MakeAdmins = () => {
                   <td>
                     <span
                       className={`flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest ${
-                        user.status === 'suspended' ? 'text-red-500' : 'text-emerald-500'
+                        user.status === 'suspended'
+                          ? 'text-red-500 dark:text-red-400'
+                          : 'text-emerald-500 dark:text-emerald-400'
                       }`}
                     >
                       {user.status === 'suspended' ? <FiLock /> : <FiUnlock />}
@@ -284,10 +297,10 @@ const MakeAdmins = () => {
                                 });
                             });
                           }}
-                          className={`btn btn-xs border-none font-black uppercase tracking-tight rounded-lg ${
+                          className={`btn btn-xs border-none font-black uppercase tracking-tight rounded-lg cursor-pointer ${
                             user.status === 'suspended'
-                              ? 'bg-emerald-50 text-emerald-600'
-                              : 'bg-red-50 text-red-600'
+                              ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900'
+                              : 'bg-red-50 dark:bg-red-950/60 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900'
                           }`}
                         >
                           {user.status === 'suspended' ? 'Activate' : 'Suspend'}
@@ -295,7 +308,7 @@ const MakeAdmins = () => {
 
                         {/* Role Change */}
                         <select
-                          className="select select-xs select-ghost bg-slate-50 font-black uppercase text-[9px] tracking-tight rounded-lg"
+                          className="select select-xs select-ghost bg-slate-50 dark:bg-slate-800 font-black uppercase text-[9px] tracking-tight rounded-lg text-slate-800 dark:text-slate-100 cursor-pointer"
                           value={user.role || 'user'}
                           onChange={(e) => {
                             const newRole = e.target.value;
@@ -314,10 +327,18 @@ const MakeAdmins = () => {
                             });
                           }}
                         >
-                          <option value="user">User</option>
-                          <option value="rider">Rider</option>
-                          <option value="merchant">Merchant</option>
-                          <option value="admin">Admin</option>
+                          <option value="user" className="bg-white dark:bg-slate-900">
+                            User
+                          </option>
+                          <option value="rider" className="bg-white dark:bg-slate-900">
+                            Rider
+                          </option>
+                          <option value="merchant" className="bg-white dark:bg-slate-900">
+                            Merchant
+                          </option>
+                          <option value="admin" className="bg-white dark:bg-slate-900">
+                            Admin
+                          </option>
                         </select>
                       </div>
                     )}
@@ -327,7 +348,7 @@ const MakeAdmins = () => {
             </tbody>
           </table>
           {displayUsers.length === 0 && (
-            <div className="py-20 text-center text-slate-300 italic font-bold">
+            <div className="py-20 text-center text-slate-300 dark:text-slate-500 italic font-bold">
               No authority records match your search criteria.
             </div>
           )}

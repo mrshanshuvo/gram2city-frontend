@@ -43,16 +43,16 @@ const MerchantApplication = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto pb-20">
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+    <div className="max-w-4xl mx-auto pb-20 font-outfit">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden">
         <div className="grid grid-cols-1 md:grid-cols-2">
           {/* Form Side */}
           <div className="p-12 space-y-8">
             <div>
-              <h3 className="text-2xl font-black text-slate-800 tracking-tight">
+              <h3 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
                 Shop Verification
               </h3>
-              <p className="text-slate-400 font-bold text-xs uppercase tracking-widest mt-1">
+              <p className="text-slate-400 dark:text-slate-500 font-bold text-xs uppercase tracking-widest mt-1">
                 Official Merchant Enrollment
               </p>
             </div>
@@ -60,7 +60,7 @@ const MerchantApplication = () => {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               {/* Business Name */}
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 ml-2">
                   Business / Shop Name
                 </label>
                 <div className="relative">
@@ -68,10 +68,10 @@ const MerchantApplication = () => {
                     {...register('businessName', {
                       required: 'Business name is required',
                     })}
-                    className="input w-full bg-slate-50 border-none rounded-2xl h-14 pl-12 font-bold text-slate-700"
+                    className="input w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl h-14 pl-12 font-bold text-slate-700 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 outline-none"
                     placeholder="e.g. Dhaka Tech Store"
                   />
-                  <FiShoppingBag className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 text-xl" />
+                  <FiShoppingBag className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-600 text-xl" />
                 </div>
                 {errors.businessName && (
                   <p className="text-rose-500 text-[10px] font-bold ml-2 uppercase">
@@ -82,55 +82,65 @@ const MerchantApplication = () => {
 
               {/* Business Type */}
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 ml-2">
                   Business Category
                 </label>
                 <select
                   {...register('businessType', { required: true })}
-                  className="select w-full bg-slate-50 border-none rounded-2xl h-14 font-bold text-slate-700"
+                  className="select w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl h-14 font-bold text-slate-700 dark:text-slate-100 outline-none cursor-pointer"
                 >
-                  <option value="electronics">Electronics & Gadgets</option>
-                  <option value="fashion">Fashion & Lifestyle</option>
-                  <option value="grocery">Groceries & Essentials</option>
-                  <option value="healthcare">Healthcare & Pharmacy</option>
-                  <option value="other">Other Commercial</option>
+                  <option value="electronics" className="bg-white dark:bg-slate-900">
+                    Electronics & Gadgets
+                  </option>
+                  <option value="fashion" className="bg-white dark:bg-slate-900">
+                    Fashion & Lifestyle
+                  </option>
+                  <option value="grocery" className="bg-white dark:bg-slate-900">
+                    Groceries & Essentials
+                  </option>
+                  <option value="healthcare" className="bg-white dark:bg-slate-900">
+                    Healthcare & Pharmacy
+                  </option>
+                  <option value="other" className="bg-white dark:bg-slate-900">
+                    Other Commercial
+                  </option>
                 </select>
               </div>
 
               {/* Contact */}
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 ml-2">
                   Official Contact Number
                 </label>
                 <div className="relative">
                   <input
                     {...register('contactNumber', { required: true })}
-                    className="input w-full bg-slate-50 border-none rounded-2xl h-14 pl-12 font-bold text-slate-700"
+                    className="input w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl h-14 pl-12 font-bold text-slate-700 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 outline-none"
                     placeholder="01XXXXXXXXX"
                   />
-                  <FiPhone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 text-xl" />
+                  <FiPhone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-600 text-xl" />
                 </div>
               </div>
 
               {/* Address */}
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 ml-2">
                   Physical Shop Address
                 </label>
                 <div className="relative">
                   <textarea
                     {...register('shopAddress', { required: true })}
-                    className="textarea w-full bg-slate-50 border-none rounded-2xl py-4 pl-12 font-bold text-slate-700 min-h-25"
+                    className="textarea w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl py-4 pl-12 font-bold text-slate-700 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 min-h-25 outline-none resize-none"
                     placeholder="Full street address, Floor, Building..."
                   />
-                  <FiMapPin className="absolute left-4 top-6 text-slate-300 text-xl" />
+                  <FiMapPin className="absolute left-4 top-6 text-slate-300 dark:text-slate-600 text-xl" />
                 </div>
               </div>
 
               <button
                 type="submit"
                 disabled={mutation.isPending}
-                className="btn btn-primary w-full h-14 rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-primary/20"
+                className="btn btn-primary w-full h-14 rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-primary/20 cursor-pointer"
               >
                 {mutation.isPending ? 'Transmitting...' : 'Submit Application'}
               </button>
@@ -138,7 +148,7 @@ const MerchantApplication = () => {
           </div>
 
           {/* Info Side */}
-          <div className="bg-slate-900 p-12 text-white flex flex-col justify-between relative overflow-hidden">
+          <div className="bg-slate-900 dark:bg-slate-950 p-12 text-white flex flex-col justify-between relative overflow-hidden border-l border-slate-800">
             <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-primary/20 rounded-full blur-3xl"></div>
 
             <div className="space-y-10 relative z-10">

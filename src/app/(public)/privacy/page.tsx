@@ -45,7 +45,9 @@ export default function PrivacyPage() {
     <div className="bg-slate-50 dark:bg-slate-950 font-urbanist min-h-screen py-16 md:py-24">
       <div className="max-w-4xl mx-auto px-6">
         <div className="mb-12">
-          <span className="text-xs font-black uppercase tracking-widest text-primary">Legal & Transparency</span>
+          <span className="text-xs font-black uppercase tracking-widest text-primary">
+            Legal & Transparency
+          </span>
           <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight mt-2 mb-3">
             Privacy Policy
           </h1>
@@ -54,11 +56,17 @@ export default function PrivacyPage() {
 
         <div className="bg-white dark:bg-slate-900 p-8 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm space-y-8">
           <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
-            At Gram2City Logistics, we take your privacy seriously. This document outlines how we collect, store, process, and protect your personal information across our website and mobile application.
+            At Gram2City Logistics, we take your privacy seriously. This document outlines how we
+            collect, store, process, and protect your personal information across our website and
+            mobile application.
           </p>
 
           {sections.map((s) => (
-            <div key={s.id} id={s.id} className="border-t border-slate-100 dark:border-slate-800 pt-6">
+            <div
+              key={s.id}
+              id={s.id}
+              className="border-t border-slate-100 dark:border-slate-800 pt-6"
+            >
               <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-3">{s.title}</h2>
               <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-medium text-sm md:text-base">
                 {s.content}
@@ -69,10 +77,15 @@ export default function PrivacyPage() {
           <div className="border-t border-slate-100 dark:border-slate-800 pt-6">
             <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-3">6. Contact Us</h2>
             <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-medium text-sm">
-              If you have questions regarding this Privacy Policy, please contact our Data Officer at{' '}
-              <a href="mailto:privacy@gram2city.com" className="text-secondary font-bold hover:underline">
+              If you have questions regarding this Privacy Policy, please contact our Data Officer
+              at{' '}
+              <a
+                href="mailto:privacy@gram2city.com"
+                className="text-secondary font-bold hover:underline"
+              >
                 privacy@gram2city.com
-              </a>.
+              </a>
+              .
             </p>
           </div>
         </div>

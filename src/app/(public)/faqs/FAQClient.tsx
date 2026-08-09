@@ -79,7 +79,9 @@ export default function FAQClient() {
                       {topic.icon}
                     </div>
                     <div>
-                      <p className="text-sm font-black text-[#0B0F19] dark:text-white">{topic.title}</p>
+                      <p className="text-sm font-black text-[#0B0F19] dark:text-white">
+                        {topic.title}
+                      </p>
                       <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">
                         {topic.desc}
                       </p>

@@ -18,8 +18,15 @@ export const axiosSecure = axios.create({
 // Request Interceptor: Inject Token
 axiosSecure.interceptors.request.use(
   async (config) => {
+    const localToken =
+      typeof window !== 'undefined' ? localStorage.getItem('gram2city_jwt_token') : null;
+    if (localToken) {
+      config.headers.authorization = `Bearer ${localToken}`;
+      return config;
+    }
+
     const { user } = useAuthStore.getState();
-    if (user) {
+    if (user && typeof user.getIdToken === 'function') {
       try {
         const token = await user.getIdToken();
         config.headers.authorization = `Bearer ${token}`;

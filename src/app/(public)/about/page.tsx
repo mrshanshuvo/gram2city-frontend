@@ -3,7 +3,6 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { ShieldCheck, Truck, Users } from 'lucide-react';
 
-
 export const metadata: Metadata = {
   title: 'About Us | Gram2City Logistics',
   description:
@@ -46,10 +45,12 @@ export default function AboutPage() {
           </span>
           <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
             Bridging the Gap Between <br />
-            <span className="text-primary">Gram</span> & <span className="text-secondary">City</span>
+            <span className="text-primary">Gram</span> &{' '}
+            <span className="text-secondary">City</span>
           </h1>
           <p className="text-slate-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-medium">
-            We are building Bangladesh’s most reliable, tech-driven logistics infrastructure — empowering small businesses, artisans, and everyday senders.
+            We are building Bangladesh’s most reliable, tech-driven logistics infrastructure —
+            empowering small businesses, artisans, and everyday senders.
           </p>
         </div>
       </div>
@@ -59,8 +60,12 @@ export default function AboutPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-800">
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">
-              <div className="text-3xl md:text-4xl font-black text-secondary mb-1">{stat.value}</div>
-              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">{stat.label}</div>
+              <div className="text-3xl md:text-4xl font-black text-secondary mb-1">
+                {stat.value}
+              </div>
+              <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                {stat.label}
+              </div>
             </div>
           ))}
         </div>
@@ -74,10 +79,14 @@ export default function AboutPage() {
               Empowering Commerce Across Every District
             </h2>
             <p className="text-slate-600 dark:text-slate-400 text-base leading-relaxed mb-4">
-              Gram2City was born out of a simple vision: to eliminate geographic barriers in e-commerce and personal logistics. Whether you’re sending hand-woven goods from a rural village or delivering high-value electronics in the heart of Dhaka, we ensure safe and swift movement.
+              Gram2City was born out of a simple vision: to eliminate geographic barriers in
+              e-commerce and personal logistics. Whether you’re sending hand-woven goods from a
+              rural village or delivering high-value electronics in the heart of Dhaka, we ensure
+              safe and swift movement.
             </p>
             <p className="text-slate-600 dark:text-slate-400 text-base leading-relaxed">
-              Our automated dispatch routing, rider tracking technology, and transparent COD payout system make logistics hassle-free for merchants of all sizes.
+              Our automated dispatch routing, rider tracking technology, and transparent COD payout
+              system make logistics hassle-free for merchants of all sizes.
             </p>
           </div>
           <div className="grid grid-cols-1 gap-6">
@@ -86,9 +95,13 @@ export default function AboutPage() {
                 key={v.title}
                 className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm flex items-start gap-4"
               >
-                <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl shrink-0">{v.icon}</div>
+                <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl shrink-0">
+                  {v.icon}
+                </div>
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">{v.title}</h3>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
+                    {v.title}
+                  </h3>
                   <p className="text-sm text-slate-500 dark:text-slate-400">{v.desc}</p>
                 </div>
               </div>
@@ -104,7 +117,8 @@ export default function AboutPage() {
             Ready to Ship Your First Parcel?
           </h2>
           <p className="text-primary-foreground/80 max-w-lg mx-auto text-base mb-8">
-            Create an account in less than 2 minutes and experience doorstep parcel collection today.
+            Create an account in less than 2 minutes and experience doorstep parcel collection
+            today.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link

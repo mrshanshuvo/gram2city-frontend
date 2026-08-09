@@ -87,25 +87,25 @@ function TrackParcelContent() {
   const isLive = connected && (currentStatus === 'on_the_way' || currentStatus === 'assigned');
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 pb-12 pt-4">
+    <div className="max-w-5xl mx-auto space-y-8 pb-12 pt-4 font-outfit">
       <div className="flex flex-col items-center gap-6">
         <form
           onSubmit={handleSearch}
-          className="flex gap-2 w-full max-w-md bg-white p-2 rounded-2xl shadow-xl shadow-primary/10 border border-gray-100"
+          className="flex gap-2 w-full max-w-md bg-white dark:bg-slate-900 p-2 rounded-2xl shadow-xl shadow-primary/10 border border-gray-100 dark:border-slate-800"
         >
           <div className="flex-1 relative">
-            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-slate-500" />
             <input
               type="text"
               placeholder="Ex: G2C-123456"
-              className="input w-full border-none focus:ring-0 pl-11 h-12 bg-transparent font-mono font-bold text-primary"
+              className="input w-full border-none focus:ring-0 pl-11 h-12 bg-transparent font-mono font-bold text-primary dark:text-blue-400 placeholder:text-slate-400 dark:placeholder:text-slate-600 outline-none"
               value={searchId}
               onChange={(e) => setSearchId(e.target.value)}
             />
           </div>
           <button
             type="submit"
-            className="btn btn-primary h-12 px-8 rounded-xl font-bold uppercase tracking-tight"
+            className="btn btn-primary h-12 px-8 rounded-xl font-bold uppercase tracking-tight cursor-pointer"
           >
             Track
           </button>
@@ -113,11 +113,13 @@ function TrackParcelContent() {
       </div>
 
       {!trackingId && !isLoading && (
-        <div className="bg-white p-12 rounded-3xl text-center border-2 border-dashed border-gray-100">
-          <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
-            <FiPackage className="text-3xl text-gray-300" />
+        <div className="bg-white dark:bg-slate-900 p-12 rounded-3xl text-center border-2 border-dashed border-gray-100 dark:border-slate-800 shadow-sm">
+          <div className="w-20 h-20 bg-gray-50 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4">
+            <FiPackage className="text-3xl text-gray-300 dark:text-slate-600" />
           </div>
-          <p className="text-gray-400 font-medium font-outfit">Ready to monitor your parcel?</p>
+          <p className="text-gray-400 dark:text-slate-500 font-medium font-outfit">
+            Ready to monitor your parcel?
+          </p>
         </div>
       )}
 
@@ -126,13 +128,13 @@ function TrackParcelContent() {
       {trackings.length > 0 && (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
           {/* Real-time Map Section */}
-          <div className="bg-white p-2 rounded-2xl shadow-xl border border-gray-100 overflow-hidden relative group">
+          <div className="bg-white dark:bg-slate-900 p-2 rounded-3xl shadow-xl border border-gray-100 dark:border-slate-800 overflow-hidden relative group">
             <div className="absolute top-6 left-6 z-1000 flex items-center gap-3">
               <div
                 className={`flex items-center gap-2 px-4 py-2 rounded-xl backdrop-blur-md shadow-lg border ${
                   isLive
                     ? 'bg-emerald-500/90 text-white border-emerald-400'
-                    : 'bg-white/90 text-gray-500 border-gray-200'
+                    : 'bg-white/90 dark:bg-slate-900/90 text-gray-700 dark:text-slate-300 border-gray-200 dark:border-slate-700'
                 }`}
               >
                 <FiActivity className={`${isLive ? 'animate-pulse' : ''}`} />
@@ -141,7 +143,7 @@ function TrackParcelContent() {
                 </span>
               </div>
               {connected && (
-                <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/90 backdrop-blur-md shadow-lg border border-gray-200 text-gray-700">
+                <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-lg border border-gray-200 dark:border-slate-700 text-gray-700 dark:text-slate-300">
                   <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
                   <span className="text-[10px] font-black uppercase tracking-widest">
                     Gateway Connected
@@ -157,8 +159,8 @@ function TrackParcelContent() {
 
           {/* Details & Timeline Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-            <div className="md:col-span-2 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-              <h3 className="text-xl font-bold text-gray-800 mb-8 flex items-center gap-2">
+            <div className="md:col-span-2 bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-sm border border-gray-100 dark:border-slate-800">
+              <h3 className="text-xl font-black text-gray-800 dark:text-slate-100 mb-8 flex items-center gap-2 tracking-tight">
                 <FiClock className="text-primary" /> Delivery Journey
               </h3>
 
@@ -166,14 +168,14 @@ function TrackParcelContent() {
                 {trackings.map((update, idx) => (
                   <div key={update._id} className="relative flex gap-6 pb-10 group last:pb-0">
                     {idx !== trackings.length - 1 && (
-                      <div className="absolute left-6 top-10 bottom-0 w-1 bg-linear-to-b from-primary/50 to-gray-100 -translate-x-1/2"></div>
+                      <div className="absolute left-6 top-10 bottom-0 w-1 bg-linear-to-b from-primary/50 to-gray-100 dark:to-slate-800 -translate-x-1/2"></div>
                     )}
 
                     <div
                       className={`relative z-10 w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-lg transition-all duration-500 ${
                         idx === 0
                           ? 'bg-primary text-white scale-110 ring-4 ring-primary/20'
-                          : 'bg-gray-50 text-gray-300'
+                          : 'bg-gray-50 dark:bg-slate-800 text-gray-300 dark:text-slate-600'
                       }`}
                     >
                       <FiCheckCircle className="text-xl" />
@@ -181,17 +183,17 @@ function TrackParcelContent() {
 
                     <div className={`flex-1 pt-1 ${idx === 0 ? 'opacity-100' : 'opacity-60'}`}>
                       <div className="flex justify-between items-start mb-1">
-                        <h4 className="font-black text-base uppercase tracking-tighter text-gray-800">
+                        <h4 className="font-black text-base uppercase tracking-tighter text-gray-800 dark:text-slate-100">
                           {update.status?.replace('_', ' ')}
                         </h4>
-                        <span className="text-[10px] font-bold bg-gray-50 px-2 py-1 rounded text-gray-500">
+                        <span className="text-[10px] font-bold bg-gray-50 dark:bg-slate-800 px-2 py-1 rounded text-gray-500 dark:text-slate-400">
                           {moment(update.time).format('HH:mm A')}
                         </span>
                       </div>
-                      <p className="text-xs text-gray-500 leading-relaxed italic">
+                      <p className="text-xs text-gray-500 dark:text-slate-400 leading-relaxed italic">
                         "{update.details}"
                       </p>
-                      <div className="flex items-center gap-1 mt-2 text-[10px] font-bold text-primary uppercase tracking-widest">
+                      <div className="flex items-center gap-1 mt-2 text-[10px] font-bold text-primary dark:text-blue-400 uppercase tracking-widest">
                         <FiMapPin className="text-xs" /> {update.location || 'Central Hub'}
                       </div>
                     </div>
@@ -202,12 +204,12 @@ function TrackParcelContent() {
 
             {/* Sidebar Stats */}
             <div className="space-y-6">
-              <div className="bg-gray-900 p-8 rounded-2xl text-white shadow-2xl relative overflow-hidden group">
+              <div className="bg-slate-900 dark:bg-slate-950 p-8 rounded-3xl text-white shadow-2xl relative overflow-hidden group border border-slate-800">
                 <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-primary/20 rounded-full blur-3xl group-hover:bg-primary/40 transition-all duration-700"></div>
                 <h4 className="text-[10px] font-black opacity-40 uppercase tracking-[0.2em] mb-4">
                   Tracking Intelligence
                 </h4>
-                <p className="text-2xl font-black font-mono mb-8 tracking-tighter text-primary">
+                <p className="text-2xl font-black font-mono mb-8 tracking-tighter text-primary dark:text-blue-400">
                   {trackingId}
                 </p>
 
@@ -229,8 +231,8 @@ function TrackParcelContent() {
                 </div>
               </div>
 
-              <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
-                <h4 className="font-black text-gray-800 mb-6 tracking-[0.2em] uppercase text-[10px] text-center">
+              <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-gray-100 dark:border-slate-800 shadow-sm">
+                <h4 className="font-black text-gray-800 dark:text-slate-100 mb-6 tracking-[0.2em] uppercase text-[10px] text-center">
                   Journey Progress
                 </h4>
                 <div className="relative h-24 flex items-center justify-center">
@@ -245,7 +247,7 @@ function TrackParcelContent() {
                     }
                     role="progressbar"
                   >
-                    <span className="text-sm font-black text-gray-800">
+                    <span className="text-sm font-black text-gray-800 dark:text-slate-100">
                       {Math.round((trackings.length / 6) * 100)}%
                     </span>
                   </div>

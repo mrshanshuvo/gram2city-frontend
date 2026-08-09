@@ -40,7 +40,9 @@ export default function TermsPage() {
     <div className="bg-slate-50 dark:bg-slate-950 font-urbanist min-h-screen py-16 md:py-24">
       <div className="max-w-4xl mx-auto px-6">
         <div className="mb-12">
-          <span className="text-xs font-black uppercase tracking-widest text-primary">User Agreement</span>
+          <span className="text-xs font-black uppercase tracking-widest text-primary">
+            User Agreement
+          </span>
           <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight mt-2 mb-3">
             Terms of Service
           </h1>
@@ -49,7 +51,8 @@ export default function TermsPage() {
 
         <div className="bg-white dark:bg-slate-900 p-8 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm space-y-8">
           <p className="text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
-            Welcome to Gram2City Logistics. Please read these terms carefully before accessing our services.
+            Welcome to Gram2City Logistics. Please read these terms carefully before accessing our
+            services.
           </p>
 
           {sections.map((s, idx) => (

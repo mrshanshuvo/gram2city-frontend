@@ -47,10 +47,10 @@ const ProfileCompletionTracker: React.FC<TrackerProps> = ({ user }) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm overflow-hidden relative"
+      className="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden relative font-outfit"
     >
       {/* Background Decorative Element */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-bl-[5rem] -mr-8 -mt-8 z-0" />
+      <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 dark:bg-slate-800/40 rounded-bl-[5rem] -mr-8 -mt-8 z-0" />
 
       <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
         <div className="space-y-4 text-center lg:text-left">
@@ -60,12 +60,14 @@ const ProfileCompletionTracker: React.FC<TrackerProps> = ({ user }) => {
             >
               {statusText}
             </span>
-            {percentage === 100 && <ShieldCheck className="text-[#2E7D32]" size={18} />}
+            {percentage === 100 && (
+              <ShieldCheck className="text-[#2E7D32] dark:text-emerald-400" size={18} />
+            )}
           </div>
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight">
+          <h2 className="text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
             {percentage === 100 ? 'Identity Fully Verified' : 'Finalize Your Identity'}
           </h2>
-          <p className="text-slate-500 font-medium max-w-md">
+          <p className="text-slate-500 dark:text-slate-400 font-medium max-w-md">
             {percentage === 100
               ? 'Your account is fully optimized for nationwide shipping. Happy sending!'
               : 'Complete your profile to unlock all features, including instant parcel booking and tracking.'}
@@ -83,7 +85,7 @@ const ProfileCompletionTracker: React.FC<TrackerProps> = ({ user }) => {
                 stroke="currentColor"
                 strokeWidth="8"
                 fill="transparent"
-                className="text-slate-100"
+                className="text-slate-100 dark:text-slate-800"
               />
               <motion.circle
                 cx="64"
@@ -98,20 +100,22 @@ const ProfileCompletionTracker: React.FC<TrackerProps> = ({ user }) => {
                   strokeDashoffset: 364.4 - (364.4 * percentage) / 100,
                 }}
                 transition={{ duration: 1, ease: 'easeOut' }}
-                className="text-[#2E7D32]"
+                className="text-[#2E7D32] dark:text-emerald-400"
               />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-3xl font-black text-slate-900">{percentage}%</span>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
+              <span className="text-3xl font-black text-slate-900 dark:text-slate-100">
+                {percentage}%
+              </span>
+              <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-tighter">
                 Done
               </span>
             </div>
           </div>
           {percentage < 100 && (
             <Link
-              href="/dashboard/update-profile"
-              className="flex items-center gap-1 text-sm font-black text-[#2E7D32] hover:gap-2 transition-all"
+              href="/dashboard/updateProfile"
+              className="flex items-center gap-1 text-sm font-black text-[#2E7D32] dark:text-emerald-400 hover:gap-2 transition-all cursor-pointer"
             >
               Finish Setup <ArrowRight size={16} />
             </Link>
@@ -124,27 +128,27 @@ const ProfileCompletionTracker: React.FC<TrackerProps> = ({ user }) => {
         {steps.map((step, idx) => (
           <div
             key={step.id}
-            className={`flex items-center gap-4 p-4 rounded-2xl border ${step.isDone ? 'bg-slate-50 border-slate-100' : 'bg-white border-slate-200 border-dashed'}`}
+            className={`flex items-center gap-4 p-4 rounded-2xl border ${step.isDone ? 'bg-slate-50 dark:bg-slate-800/50 border-slate-100 dark:border-slate-800' : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 border-dashed'}`}
           >
             <div
-              className={`w-10 h-10 rounded-xl flex items-center justify-center ${step.isDone ? 'bg-primary text-white' : 'bg-slate-100 text-slate-400'}`}
+              className={`w-10 h-10 rounded-xl flex items-center justify-center ${step.isDone ? 'bg-primary text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500'}`}
             >
               <step.icon size={20} />
             </div>
             <div className="grow">
-              <p className="text-xs font-black text-slate-400 uppercase tracking-tighter">
+              <p className="text-xs font-black text-slate-400 dark:text-slate-500 uppercase tracking-tighter">
                 Step {idx + 1}
               </p>
               <h4
-                className={`text-sm font-bold ${step.isDone ? 'text-slate-900' : 'text-slate-500'}`}
+                className={`text-sm font-bold ${step.isDone ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500 dark:text-slate-400'}`}
               >
                 {step.label}
               </h4>
             </div>
             {step.isDone ? (
-              <CheckCircle2 className="text-[#2E7D32]" size={20} />
+              <CheckCircle2 className="text-[#2E7D32] dark:text-emerald-400" size={20} />
             ) : (
-              <Circle className="text-slate-200" size={20} />
+              <Circle className="text-slate-200 dark:text-slate-700" size={20} />
             )}
           </div>
         ))}

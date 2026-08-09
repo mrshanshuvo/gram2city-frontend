@@ -2,6 +2,7 @@ import { User as FirebaseUser } from 'firebase/auth';
 
 export interface User extends FirebaseUser {
   _id?: string;
+  name?: string;
   role?: 'user' | 'rider' | 'admin' | 'merchant';
   phone?: string;
   address?: string;

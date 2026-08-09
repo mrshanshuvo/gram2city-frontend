@@ -198,17 +198,17 @@ const Sidebar: React.FC<SidebarProps> = ({ activePath, closeDrawer, handleLogout
   ];
 
   return (
-    <div className="w-72 bg-white border-r border-gray-100 flex flex-col h-full shadow-2xl lg:shadow-none">
+    <div className="w-72 bg-white dark:bg-slate-900 border-r border-gray-100 dark:border-slate-800 flex flex-col h-full shadow-2xl lg:shadow-none transition-colors">
       {/* Logo Section */}
       <div className="pt-4 px-6">
         <Gram2CityLogo />
       </div>
 
       {/* Navigation Groups */}
-      <div className="flex-1 overflow-y-auto px-6 py-4 space-y-8 scrollbar-hide">
+      <div className="flex-1 overflow-y-auto px-6 py-4 space-y-8">
         {navGroups.map((group, idx) => (
           <div key={idx} className="space-y-3">
-            <h3 className="px-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+            <h3 className="px-4 text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-widest">
               {group.title}
             </h3>
             <ul className="space-y-1.5">
@@ -222,7 +222,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activePath, closeDrawer, handleLogout
                       ${
                         activePath === to
                           ? 'bg-primary text-white shadow-lg shadow-primary/25'
-                          : 'text-gray-500 hover:bg-gray-50 hover:text-primary'
+                          : 'text-gray-500 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-800/80 hover:text-primary dark:hover:text-slate-100'
                       }
                     `}
                   >

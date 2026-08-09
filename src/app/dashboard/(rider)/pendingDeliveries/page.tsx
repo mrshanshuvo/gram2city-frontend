@@ -208,18 +208,20 @@ const PendingDeliveries: React.FC = () => {
                   </div>
 
                   {/* Destination */}
-                  <div className="bg-emerald-50/30 p-6 rounded-3xl border border-emerald-50">
-                    <h4 className="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                  <div className="bg-emerald-50/30 dark:bg-emerald-950/20 p-6 rounded-3xl border border-emerald-50 dark:border-emerald-900/30">
+                    <h4 className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-4 flex items-center gap-2">
                       <FiNavigation /> Destination
                     </h4>
                     <div className="space-y-2">
-                      <div className="font-black text-slate-800 flex items-center gap-2">
-                        <FiUser className="text-emerald-300" /> {parcel.receiverName}
+                      <div className="font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                        <FiUser className="text-emerald-500 dark:text-emerald-400" />{' '}
+                        {parcel.receiverName}
                       </div>
-                      <div className="text-sm font-bold text-slate-500 flex items-center gap-2">
-                        <FiPhone className="text-emerald-300" /> {parcel.receiverPhoneNumber}
+                      <div className="text-sm font-bold text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                        <FiPhone className="text-emerald-500 dark:text-emerald-400" />{' '}
+                        {parcel.receiverPhoneNumber}
                       </div>
-                      <p className="text-sm text-slate-600 leading-relaxed font-medium mt-2">
+                      <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-medium mt-2">
                         {parcel.deliveryAddress}
                       </p>
                     </div>
@@ -228,12 +230,12 @@ const PendingDeliveries: React.FC = () => {
               </div>
 
               {/* Action Bar */}
-              <div className="bg-slate-50/50 px-8 py-5 border-t border-slate-50 flex justify-end gap-4">
+              <div className="bg-slate-50/50 dark:bg-slate-800/50 px-8 py-5 border-t border-slate-50 dark:border-slate-800 flex justify-end gap-4">
                 {parcel.delivery_status === 'assigned' && (
                   <button
                     onClick={() => pickMutation.mutate(parcel._id)}
                     disabled={pickMutation.isPending}
-                    className="btn btn-sm bg-secondary hover:bg-primary text-white border-none rounded-xl px-8 font-black uppercase tracking-widest shadow-lg shadow-secondary/20 h-11"
+                    className="btn btn-sm bg-secondary hover:bg-primary text-white border-none rounded-xl px-8 font-black uppercase tracking-widest shadow-lg shadow-secondary/20 h-11 cursor-pointer"
                   >
                     {pickMutation.isPending ? 'Starting Mission...' : 'Mark as Picked'}
                   </button>
@@ -244,7 +246,7 @@ const PendingDeliveries: React.FC = () => {
                       setSelectedParcel(parcel);
                       setIsModalOpen(true);
                     }}
-                    className="btn btn-sm bg-primary hover:bg-secondary text-white border-none rounded-xl px-8 font-black uppercase tracking-widest shadow-lg shadow-primary/20 h-11"
+                    className="btn btn-sm bg-primary hover:bg-secondary text-white border-none rounded-xl px-8 font-black uppercase tracking-widest shadow-lg shadow-primary/20 h-11 cursor-pointer"
                   >
                     Mark as Delivered
                   </button>
@@ -257,29 +259,32 @@ const PendingDeliveries: React.FC = () => {
 
       {/* Modern Confirmation Modal */}
       {isModalOpen && selectedParcel && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-100 animate-in fade-in duration-300">
-          <div className="bg-white rounded-2xl p-10 w-full max-w-md mx-4 shadow-2xl animate-in zoom-in-95 duration-300 border border-slate-100">
-            <div className="w-20 h-20 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl shadow-inner">
+        <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center z-100 animate-in fade-in duration-300 font-outfit">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-10 w-full max-w-md mx-4 shadow-2xl animate-in zoom-in-95 duration-300 border border-slate-100 dark:border-slate-800">
+            <div className="w-20 h-20 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-500 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl shadow-inner border border-emerald-100 dark:border-emerald-900/40">
               <FiCheckCircle />
             </div>
-            <h3 className="text-2xl font-black text-slate-800 text-center mb-2">
+            <h3 className="text-2xl font-black text-slate-800 dark:text-slate-100 text-center mb-2 tracking-tight">
               Confirm Delivery?
             </h3>
-            <p className="text-slate-500 font-medium text-center mb-8">
+            <p className="text-slate-500 dark:text-slate-400 font-medium text-center mb-8 text-sm">
               Are you sure you have successfully delivered the parcel to{' '}
-              <span className="text-slate-800 font-black">{selectedParcel.receiverName}</span>?
+              <span className="text-slate-800 dark:text-slate-100 font-black">
+                {selectedParcel.receiverName}
+              </span>
+              ?
             </p>
 
             <div className="flex flex-col gap-3">
               <button
-                className="btn btn-lg bg-primary hover:bg-secondary text-white border-none rounded-2xl font-black uppercase tracking-widest h-16 shadow-xl shadow-primary/20"
+                className="btn btn-lg bg-primary hover:bg-secondary text-white border-none rounded-2xl font-black uppercase tracking-widest h-16 shadow-xl shadow-primary/20 cursor-pointer"
                 onClick={() => deliverMutation.mutate(selectedParcel._id)}
                 disabled={deliverMutation.isPending}
               >
                 {deliverMutation.isPending ? 'Processing...' : 'Yes, Delivered'}
               </button>
               <button
-                className="btn btn-lg bg-slate-50 hover:bg-slate-100 text-slate-400 border-none rounded-2xl font-black uppercase tracking-widest h-16"
+                className="btn btn-lg bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-400 dark:text-slate-300 border-none rounded-2xl font-black uppercase tracking-widest h-16 cursor-pointer"
                 onClick={() => setIsModalOpen(false)}
               >
                 Cancel

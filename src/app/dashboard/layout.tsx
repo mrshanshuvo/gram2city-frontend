@@ -9,19 +9,20 @@ import Sidebar from '@/components/Dashboard/Sidebar';
 import Topbar from '@/components/Dashboard/Topbar';
 import ChatWidget from '@/components/Shared/ChatWidget';
 import NavigationProgressBar from '@/components/Shared/NavigationProgressBar';
+import { Sheet, SheetContent } from '@/components/ui/Sheet';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { logout: logOut } = useAuthStore();
   const pathname = usePathname();
   const [activePath, setActivePath] = useState(pathname || '');
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   useEffect(() => {
     setActivePath(pathname || '');
   }, [pathname]);
 
   const closeDrawer = () => {
-    const drawer = document.getElementById('my-drawer-2') as HTMLInputElement | null;
-    if (drawer?.checked) drawer.checked = false;
+    setIsMobileOpen(false);
   };
 
   const pathParts = (pathname || '').split('/').filter((p) => p && p !== 'dashboard');
@@ -38,14 +39,25 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="drawer lg:drawer-open bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen transition-colors font-outfit">
-      <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+    <div className="flex h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen transition-colors font-outfit overflow-hidden">
+      {/* Desktop Permanent Sidebar */}
+      <aside className="hidden lg:block h-full z-40 shrink-0">
+        <Sidebar activePath={activePath} closeDrawer={closeDrawer} handleLogout={handleLogout} />
+      </aside>
 
-      <div className="drawer-content flex flex-col h-screen overflow-hidden relative">
+      {/* Mobile Shadcn Sheet Drawer */}
+      <Sheet open={isMobileOpen} onOpenChange={setIsMobileOpen}>
+        <SheetContent side="left" className="p-0 border-none w-72">
+          <Sidebar activePath={activePath} closeDrawer={closeDrawer} handleLogout={handleLogout} />
+        </SheetContent>
+      </Sheet>
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col h-screen overflow-hidden relative">
         <NavigationProgressBar />
 
         <div className="sticky top-0 z-30 w-full">
-          <Topbar breadcrumbs={breadcrumbs} />
+          <Topbar breadcrumbs={breadcrumbs} onOpenMobileMenu={() => setIsMobileOpen(true)} />
         </div>
 
         <main className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-10 max-w-400 w-full mx-auto animate-in fade-in duration-700">
@@ -54,11 +66,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
         {/* Floating Real-time Chat */}
         <ChatWidget />
-      </div>
-
-      <div className="drawer-side z-40">
-        <label htmlFor="my-drawer-2" className="drawer-overlay" aria-label="Close sidebar"></label>
-        <Sidebar activePath={activePath} closeDrawer={closeDrawer} handleLogout={handleLogout} />
       </div>
     </div>
   );

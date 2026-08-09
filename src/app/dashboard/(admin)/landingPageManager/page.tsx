@@ -360,7 +360,7 @@ const LandingPageManager = () => {
     const currentTabSelectedCount = selectedItems.filter((id) => activeIds.includes(id)).length;
 
     return (
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-100 mb-6 shrink-0">
+      <div className="flex flex-wrap items-center justify-between gap-4 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 mb-6 shrink-0">
         <div className="flex items-center gap-3">
           <input
             type="checkbox"
@@ -371,7 +371,7 @@ const LandingPageManager = () => {
             onChange={handleSelectAllToggle}
             className="checkbox checkbox-primary checkbox-sm rounded-lg"
           />
-          <span className="text-xs font-black text-slate-500 uppercase tracking-wider">
+          <span className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider">
             {currentTabSelectedCount} / {activeItems.length} Selected
           </span>
         </div>
@@ -379,7 +379,7 @@ const LandingPageManager = () => {
           <button
             onClick={handleBulkDelete}
             disabled={deleteMultipleMutation.isPending}
-            className="btn btn-sm bg-rose-500 hover:bg-rose-600 text-white font-black rounded-xl gap-2 shadow-md transition-all border-none"
+            className="btn btn-sm bg-rose-500 hover:bg-rose-600 text-white font-black rounded-xl gap-2 shadow-md transition-all border-none cursor-pointer"
           >
             {deleteMultipleMutation.isPending ? (
               <>
@@ -409,13 +409,13 @@ const LandingPageManager = () => {
   }) => (
     <button
       onClick={() => setActiveTab(id)}
-      className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold transition-all ${
+      className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold transition-all cursor-pointer ${
         activeTab === id
           ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-105'
-          : 'bg-white text-slate-500 hover:bg-slate-50 border border-slate-200'
+          : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800'
       }`}
     >
-      <Icon size={20} />
+      <Icon size={18} />
       {label}
     </button>
   );
@@ -423,7 +423,7 @@ const LandingPageManager = () => {
   const AddButton = ({ label, onClick }: { label: string; onClick: () => void }) => (
     <button
       onClick={onClick}
-      className="btn bg-primary hover:bg-secondary text-white border-none rounded-md font-black flex items-center gap-2 shadow-lg shadow-primary/20 px-6"
+      className="btn bg-primary hover:bg-primary/90 text-white border-none rounded-xl font-black flex items-center gap-2 shadow-lg shadow-primary/20 px-6 cursor-pointer"
     >
       <Plus size={20} />
       {label}
@@ -452,9 +452,9 @@ const LandingPageManager = () => {
   // ─── RENDER ─────────────────────────────────────────────────────────────────
 
   return (
-    <div className="space-y-8 pb-20">
+    <div className="space-y-8 pb-20 font-outfit">
       {/* Tab Bar */}
-      <div className="flex flex-wrap gap-4 pb-4">
+      <div className="flex flex-wrap gap-3 pb-2">
         <TabButton id="banners" label="Hero Banners" icon={ImageIcon} />
         <TabButton id="services" label="Services" icon={Zap} />
         <TabButton id="features" label="Features" icon={Star} />
@@ -471,7 +471,7 @@ const LandingPageManager = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm min-h-100"
+          className="bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-100 dark:border-slate-800 shadow-sm min-h-100"
         >
           {activeTab === 'banners' && (
             <BannersTab

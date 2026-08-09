@@ -31,7 +31,9 @@ export default function AllCustomersPage() {
   const { data, isLoading } = useQuery({
     queryKey: ['all-customers', searchTerm, page],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/admin/users?search=${encodeURIComponent(searchTerm)}&page=${page}&size=${size}`);
+      const res = await axiosSecure.get(
+        `/admin/users?search=${encodeURIComponent(searchTerm)}&page=${page}&size=${size}`,
+      );
       return res.data;
     },
   });
@@ -58,33 +60,39 @@ export default function AllCustomersPage() {
       {/* Header Stat Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm flex items-center gap-4">
-          <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-xl">
+          <div className="w-12 h-12 bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center text-xl">
             <FiUsers />
           </div>
           <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Registered Customers</p>
-            <p className="text-2xl font-black text-slate-800 dark:text-white">{totalItems}</p>
+            <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+              Total Registered Customers
+            </p>
+            <p className="text-2xl font-black text-slate-800 dark:text-slate-100">{totalItems}</p>
           </div>
         </div>
 
         <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm flex items-center gap-4">
-          <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-xl">
+          <div className="w-12 h-12 bg-emerald-50 dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center text-xl">
             <FiUsers />
           </div>
           <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Page View</p>
-            <p className="text-2xl font-black text-slate-800 dark:text-white">Page {page} of {totalPages}</p>
+            <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+              Page View
+            </p>
+            <p className="text-2xl font-black text-slate-800 dark:text-slate-100">
+              Page {page} of {totalPages}
+            </p>
           </div>
         </div>
       </div>
 
       {/* Search Input */}
       <div className="relative group">
-        <FiSearch className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 text-xl group-focus-within:text-[#1E5AA8] transition-colors" />
+        <FiSearch className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 text-xl group-focus-within:text-[#1E5AA8] transition-colors" />
         <input
           type="text"
           placeholder="Search customer by email..."
-          className="input w-full pl-16 h-16 bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 rounded-2xl shadow-sm focus:ring-4 focus:ring-blue-500/5 transition-all text-sm font-bold"
+          className="input w-full pl-16 h-16 bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-100 rounded-2xl shadow-sm focus:ring-4 focus:ring-blue-500/5 transition-all text-sm font-bold placeholder:text-slate-400 dark:placeholder:text-slate-600"
           value={searchTerm}
           onChange={(e) => {
             setSearchTerm(e.target.value);
@@ -96,18 +104,20 @@ export default function AllCustomersPage() {
       {/* Table */}
       <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
         <div className="px-8 py-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/50">
-          <h3 className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-widest">
+          <h3 className="text-sm font-black text-slate-800 dark:text-slate-100 uppercase tracking-widest">
             Customer Directory ({totalItems})
           </h3>
         </div>
 
         {isLoading ? (
-          <div className="py-20 text-center text-slate-400 font-bold animate-pulse">Loading customers...</div>
+          <div className="py-20 text-center text-slate-400 dark:text-slate-500 font-bold animate-pulse">
+            Loading customers...
+          </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="table w-full">
               <thead>
-                <tr className="text-[10px] font-black text-slate-400 uppercase tracking-widest border-none">
+                <tr className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest border-none">
                   <th className="px-8 py-4">Customer Identity</th>
                   <th>Contact Email</th>
                   <th>Status</th>
@@ -117,9 +127,12 @@ export default function AllCustomersPage() {
               </thead>
               <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
                 {customers.map((c) => (
-                  <tr key={c._id || c.email} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
+                  <tr
+                    key={c._id || c.email}
+                    className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors"
+                  >
                     <td className="px-8 py-4">
-                      <div className="font-bold text-slate-900 dark:text-white text-sm">
+                      <div className="font-bold text-slate-900 dark:text-slate-100 text-sm">
                         {c.displayName || c.name || 'Customer'}
                       </div>
                     </td>
@@ -131,7 +144,9 @@ export default function AllCustomersPage() {
                     <td>
                       <span
                         className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest ${
-                          c.status === 'suspended' ? 'bg-red-50 text-red-600' : 'bg-emerald-50 text-emerald-600'
+                          c.status === 'suspended'
+                            ? 'bg-red-50 dark:bg-red-950/60 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-900/40'
+                            : 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/40'
                         }`}
                       >
                         {c.status === 'suspended' ? <FiLock /> : <FiUnlock />}
@@ -139,8 +154,9 @@ export default function AllCustomersPage() {
                       </span>
                     </td>
                     <td>
-                      <div className="text-xs text-slate-400 font-bold flex items-center gap-1">
-                        <FiCalendar /> {c.last_login ? moment(c.last_login).fromNow() : 'Registered user'}
+                      <div className="text-xs text-slate-400 dark:text-slate-500 font-bold flex items-center gap-1">
+                        <FiCalendar />{' '}
+                        {c.last_login ? moment(c.last_login).fromNow() : 'Registered user'}
                       </div>
                     </td>
                     <td className="text-right px-8">
@@ -159,8 +175,10 @@ export default function AllCustomersPage() {
                             }
                           });
                         }}
-                        className={`btn btn-xs border-none font-black uppercase tracking-tight rounded-lg ${
-                          c.status === 'suspended' ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'
+                        className={`btn btn-xs border-none font-black uppercase tracking-tight rounded-lg cursor-pointer ${
+                          c.status === 'suspended'
+                            ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900'
+                            : 'bg-red-50 dark:bg-red-950/60 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900'
                         }`}
                       >
                         {c.status === 'suspended' ? 'Activate' : 'Suspend'}
@@ -172,28 +190,30 @@ export default function AllCustomersPage() {
             </table>
 
             {customers.length === 0 && (
-              <div className="py-16 text-center text-slate-400 italic font-bold">No customers found.</div>
+              <div className="py-16 text-center text-slate-400 dark:text-slate-500 italic font-bold">
+                No customers found.
+              </div>
             )}
           </div>
         )}
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="p-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+          <div className="p-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/30 dark:bg-slate-800/30">
             <button
               disabled={page === 1}
               onClick={() => setPage((p) => p - 1)}
-              className="btn btn-sm btn-ghost font-bold text-xs disabled:opacity-30"
+              className="btn btn-sm btn-ghost font-bold text-xs text-slate-600 dark:text-slate-300 disabled:opacity-30 cursor-pointer"
             >
               ← Previous
             </button>
-            <span className="text-xs font-bold text-slate-400">
+            <span className="text-xs font-bold text-slate-400 dark:text-slate-500">
               Page {page} of {totalPages}
             </span>
             <button
               disabled={page === totalPages}
               onClick={() => setPage((p) => p + 1)}
-              className="btn btn-sm btn-ghost font-bold text-xs disabled:opacity-30"
+              className="btn btn-sm btn-ghost font-bold text-xs text-slate-600 dark:text-slate-300 disabled:opacity-30 cursor-pointer"
             >
               Next →
             </button>

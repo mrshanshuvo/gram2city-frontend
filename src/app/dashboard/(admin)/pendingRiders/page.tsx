@@ -123,80 +123,117 @@ const PendingRiders = () => {
   };
 
   return (
-    <div className="p-4 md:p-6 lg:p-8 space-y-6">
-      <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-        <h2 className="text-2xl font-bold">Pending Rider Applications</h2>
+    <div className="p-4 md:p-6 lg:p-8 space-y-6 font-outfit">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+        <div>
+          <h2 className="text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
+            Onboarding Applications
+          </h2>
+          <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">
+            Review and verify incoming rider applications
+          </p>
+        </div>
         <div className="flex items-center gap-3">
           <button
             onClick={downloadCSV}
-            className="btn btn-sm bg-primary text-white border-none hover:bg-primary/90 shadow-lg shadow-primary/20 px-6 rounded-xl font-bold"
+            className="btn btn-sm bg-primary text-white border-none hover:bg-primary/90 shadow-lg shadow-primary/20 px-6 rounded-xl font-bold cursor-pointer"
           >
             Download Report
           </button>
-          <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-xl shadow-sm border border-gray-100">
-            <span className="text-xs text-gray-500 font-bold uppercase tracking-tight">Rows:</span>
+          <div className="flex items-center gap-2 bg-white dark:bg-slate-900 px-3 py-1.5 rounded-xl shadow-sm border border-gray-100 dark:border-slate-800 h-10">
+            <span className="text-xs text-gray-500 dark:text-slate-400 font-bold uppercase tracking-tight">
+              Rows:
+            </span>
             <select
-              className="select select-ghost select-xs focus:bg-transparent outline-none border-none text-gray-700 font-bold"
+              className="select select-ghost select-xs focus:bg-transparent outline-none border-none text-gray-700 dark:text-slate-200 font-bold bg-transparent"
               value={size}
               onChange={(e) => {
                 setSize(Number(e.target.value));
                 setPage(1);
               }}
             >
-              <option value={10}>10</option>
-              <option value={25}>25</option>
-              <option value={50}>50</option>
+              <option
+                value={10}
+                className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100"
+              >
+                10
+              </option>
+              <option
+                value={25}
+                className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100"
+              >
+                25
+              </option>
+              <option
+                value={50}
+                className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100"
+              >
+                50
+              </option>
             </select>
           </div>
-          <div className="badge badge-warning font-bold py-3 px-4 bg-amber-50 text-amber-600 border-none">
+          <div className="badge badge-warning font-black py-3 px-4 bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-300 border border-amber-100 dark:border-amber-900/40 rounded-xl text-xs uppercase tracking-wider">
             {pagination.totalItems} Applications
           </div>
         </div>
       </div>
 
       {riders.length === 0 ? (
-        <div className="alert alert-info bg-blue-50 border-blue-100 text-blue-700 rounded-2xl">
+        <div className="alert alert-info bg-blue-50 dark:bg-slate-900 border-blue-100 dark:border-slate-800 text-blue-700 dark:text-blue-400 font-bold rounded-2xl p-6 text-center">
           No pending applications at the moment.
         </div>
       ) : (
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-100 dark:border-slate-800 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="table w-full">
               <thead>
-                <tr className="bg-gray-50/50 text-gray-500 uppercase text-[10px] font-bold tracking-widest">
-                  <th className="py-4">Applicant</th>
+                <tr className="bg-gray-50/50 dark:bg-slate-800/50 text-gray-400 dark:text-slate-400 uppercase text-[10px] font-black tracking-widest border-b border-gray-100 dark:border-slate-800">
+                  <th className="py-4 px-6">Applicant</th>
                   <th>Vehicle Info</th>
                   <th>Documents</th>
                   <th>Region</th>
                   <th className="text-right px-6">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50">
+              <tbody className="divide-y divide-gray-50 dark:divide-slate-800">
                 {riders.map((rider: Rider) => (
-                  <tr key={rider._id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="py-4">
-                      <div className="font-bold text-gray-800">{rider.name}</div>
-                      <div className="text-[10px] text-gray-400 font-mono tracking-tighter">
+                  <tr
+                    key={rider._id}
+                    className="hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition-colors"
+                  >
+                    <td className="py-4 px-6">
+                      <div className="font-bold text-gray-800 dark:text-slate-100">
+                        {rider.name}
+                      </div>
+                      <div className="text-[10px] text-gray-400 dark:text-slate-500 font-mono tracking-tighter">
                         {rider.email}
                       </div>
                     </td>
                     <td>
-                      <div className="font-semibold text-gray-800 text-sm">{rider.bikeBrand}</div>
-                      <div className="text-[10px] text-gray-500">{rider.bikeRegNo}</div>
+                      <div className="font-bold text-gray-800 dark:text-slate-200 text-sm">
+                        {rider.bikeBrand}
+                      </div>
+                      <div className="text-[10px] text-gray-500 dark:text-slate-400 font-medium">
+                        {rider.bikeRegNo}
+                      </div>
                     </td>
                     <td>
                       <div className="flex flex-col gap-1">
-                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tight">
+                        <span className="text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-tight">
                           NID: {rider.nid}
                         </span>
-                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tight">
+                        <span className="text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-tight">
                           Age: {rider.age}
                         </span>
                       </div>
                     </td>
                     <td>
-                      <div className="text-sm font-medium text-gray-600">{rider.district}</div>
-                      <div className="text-[10px] text-gray-400">{rider.region}</div>
+                      <div className="text-sm font-bold text-gray-600 dark:text-slate-300">
+                        {rider.district}
+                      </div>
+                      <div className="text-[10px] text-gray-400 dark:text-slate-500">
+                        {rider.region}
+                      </div>
                     </td>
                     <td className="text-right px-6">
                       <div className="flex justify-end gap-2">
@@ -205,19 +242,19 @@ const PendingRiders = () => {
                             setSelectedRider(rider);
                             setIsModalOpen(true);
                           }}
-                          className="btn btn-xs bg-blue-50 text-blue-600 border-none hover:bg-blue-100 font-bold"
+                          className="btn btn-xs bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border-none hover:bg-blue-100 dark:hover:bg-blue-900 font-bold rounded-lg cursor-pointer"
                         >
                           Review
                         </button>
                         <button
                           onClick={() => handleDecision(rider._id, 'approve', rider.email)}
-                          className="btn btn-xs bg-emerald-50 text-emerald-600 border-none hover:bg-emerald-100 font-bold"
+                          className="btn btn-xs bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-300 border-none hover:bg-emerald-100 dark:hover:bg-emerald-900 font-bold rounded-lg cursor-pointer"
                         >
                           Approve
                         </button>
                         <button
                           onClick={() => handleDecision(rider._id, 'reject')}
-                          className="btn btn-xs bg-red-50 text-red-600 border-none hover:bg-red-100 font-bold"
+                          className="btn btn-xs bg-red-50 dark:bg-red-950/60 text-red-600 dark:text-red-400 border-none hover:bg-red-100 dark:hover:bg-red-900 font-bold rounded-lg cursor-pointer"
                         >
                           Reject
                         </button>
@@ -229,16 +266,17 @@ const PendingRiders = () => {
             </table>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-center px-6 py-4 bg-gray-50/50 border-t border-gray-100 gap-4">
-            <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-              Showing <span className="text-gray-800">{startRange}</span> to{' '}
-              <span className="text-gray-800">{endRange}</span> of{' '}
-              <span className="text-gray-800">{pagination.totalItems}</span> applicants
+          <div className="flex flex-col md:flex-row justify-between items-center px-6 py-4 bg-gray-50/50 dark:bg-slate-800/50 border-t border-gray-100 dark:border-slate-800 gap-4">
+            <div className="text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-widest">
+              Showing <span className="text-gray-800 dark:text-slate-200">{startRange}</span> to{' '}
+              <span className="text-gray-800 dark:text-slate-200">{endRange}</span> of{' '}
+              <span className="text-gray-800 dark:text-slate-200">{pagination.totalItems}</span>{' '}
+              applicants
             </div>
 
             <div className="flex items-center gap-2">
               <button
-                className="btn btn-sm bg-white border-none shadow-sm hover:bg-primary hover:text-white transition-all text-gray-400"
+                className="btn btn-sm bg-white dark:bg-slate-800 border-none shadow-sm hover:bg-primary hover:text-white transition-all text-gray-400 dark:text-slate-400 cursor-pointer disabled:opacity-40"
                 onClick={() => handlePageChange(page - 1)}
                 disabled={!pagination.hasPrevPage}
               >
@@ -257,10 +295,10 @@ const PendingRiders = () => {
                       <button
                         key={pageNum}
                         onClick={() => handlePageChange(pageNum)}
-                        className={`btn btn-sm w-9 h-9 min-h-0 border-none shadow-sm transition-all ${
+                        className={`btn btn-sm w-9 h-9 min-h-0 border-none shadow-sm transition-all cursor-pointer ${
                           page === pageNum
                             ? 'bg-primary text-white'
-                            : 'bg-white text-gray-500 hover:bg-gray-100'
+                            : 'bg-white dark:bg-slate-800 text-gray-500 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700'
                         }`}
                       >
                         {pageNum}
@@ -268,7 +306,10 @@ const PendingRiders = () => {
                     );
                   } else if (pageNum === page - 2 || pageNum === page + 2) {
                     return (
-                      <span key={pageNum} className="text-gray-300 font-bold px-1">
+                      <span
+                        key={pageNum}
+                        className="text-gray-300 dark:text-slate-600 font-bold px-1"
+                      >
                         ...
                       </span>
                     );
@@ -278,7 +319,7 @@ const PendingRiders = () => {
               </div>
 
               <button
-                className="btn btn-sm bg-white border-none shadow-sm hover:bg-primary hover:text-white transition-all text-gray-400"
+                className="btn btn-sm bg-white dark:bg-slate-800 border-none shadow-sm hover:bg-primary hover:text-white transition-all text-gray-400 dark:text-slate-400 cursor-pointer disabled:opacity-40"
                 onClick={() => handlePageChange(page + 1)}
                 disabled={!pagination.hasNextPage}
               >
@@ -290,73 +331,87 @@ const PendingRiders = () => {
       )}
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 max-w-2xl w-full shadow-2xl space-y-6">
-            <h3 className="font-bold text-xl text-slate-800 dark:text-slate-100">
+        <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl p-8 max-w-2xl w-full shadow-2xl space-y-6">
+            <h3 className="font-black text-xl text-slate-800 dark:text-slate-100">
               Rider Application Details
             </h3>
 
             {selectedRider && (
-              <div className="space-y-4 text-sm text-slate-600 dark:text-slate-300">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <p className="font-semibold text-slate-800 dark:text-slate-100 mb-1">
+              <div className="space-y-4 text-xs font-bold text-slate-700 dark:text-slate-300">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-800">
+                  <div className="space-y-1">
+                    <p className="font-black uppercase tracking-widest text-[10px] text-primary">
                       Personal Information
                     </p>
                     <p>
-                      <strong>Name:</strong> {selectedRider.name}
+                      <strong className="text-slate-400 dark:text-slate-500">Name:</strong>{' '}
+                      {selectedRider.name}
                     </p>
                     <p>
-                      <strong>Email:</strong> {selectedRider.email}
+                      <strong className="text-slate-400 dark:text-slate-500">Email:</strong>{' '}
+                      {selectedRider.email}
                     </p>
                     <p>
-                      <strong>Phone:</strong> {selectedRider.phone}
+                      <strong className="text-slate-400 dark:text-slate-500">Phone:</strong>{' '}
+                      {selectedRider.phone}
                     </p>
                     <p>
-                      <strong>Age:</strong> {selectedRider.age}
+                      <strong className="text-slate-400 dark:text-slate-500">Age:</strong>{' '}
+                      {selectedRider.age}
                     </p>
                   </div>
-                  <div>
-                    <p className="font-semibold text-slate-800 dark:text-slate-100 mb-1">
+                  <div className="space-y-1">
+                    <p className="font-black uppercase tracking-widest text-[10px] text-primary">
                       Identification
                     </p>
                     <p>
-                      <strong>NID:</strong> {selectedRider.nid}
+                      <strong className="text-slate-400 dark:text-slate-500">NID:</strong>{' '}
+                      {selectedRider.nid}
                     </p>
                     <p>
-                      <strong>Region:</strong> {selectedRider.region}
+                      <strong className="text-slate-400 dark:text-slate-500">Region:</strong>{' '}
+                      {selectedRider.region}
                     </p>
                     <p>
-                      <strong>District:</strong> {selectedRider.district}
+                      <strong className="text-slate-400 dark:text-slate-500">District:</strong>{' '}
+                      {selectedRider.district}
                     </p>
                   </div>
                 </div>
 
-                <div>
-                  <p className="font-semibold text-slate-800 dark:text-slate-100 mb-1">
+                <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 space-y-1">
+                  <p className="font-black uppercase tracking-widest text-[10px] text-primary">
                     Vehicle Information
                   </p>
                   <p>
-                    <strong>Brand:</strong> {selectedRider.bikeBrand}
+                    <strong className="text-slate-400 dark:text-slate-500">Brand:</strong>{' '}
+                    {selectedRider.bikeBrand}
                   </p>
                   <p>
-                    <strong>Registration:</strong> {selectedRider.bikeRegNo}
+                    <strong className="text-slate-400 dark:text-slate-500">Registration:</strong>{' '}
+                    {selectedRider.bikeRegNo}
                   </p>
                 </div>
 
-                <div>
-                  <p className="font-semibold text-slate-800 dark:text-slate-100 mb-1">
-                    Additional Information
-                  </p>
-                  <p>{selectedRider.additionalInfo}</p>
-                </div>
+                {selectedRider.additionalInfo && (
+                  <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 space-y-1">
+                    <p className="font-black uppercase tracking-widest text-[10px] text-primary">
+                      Additional Information
+                    </p>
+                    <p className="whitespace-pre-line text-slate-500 dark:text-slate-400 font-medium">
+                      {selectedRider.additionalInfo}
+                    </p>
+                  </div>
+                )}
 
-                <div>
-                  <p className="font-semibold text-slate-800 dark:text-slate-100 mb-1">
+                <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 space-y-1">
+                  <p className="font-black uppercase tracking-widest text-[10px] text-primary">
                     Application Details
                   </p>
                   <p>
-                    <strong>Applied On:</strong> {formatDate(selectedRider.createdAt)}
+                    <strong className="text-slate-400 dark:text-slate-500">Applied On:</strong>{' '}
+                    {formatDate(selectedRider.createdAt)}
                   </p>
                 </div>
               </div>

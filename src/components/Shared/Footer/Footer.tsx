@@ -142,7 +142,6 @@ const Footer: React.FC<FooterProps> = ({ foundingYear = 2024 }) => {
                 }}
                 className="flex flex-col sm:flex-row gap-3"
               >
-
                 <input
                   name="email"
                   type="email"

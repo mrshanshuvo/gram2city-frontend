@@ -16,32 +16,56 @@ const AuthInitializer = () => {
     // Initialize Socket
     initializeSocket();
 
-    const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
-      // Set basic user info first
-      setUser(currentUser as User);
-
-      if (currentUser) {
+    const checkAuth = async () => {
+      const localToken = localStorage.getItem('gram2city_jwt_token');
+      if (localToken) {
         try {
-          const res = await axiosSecure.post('/users/sync');
-          const validated = userResponseSchema.safeParse(res.data);
-
-          if (validated.success && validated.data.user) {
-            setRole(validated.data.user.role);
-          } else if (!validated.success) {
-            console.error('Auth Initializer: Validation failed', validated.error);
+          const res = await axiosSecure.get('/auth/me');
+          if (res.data.success && res.data.user) {
+            setUser(res.data.user as User);
+            setRole(res.data.user.role);
+            setLoading(false);
+            return;
           }
-        } catch (error) {
-          console.error('Auth Initializer: Sync failed', error);
+        } catch {
+          localStorage.removeItem('gram2city_jwt_token');
         }
-      } else {
-        setRole(null);
       }
 
-      setLoading(false);
+      const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
+        // Set basic user info first
+        setUser(currentUser as User);
+
+        if (currentUser) {
+          try {
+            const res = await axiosSecure.post('/users/sync');
+            const validated = userResponseSchema.safeParse(res.data);
+
+            if (validated.success && validated.data.user) {
+              setRole(validated.data.user.role);
+            } else if (!validated.success) {
+              console.error('Auth Initializer: Validation failed', validated.error);
+            }
+          } catch (error) {
+            console.error('Auth Initializer: Sync failed', error);
+          }
+        } else {
+          setRole(null);
+        }
+
+        setLoading(false);
+      });
+
+      return unsubscribe;
+    };
+
+    let unsubscribeFirebase: (() => void) | undefined;
+    checkAuth().then((unsub) => {
+      if (typeof unsub === 'function') unsubscribeFirebase = unsub;
     });
 
     return () => {
-      unsubscribe();
+      if (unsubscribeFirebase) unsubscribeFirebase();
       disconnectSocket();
     };
   }, [setUser, setRole, setLoading, initializeSocket, disconnectSocket]);

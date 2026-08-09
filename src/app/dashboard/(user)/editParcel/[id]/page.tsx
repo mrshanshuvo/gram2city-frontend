@@ -141,9 +141,10 @@ const EditParcel: React.FC = () => {
   };
 
   const inputCls =
-    'w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1E5AA8]/20 focus:border-[#1E5AA8] transition-all';
-  const labelCls = 'block text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-1.5';
-  const errorCls = 'mt-1.5 text-xs font-semibold text-red-500';
+    'w-full px-4 py-3 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-2xl text-sm font-medium text-gray-800 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#1E5AA8]/20 transition-all';
+  const labelCls =
+    'block text-[11px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-1.5';
+  const errorCls = 'mt-1.5 text-xs font-semibold text-rose-500';
 
   const ControlledSelect = ({
     name,
@@ -173,12 +174,16 @@ const EditParcel: React.FC = () => {
             }}
             disabled={disabled}
           >
-            <SelectTrigger>
+            <SelectTrigger className="bg-gray-50 dark:bg-slate-800 border-gray-100 dark:border-slate-700 text-slate-800 dark:text-slate-100 font-bold rounded-2xl h-12">
               <SelectValue placeholder={placeholder} />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-white dark:bg-slate-900 border-gray-100 dark:border-slate-800">
               {items.map((item) => (
-                <SelectItem key={item} value={item}>
+                <SelectItem
+                  key={item}
+                  value={item}
+                  className="focus:bg-slate-50 dark:focus:bg-slate-800"
+                >
                   {item}
                 </SelectItem>
               ))}
@@ -199,29 +204,29 @@ const EditParcel: React.FC = () => {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-2 py-4 md:pt-16 md:pb-20">
+    <div className="max-w-5xl mx-auto px-2 py-4 md:pt-16 md:pb-20 font-outfit">
       {/* Step Progress */}
       <div className="flex items-center justify-between mb-8 px-2">
         {STEPS.map((s, i) => (
           <React.Fragment key={s.id}>
             <button
               onClick={() => setStep(s.id)}
-              className={`flex items-center gap-2.5 group ${step >= s.id ? 'opacity-100' : 'opacity-40'}`}
+              className={`flex items-center gap-2.5 group cursor-pointer ${step >= s.id ? 'opacity-100' : 'opacity-40'}`}
             >
               <div
-                className={`w-9 h-9 rounded-2xl flex items-center justify-center text-sm font-black transition-all shadow-sm ${step > s.id ? 'bg-primary text-white' : step === s.id ? 'bg-secondary text-white' : 'bg-gray-100 text-gray-400'}`}
+                className={`w-9 h-9 rounded-2xl flex items-center justify-center text-sm font-black transition-all shadow-sm ${step > s.id ? 'bg-primary text-white' : step === s.id ? 'bg-secondary text-white' : 'bg-gray-100 dark:bg-slate-800 text-gray-400 dark:text-slate-500'}`}
               >
                 {step > s.id ? <FiCheck /> : s.icon}
               </div>
               <span
-                className={`text-xs font-black uppercase tracking-widest hidden sm:block ${step === s.id ? 'text-[#1E5AA8]' : 'text-gray-400'}`}
+                className={`text-xs font-black uppercase tracking-widest hidden sm:block ${step === s.id ? 'text-[#1E5AA8] dark:text-blue-400' : 'text-gray-400 dark:text-slate-500'}`}
               >
                 {s.label}
               </span>
             </button>
             {i < STEPS.length - 1 && (
               <div
-                className={`flex-1 h-px mx-4 transition-colors ${step > s.id ? 'bg-primary' : 'bg-gray-100'}`}
+                className={`flex-1 h-px mx-4 transition-colors ${step > s.id ? 'bg-primary' : 'bg-gray-100 dark:bg-slate-800'}`}
               />
             )}
           </React.Fragment>
@@ -238,17 +243,17 @@ const EditParcel: React.FC = () => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 space-y-6"
+                  className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-100 dark:border-slate-800 p-8 space-y-6"
                 >
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-2xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 flex items-center justify-center">
                       <FiEdit />
                     </div>
                     <div>
-                      <h2 className="text-base font-bold text-gray-900 tracking-tight">
+                      <h2 className="text-base font-black text-gray-900 dark:text-slate-100 tracking-tight">
                         Update Parcel Details
                       </h2>
-                      <p className="text-xs text-gray-400 font-medium">
+                      <p className="text-xs text-gray-400 dark:text-slate-500 font-medium">
                         Modify your shipment before pickup
                       </p>
                     </div>
@@ -260,7 +265,7 @@ const EditParcel: React.FC = () => {
                       {['Document', 'Not-Document'].map((type) => (
                         <label
                           key={type}
-                          className={`flex items-center gap-3 p-4 rounded-2xl border-2 cursor-pointer transition-all ${parcelType === type ? 'border-[#1E5AA8] bg-blue-50/50' : 'border-gray-100 hover:border-gray-200 bg-gray-50'}`}
+                          className={`flex items-center gap-3 p-4 rounded-2xl border-2 cursor-pointer transition-all ${parcelType === type ? 'border-[#1E5AA8] dark:border-blue-500 bg-blue-50/50 dark:bg-blue-950/30' : 'border-gray-100 dark:border-slate-800 hover:border-gray-200 dark:hover:border-slate-700 bg-gray-50 dark:bg-slate-800'}`}
                         >
                           <input
                             type="radio"
@@ -269,14 +274,14 @@ const EditParcel: React.FC = () => {
                             className="hidden"
                           />
                           <div
-                            className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${parcelType === type ? 'border-[#1E5AA8] bg-secondary' : 'border-gray-300'}`}
+                            className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${parcelType === type ? 'border-[#1E5AA8] dark:border-blue-500 bg-secondary' : 'border-gray-300 dark:border-slate-600'}`}
                           >
                             {parcelType === type && (
                               <span className="w-2 h-2 bg-white rounded-full" />
                             )}
                           </div>
                           <div>
-                            <p className="text-sm font-black text-gray-800">
+                            <p className="text-sm font-black text-gray-800 dark:text-slate-100">
                               {type === 'Document' ? 'Document' : 'Non-Document'}
                             </p>
                           </div>
@@ -297,7 +302,7 @@ const EditParcel: React.FC = () => {
                           className={inputCls}
                           placeholder="0.0"
                         />
-                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-black text-gray-400">
+                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-black text-gray-400 dark:text-slate-500">
                           KG
                         </span>
                       </div>
@@ -319,7 +324,7 @@ const EditParcel: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setStep(2)}
-                    className="w-full h-12 bg-secondary text-white rounded-2xl font-black text-sm flex items-center justify-center gap-2 hover:bg-primary transition-colors"
+                    className="w-full h-12 bg-secondary hover:bg-primary text-white rounded-2xl font-black text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer"
                   >
                     Continue to Pickup Info <FiArrowRight />
                   </button>
@@ -332,14 +337,14 @@ const EditParcel: React.FC = () => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 space-y-5"
+                  className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-100 dark:border-slate-800 p-8 space-y-5"
                 >
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
                       <FiMapPin />
                     </div>
                     <div>
-                      <h2 className="text-base font-black text-gray-900 tracking-tight">
+                      <h2 className="text-base font-black text-gray-900 dark:text-slate-100 tracking-tight">
                         Pickup Information
                       </h2>
                     </div>
@@ -382,14 +387,14 @@ const EditParcel: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setStep(1)}
-                      className="h-12 px-6 border border-gray-200 text-gray-600 rounded-2xl font-bold text-sm hover:bg-gray-50"
+                      className="h-12 px-6 border border-gray-200 dark:border-slate-700 text-gray-600 dark:text-slate-300 rounded-2xl font-bold text-sm hover:bg-gray-50 dark:hover:bg-slate-800 cursor-pointer"
                     >
                       ← Back
                     </button>
                     <button
                       type="button"
                       onClick={() => setStep(3)}
-                      className="flex-1 h-12 bg-secondary text-white rounded-2xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-primary"
+                      className="flex-1 h-12 bg-secondary hover:bg-primary text-white rounded-2xl font-bold text-sm flex items-center justify-center gap-2 cursor-pointer"
                     >
                       Continue to Delivery Info <FiArrowRight />
                     </button>
@@ -403,14 +408,14 @@ const EditParcel: React.FC = () => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 space-y-5"
+                  className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-100 dark:border-slate-800 p-8 space-y-5"
                 >
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-2xl bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 flex items-center justify-center">
                       <FiUser />
                     </div>
                     <div>
-                      <h2 className="text-base font-bold text-gray-900 tracking-tight">
+                      <h2 className="text-base font-black text-gray-900 dark:text-slate-100 tracking-tight">
                         Delivery Information
                       </h2>
                     </div>
@@ -435,14 +440,14 @@ const EditParcel: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setStep(2)}
-                      className="h-12 px-6 border border-gray-200 text-gray-600 rounded-2xl font-black text-sm hover:bg-gray-50"
+                      className="h-12 px-6 border border-gray-200 dark:border-slate-700 text-gray-600 dark:text-slate-300 rounded-2xl font-black text-sm hover:bg-gray-50 dark:hover:bg-slate-800 cursor-pointer"
                     >
                       ← Back
                     </button>
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="flex-1 h-12 bg-primary hover:bg-secondary text-white rounded-2xl font-black text-sm flex items-center justify-center gap-2 transition-all shadow-lg"
+                      className="flex-1 h-12 bg-primary hover:bg-secondary text-white rounded-2xl font-black text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20 cursor-pointer"
                     >
                       {isSubmitting ? 'Saving Changes...' : 'Save Changes'}
                     </button>
@@ -453,11 +458,13 @@ const EditParcel: React.FC = () => {
           </div>
 
           <div className="space-y-4">
-            <div className="bg-secondary text-white rounded-3xl p-6 shadow-xl sticky top-24">
+            <div className="bg-slate-900 dark:bg-slate-950 text-white rounded-3xl p-6 shadow-xl sticky top-24 border border-slate-800">
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">
                 Updated Estimate
               </p>
-              <div className="text-3xl font-bold tracking-tight mb-4">৳{liveCost}</div>
+              <div className="text-3xl font-black tracking-tight mb-4 text-blue-400">
+                ৳{liveCost}
+              </div>
               <div className="space-y-2.5 text-xs font-bold">
                 <div className="flex justify-between">
                   <span className="text-slate-400">Parcel type</span>

@@ -9,7 +9,18 @@ import { useSearchParams } from 'next/navigation';
 import { useAuthStore } from '@/features/auth/authStore';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
-import { Mail, Lock, ArrowRight, Eye, EyeOff, Loader2 } from 'lucide-react';
+import {
+  Mail,
+  Lock,
+  ArrowRight,
+  Eye,
+  EyeOff,
+  Loader2,
+  ShieldCheck,
+  Bike,
+  Store,
+  User as UserIcon,
+} from 'lucide-react';
 import { FcGoogle } from 'react-icons/fc';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, LoginFormValues } from '@/features/auth/schema';
@@ -19,6 +30,8 @@ const Login: React.FC = () => {
   const {
     register,
     handleSubmit,
+    setValue,
+    trigger,
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -143,6 +156,45 @@ const Login: React.FC = () => {
               {errors.password.message}
             </p>
           )}
+        </div>
+
+        {/* Demo Accounts Quick Login */}
+        <div className="grid grid-cols-4 gap-1.5">
+          {[
+            {
+              label: 'Admin',
+              icon: ShieldCheck,
+              email: 'admin@gram2city.com',
+              pass: 'Admin123!',
+            },
+            { label: 'Rider', icon: Bike, email: 'rider@gram2city.com', pass: 'Rider123!' },
+            {
+              label: 'Merchant',
+              icon: Store,
+              email: 'merchant@gram2city.com',
+              pass: 'Merchant123!',
+            },
+            { label: 'User', icon: UserIcon, email: 'user@gram2city.com', pass: 'User123!' },
+          ].map((demo) => {
+            const IconComp = demo.icon;
+            return (
+              <button
+                key={demo.email}
+                type="button"
+                onClick={() => {
+                  setValue('email', demo.email, { shouldValidate: true, shouldDirty: true });
+                  setValue('password', demo.pass, { shouldValidate: true, shouldDirty: true });
+                  trigger();
+                  toast.info(`Auto-filled credentials for ${demo.label}`);
+                }}
+                className="py-2 px-1.5 bg-amber-400/15 hover:bg-amber-400/30 text-amber-800 dark:text-amber-300 rounded-xl text-[11px] font-bold transition-all border border-amber-300/50 dark:border-amber-500/40 flex items-center justify-center gap-1 cursor-pointer truncate shadow-xs"
+                title={`Auto-fill ${demo.label}`}
+              >
+                <IconComp size={14} className="text-amber-600 dark:text-amber-400 shrink-0" />
+                <span className="truncate">{demo.label}</span>
+              </button>
+            );
+          })}
         </div>
 
         <motion.button

@@ -203,70 +203,72 @@ const UserDashboard = () => {
           </div>
 
           {/* New: Merchant Promo Card */}
-          <div className="bg-slate-900 rounded-2xl p-8 text-white shadow-xl shadow-slate-200 relative overflow-hidden group">
+          <div className="bg-slate-900 dark:bg-slate-950 rounded-2xl p-8 text-white shadow-xl shadow-slate-200 dark:shadow-none border border-slate-800 relative overflow-hidden group">
             <div className="absolute -right-4 -top-4 w-24 h-24 bg-primary/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
             <div className="relative z-10">
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#2E7D32] mb-4 block">
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#2E7D32] dark:text-emerald-400 mb-4 block">
                 Business Growth
               </span>
               <h3 className="text-xl font-black mb-3">Become a Merchant</h3>
-              <p className="text-slate-400 text-sm mb-6 font-medium leading-relaxed">
+              <p className="text-slate-400 dark:text-slate-400 text-sm mb-6 font-medium leading-relaxed">
                 Unlock bulk shipping, lower rates, and cash-on-delivery tracking.
               </p>
               <Link
                 href="/dashboard/applyMerchant"
-                className="btn w-full h-11 bg-white text-slate-900 rounded-xl font-black text-xs hover:bg-primary hover:text-white transition-all shadow-lg flex items-center justify-center"
+                className="btn w-full h-11 bg-white text-slate-900 rounded-xl font-black text-xs hover:bg-primary hover:text-white transition-all shadow-lg flex items-center justify-center cursor-pointer"
               >
                 APPLY FOR B2B ACCOUNT
               </Link>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-            <h4 className="font-black text-slate-900 mb-6 flex items-center gap-2 uppercase tracking-widest text-xs">
-              <FiSearch className="text-[#2E7D32]" /> Live Mission Updates
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+            <h4 className="font-black text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-2 uppercase tracking-widest text-xs">
+              <FiSearch className="text-[#2E7D32] dark:text-emerald-400" /> Live Mission Updates
             </h4>
             <div className="space-y-6 max-h-75 overflow-y-auto pr-2">
               {parcelsData.slice(0, 3).map((parcel: Parcel) => (
                 <div key={parcel._id} className="flex gap-4">
                   <div className="flex flex-col items-center">
                     <div className="w-1.5 h-1.5 bg-primary rounded-full mt-1.5 animate-pulse"></div>
-                    <div className="flex-1 w-px bg-slate-100 my-1"></div>
+                    <div className="flex-1 w-px bg-slate-100 dark:bg-slate-800 my-1"></div>
                   </div>
                   <div>
-                    <p className="text-[10px] font-black text-[#2E7D32] uppercase">
+                    <p className="text-[10px] font-black text-[#2E7D32] dark:text-emerald-400 uppercase">
                       #{parcel.trackingId}
                     </p>
-                    <p className="text-xs font-bold text-slate-700 leading-tight">
+                    <p className="text-xs font-bold text-slate-700 dark:text-slate-300 leading-tight">
                       Currently {parcel.delivery_status.replace('_', ' ')}
                     </p>
-                    <p className="text-[10px] text-slate-400 font-medium">
+                    <p className="text-[10px] text-slate-400 dark:text-slate-500 font-medium">
                       {moment(parcel.creation_date).fromNow()}
                     </p>
                   </div>
                 </div>
               ))}
               {parcelsData.length === 0 && (
-                <p className="text-[10px] text-slate-400 italic">No active missions found.</p>
+                <p className="text-[10px] text-slate-400 dark:text-slate-500 italic">
+                  No active missions found.
+                </p>
               )}
             </div>
           </div>
 
           {/* Help Links */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-            <h4 className="font-black text-slate-900 mb-4 flex items-center gap-2 uppercase tracking-widest text-xs">
-              <FiSearch className="text-[#2E7D32]" /> Support Resources
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+            <h4 className="font-black text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2 uppercase tracking-widest text-xs">
+              <FiSearch className="text-[#2E7D32] dark:text-emerald-400" /> Support Resources
             </h4>
             <div className="space-y-3">
               <Link
                 href="/coverage"
-                className="block text-sm text-slate-600 font-bold hover:text-[#2E7D32] hover:translate-x-1 transition-all"
+                className="block text-sm text-slate-600 dark:text-slate-400 font-bold hover:text-[#2E7D32] dark:hover:text-emerald-400 hover:translate-x-1 transition-all"
               >
                 Check Service Area
               </Link>
               <Link
                 href="/faqs"
-                className="block text-sm text-slate-600 font-bold hover:text-[#2E7D32] hover:translate-x-1 transition-all"
+                className="block text-sm text-slate-600 dark:text-slate-400 font-bold hover:text-[#2E7D32] dark:hover:text-emerald-400 hover:translate-x-1 transition-all"
               >
                 Shipping Guidelines
               </Link>

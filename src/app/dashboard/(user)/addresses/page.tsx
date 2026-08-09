@@ -71,11 +71,11 @@ const AddressBook = () => {
     );
 
   return (
-    <div className="space-y-8 pb-20">
+    <div className="space-y-8 pb-20 font-outfit">
       <div className="flex justify-end">
         <button
           onClick={() => setIsAddModalOpen(true)}
-          className="btn btn-sm bg-secondary text-white border-none hover:bg-blue-700 shadow-lg shadow-blue-500/20 px-8 rounded-xl font-black uppercase tracking-widest h-11 flex items-center gap-2"
+          className="btn btn-sm bg-secondary hover:bg-blue-700 text-white border-none shadow-lg shadow-blue-500/20 px-8 rounded-xl font-black uppercase tracking-widest h-11 flex items-center gap-2 cursor-pointer"
         >
           <FiPlus /> New Location
         </button>
@@ -94,7 +94,7 @@ const AddressBook = () => {
             )}
 
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 bg-blue-50 dark:bg-blue-950/40 text-blue-600 rounded-2xl flex items-center justify-center text-xl">
+              <div className="w-12 h-12 bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center text-xl">
                 {addr.label === 'Home' ? (
                   <FiHome />
                 ) : addr.label === 'Office' ? (
@@ -124,14 +124,14 @@ const AddressBook = () => {
             </div>
 
             <div className="flex justify-between items-center pt-6 border-t border-slate-100 dark:border-slate-800">
-              <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">
+              <span className="text-[10px] font-black text-blue-500 dark:text-blue-400 uppercase tracking-widest">
                 {addr.region}
               </span>
               <button
                 onClick={() => {
                   if (confirm('Delete this address?')) deleteMutation.mutate(addr._id);
                 }}
-                className="p-2 text-slate-300 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
+                className="p-2 text-slate-300 dark:text-slate-600 hover:text-rose-500 dark:hover:text-rose-400 transition-colors opacity-0 group-hover:opacity-100 cursor-pointer"
               >
                 <FiTrash2 />
               </button>
@@ -140,12 +140,12 @@ const AddressBook = () => {
         ))}
 
         {addresses.length === 0 && (
-          <div className="col-span-full py-20 text-center bg-slate-50/50 dark:bg-slate-900/50 rounded-2xl border border-dashed border-slate-100 dark:border-slate-800">
+          <div className="col-span-full py-20 text-center bg-slate-50/50 dark:bg-slate-900/50 rounded-3xl border border-dashed border-slate-100 dark:border-slate-800">
             <FiMap className="mx-auto text-slate-200 dark:text-slate-700 mb-4" size={64} />
             <p className="text-slate-400 dark:text-slate-500 font-bold italic">
               Your address book is empty.
             </p>
-            <p className="text-slate-300 dark:text-slate-600 text-xs mt-1">
+            <p className="text-slate-300 dark:text-slate-600 text-xs mt-1 font-medium">
               Save your frequent shipping points for a faster checkout experience.
             </p>
           </div>
@@ -154,15 +154,15 @@ const AddressBook = () => {
 
       {/* Add Address Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-100 animate-in fade-in duration-300">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl p-10 w-full max-w-lg mx-4 shadow-2xl animate-in zoom-in-95 duration-300 border border-slate-100 dark:border-slate-800">
+        <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center z-100 animate-in fade-in duration-300">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-10 w-full max-w-lg mx-4 shadow-2xl animate-in zoom-in-95 duration-300 border border-slate-100 dark:border-slate-800">
             <div className="flex justify-between items-center mb-8">
-              <h3 className="text-2xl font-black text-slate-800 dark:text-slate-100">
+              <h3 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
                 Add New Location
               </h3>
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="text-slate-300 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+                className="text-slate-300 dark:text-slate-600 hover:text-slate-600 dark:hover:text-slate-200 transition-colors cursor-pointer"
               >
                 <FiXCircle size={32} />
               </button>
@@ -171,11 +171,11 @@ const AddressBook = () => {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="form-control">
-                  <label className="label text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  <label className="label text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">
                     Label
                   </label>
                   <select
-                    className="select bg-slate-50 dark:bg-slate-800 border-none font-bold text-slate-800 dark:text-slate-100 rounded-xl"
+                    className="select bg-slate-50 dark:bg-slate-800 border-none font-bold text-slate-800 dark:text-slate-100 rounded-xl outline-none cursor-pointer"
                     value={newAddress.label}
                     onChange={(e) => setNewAddress({ ...newAddress, label: e.target.value })}
                   >
@@ -186,12 +186,12 @@ const AddressBook = () => {
                   </select>
                 </div>
                 <div className="form-control">
-                  <label className="label text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  <label className="label text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">
                     Recipient Name
                   </label>
                   <input
                     type="text"
-                    className="input bg-slate-50 dark:bg-slate-800 border-none font-bold text-slate-800 dark:text-slate-100 rounded-xl"
+                    className="input bg-slate-50 dark:bg-slate-800 border-none font-bold text-slate-800 dark:text-slate-100 rounded-xl outline-none"
                     value={newAddress.fullName}
                     onChange={(e) => setNewAddress({ ...newAddress, fullName: e.target.value })}
                   />
@@ -199,24 +199,24 @@ const AddressBook = () => {
               </div>
 
               <div className="form-control">
-                <label className="label text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                <label className="label text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">
                   Phone Number
                 </label>
                 <input
                   type="text"
                   placeholder="017xxxxxxxx"
-                  className="input bg-slate-50 dark:bg-slate-800 border-none font-bold text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 rounded-xl"
+                  className="input bg-slate-50 dark:bg-slate-800 border-none font-bold text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 rounded-xl outline-none"
                   value={newAddress.phone}
                   onChange={(e) => setNewAddress({ ...newAddress, phone: e.target.value })}
                 />
               </div>
 
               <div className="form-control">
-                <label className="label text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                <label className="label text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">
                   Street Address
                 </label>
                 <textarea
-                  className="textarea bg-slate-50 border-none font-bold rounded-xl min-h-25"
+                  className="textarea bg-slate-50 dark:bg-slate-800 border-none font-bold text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 rounded-xl min-h-25 outline-none resize-none"
                   value={newAddress.address}
                   onChange={(e) => setNewAddress({ ...newAddress, address: e.target.value })}
                 />
@@ -224,23 +224,23 @@ const AddressBook = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="form-control">
-                  <label className="label text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  <label className="label text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">
                     District
                   </label>
                   <input
                     type="text"
-                    className="input bg-slate-50 border-none font-bold rounded-xl"
+                    className="input bg-slate-50 dark:bg-slate-800 border-none font-bold text-slate-800 dark:text-slate-100 rounded-xl outline-none"
                     value={newAddress.district}
                     onChange={(e) => setNewAddress({ ...newAddress, district: e.target.value })}
                   />
                 </div>
                 <div className="form-control">
-                  <label className="label text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  <label className="label text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">
                     Division/Region
                   </label>
                   <input
                     type="text"
-                    className="input bg-slate-50 border-none font-bold rounded-xl"
+                    className="input bg-slate-50 dark:bg-slate-800 border-none font-bold text-slate-800 dark:text-slate-100 rounded-xl outline-none"
                     value={newAddress.region}
                     onChange={(e) => setNewAddress({ ...newAddress, region: e.target.value })}
                   />
@@ -250,7 +250,7 @@ const AddressBook = () => {
               <div className="flex items-center gap-3 py-4">
                 <input
                   type="checkbox"
-                  className="checkbox checkbox-primary rounded-lg"
+                  className="checkbox checkbox-primary rounded-lg cursor-pointer"
                   checked={newAddress.isDefault}
                   onChange={(e) =>
                     setNewAddress({
@@ -259,7 +259,7 @@ const AddressBook = () => {
                     })
                   }
                 />
-                <span className="text-xs font-black text-slate-500 uppercase tracking-widest">
+                <span className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">
                   Set as default address
                 </span>
               </div>
@@ -267,7 +267,7 @@ const AddressBook = () => {
               <button
                 onClick={() => addMutation.mutate(newAddress)}
                 disabled={addMutation.isPending}
-                className="btn w-full bg-secondary hover:bg-blue-700 text-white border-none rounded-2xl h-16 font-black uppercase tracking-widest shadow-xl shadow-blue-500/20"
+                className="btn w-full bg-secondary hover:bg-blue-700 text-white border-none rounded-2xl h-16 font-black uppercase tracking-widest shadow-xl shadow-blue-500/20 cursor-pointer"
               >
                 {addMutation.isPending ? 'Saving...' : 'Save to Address Book'}
               </button>

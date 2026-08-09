@@ -131,87 +131,138 @@ const AssignRider: React.FC = () => {
   }
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-semibold mb-4">Assign Rider to Parcels</h2>
+    <div className="space-y-8 pb-12 font-outfit">
+      <div className="flex justify-between items-center">
+        <div>
+          <h2 className="text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
+            Dispatch Center
+          </h2>
+          <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">
+            Assign pending parcels to available field riders
+          </p>
+        </div>
+      </div>
 
       {parcels.length === 0 ? (
-        <p className="text-gray-500">No parcels available for assignment.</p>
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-16 text-center border border-slate-100 dark:border-slate-800 shadow-sm text-slate-400 dark:text-slate-500 font-bold italic">
+          No pending parcels awaiting dispatch assignment.
+        </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="table w-full border border-gray-200">
-            <thead className="bg-gray-100">
-              <tr>
-                <th>#</th>
-                <th>Tracking ID</th>
-                <th>Parcel Name</th>
-                <th>Sender</th>
-                <th>Receiver</th>
-                <th>From → To</th>
-                <th>Weight (kg)</th>
-                <th>Cost (৳)</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {parcels.map((parcel, index) => (
-                <tr key={parcel._id} className="hover">
-                  <td>{index + 1}</td>
-                  <td>{parcel.trackingId}</td>
-                  <td>{parcel.parcelName}</td>
-                  <td>
-                    <div className="text-sm">
-                      <div className="font-medium">{parcel.senderName}</div>
-                      <div className="text-gray-500 text-xs">{parcel.senderContact}</div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="text-sm">
-                      <div className="font-medium">{parcel.receiverName}</div>
-                      <div className="text-gray-500 text-xs">{parcel.receiverPhoneNumber}</div>
-                    </div>
-                  </td>
-                  <td className="text-sm">
-                    <div>{parcel.senderRegion}</div>
-                    <div className="text-xs text-gray-500">→ {parcel.receiverRegion}</div>
-                  </td>
-                  <td>{parcel.parcelWeight}</td>
-                  <td>{parcel.cost}</td>
-                  <td>
-                    <button
-                      className="btn btn-sm bg-blue-500 hover:bg-blue-600 text-white rounded"
-                      onClick={() => handleAssignClick(parcel)}
-                    >
-                      Assign
-                    </button>
-                  </td>
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="table w-full text-xs">
+              <thead className="bg-slate-50/50 dark:bg-slate-800/50">
+                <tr className="border-b border-slate-100 dark:border-slate-800 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-400">
+                  <th className="py-5 px-6">#</th>
+                  <th>Tracking ID</th>
+                  <th>Parcel Name</th>
+                  <th>Sender Info</th>
+                  <th>Receiver Info</th>
+                  <th>Route (From → To)</th>
+                  <th>Weight</th>
+                  <th>Cost</th>
+                  <th className="text-right px-6">Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
+                {parcels.map((parcel, index) => (
+                  <tr
+                    key={parcel._id}
+                    className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors"
+                  >
+                    <td className="py-5 px-6 font-bold text-slate-400 dark:text-slate-500">
+                      {index + 1}
+                    </td>
+                    <td className="font-mono text-primary font-bold">#{parcel.trackingId}</td>
+                    <td className="font-bold text-slate-800 dark:text-slate-100">
+                      {parcel.parcelName}
+                    </td>
+                    <td>
+                      <div className="text-xs">
+                        <div className="font-black text-slate-800 dark:text-slate-100">
+                          {parcel.senderName}
+                        </div>
+                        <div className="text-slate-400 dark:text-slate-500 text-[10px] font-bold">
+                          {parcel.senderContact}
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="text-xs">
+                        <div className="font-black text-slate-800 dark:text-slate-100">
+                          {parcel.receiverName}
+                        </div>
+                        <div className="text-slate-400 dark:text-slate-500 text-[10px] font-bold">
+                          {parcel.receiverPhoneNumber}
+                        </div>
+                      </div>
+                    </td>
+                    <td className="text-xs">
+                      <div className="font-bold text-slate-700 dark:text-slate-300">
+                        {parcel.senderRegion}
+                      </div>
+                      <div className="text-[10px] text-primary font-black">
+                        → {parcel.receiverRegion}
+                      </div>
+                    </td>
+                    <td className="font-bold text-slate-600 dark:text-slate-400">
+                      {parcel.parcelWeight} kg
+                    </td>
+                    <td className="font-black text-slate-800 dark:text-slate-100">
+                      ৳{parcel.cost}
+                    </td>
+                    <td className="text-right px-6">
+                      <button
+                        className="btn btn-sm bg-primary hover:bg-primary/90 text-white border-none rounded-xl font-bold px-4 shadow-sm shadow-primary/20 cursor-pointer"
+                        onClick={() => handleAssignClick(parcel)}
+                      >
+                        Assign
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
       {/* Assignment Modal */}
       {isModalOpen && selectedParcel && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
-            <h3 className="text-lg font-semibold mb-4">Assign Rider</h3>
+        <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 w-full max-w-md border border-slate-100 dark:border-slate-800 shadow-2xl space-y-6">
+            <div>
+              <h3 className="text-xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
+                Assign Rider
+              </h3>
+              <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">
+                Select an active courier for dispatch
+              </p>
+            </div>
 
             {/* Parcel Info */}
-            <div className="mb-4 p-3 bg-gray-50 rounded">
-              <p className="text-sm text-gray-600">Parcel:</p>
-              <p className="font-medium">{selectedParcel.parcelName}</p>
-              <p className="text-sm text-gray-600 mt-1">ID: {selectedParcel.trackingId}</p>
-              <p className="text-sm text-gray-600">
+            <div className="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-100 dark:border-slate-700/50 space-y-1">
+              <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                Shipment
+              </p>
+              <p className="font-black text-slate-800 dark:text-slate-100 text-base">
+                {selectedParcel.parcelName}
+              </p>
+              <p className="text-xs font-mono text-primary font-bold">
+                ID: #{selectedParcel.trackingId}
+              </p>
+              <p className="text-xs font-bold text-slate-600 dark:text-slate-400 mt-1">
                 {selectedParcel.senderRegion} → {selectedParcel.receiverRegion}
               </p>
             </div>
 
             {/* Rider Selection */}
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-2">Select Rider:</label>
+            <div className="space-y-2">
+              <label className="block text-xs font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                Select Available Rider
+              </label>
               {ridersLoading ? (
-                <div className="flex items-center justify-center py-2">
+                <div className="flex items-center justify-center py-4 text-slate-400 font-bold text-xs">
                   <span className="loading loading-spinner loading-sm"></span>
                   <span className="ml-2">Loading riders...</span>
                 </div>
@@ -219,11 +270,20 @@ const AssignRider: React.FC = () => {
                 <select
                   value={selectedRider}
                   onChange={(e) => setSelectedRider(e.target.value)}
-                  className="select select-bordered w-full"
+                  className="select select-bordered w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 font-bold text-xs rounded-xl"
                 >
-                  <option value="">Choose a rider</option>
+                  <option
+                    value=""
+                    className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100"
+                  >
+                    Choose a rider
+                  </option>
                   {riders.map((rider) => (
-                    <option key={rider._id} value={rider._id}>
+                    <option
+                      key={rider._id}
+                      value={rider._id}
+                      className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100"
+                    >
                       {rider.name} - {rider.phone} ({rider.district})
                     </option>
                   ))}
@@ -232,16 +292,16 @@ const AssignRider: React.FC = () => {
             </div>
 
             {/* Modal Actions */}
-            <div className="flex justify-end space-x-2">
+            <div className="flex justify-end gap-3 pt-2">
               <button
-                className="btn btn-sm btn-outline"
+                className="btn btn-sm btn-ghost text-slate-500 dark:text-slate-400 font-bold cursor-pointer"
                 onClick={handleModalClose}
                 disabled={assignRiderMutation.isPending}
               >
                 Cancel
               </button>
               <button
-                className="btn btn-sm bg-blue-500 hover:bg-blue-600 text-white"
+                className="btn btn-sm bg-primary hover:bg-primary/90 text-white border-none rounded-xl font-bold px-6 cursor-pointer shadow-md shadow-primary/20"
                 onClick={handleConfirmAssignment}
                 disabled={assignRiderMutation.isPending || !selectedRider}
               >

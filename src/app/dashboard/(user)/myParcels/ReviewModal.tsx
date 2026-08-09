@@ -53,22 +53,22 @@ const ReviewModal = ({ parcel, onClose, onSuccess }: ReviewModalProps) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-secondary/20 backdrop-blur-md">
-      <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl relative overflow-hidden border border-slate-100">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-slate-950/60 backdrop-blur-md font-outfit">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-lg shadow-2xl relative overflow-hidden border border-slate-100 dark:border-slate-800">
         {/* Decorative Header */}
-        <div className="bg-slate-50/50 px-10 py-10 text-center relative overflow-hidden">
+        <div className="bg-slate-50/50 dark:bg-slate-800/50 px-10 py-10 text-center relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-1 bg-primary" />
-          <h3 className="text-3xl font-black text-slate-900 tracking-tight mb-2">
+          <h3 className="text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tight mb-2">
             Rate Your Delivery
           </h3>
-          <p className="text-slate-500 font-medium text-sm">
+          <p className="text-slate-500 dark:text-slate-400 font-medium text-sm">
             How was your experience with{' '}
-            <span className="text-[#2E7D32] font-bold">{parcel.assigned_rider_name}</span>?
+            <span className="text-primary font-bold">{parcel.assigned_rider_name}</span>?
           </p>
 
           <button
             onClick={onClose}
-            className="absolute top-6 right-6 p-2 hover:bg-slate-100 rounded-full text-slate-400 transition-colors"
+            className="absolute top-6 right-6 p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-slate-400 dark:text-slate-500 transition-colors cursor-pointer"
           >
             <FiX size={20} />
           </button>
@@ -82,8 +82,10 @@ const ReviewModal = ({ parcel, onClose, onSuccess }: ReviewModalProps) => {
                 <button
                   key={star}
                   type="button"
-                  className={`text-5xl transition-all hover:scale-110 active:scale-95 ${
-                    star <= (hover || rating) ? 'text-[#F4C20D]' : 'text-slate-100'
+                  className={`text-5xl transition-all hover:scale-110 active:scale-95 cursor-pointer ${
+                    star <= (hover || rating)
+                      ? 'text-[#F4C20D]'
+                      : 'text-slate-100 dark:text-slate-800'
                   }`}
                   onClick={() => setRating(star)}
                   onMouseEnter={() => setHover(star)}
@@ -96,8 +98,8 @@ const ReviewModal = ({ parcel, onClose, onSuccess }: ReviewModalProps) => {
                 </button>
               ))}
             </div>
-            <div className="px-4 py-1.5 bg-slate-50 rounded-full border border-slate-100">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+            <div className="px-4 py-1.5 bg-slate-50 dark:bg-slate-800 rounded-full border border-slate-100 dark:border-slate-800">
+              <span className="text-[10px] font-black text-slate-400 dark:text-slate-400 uppercase tracking-widest">
                 {rating === 1
                   ? 'Poor'
                   : rating === 2
@@ -112,27 +114,27 @@ const ReviewModal = ({ parcel, onClose, onSuccess }: ReviewModalProps) => {
           </div>
 
           <div className="space-y-3">
-            <label className="textarea-xs font-black text-slate-400 uppercase tracking-widest ml-4">
+            <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-4 block">
               Share your feedback
             </label>
             <textarea
               {...register('comment')}
-              className="w-full h-32 bg-slate-50 border-2 border-slate-50 rounded-2xl p-6 focus:bg-white focus:border-primary/20 focus:ring-0 transition-all text-slate-700 font-medium placeholder:text-slate-300 resize-none"
+              className="w-full h-32 bg-slate-50 dark:bg-slate-800 border-2 border-slate-50 dark:border-slate-800 rounded-2xl p-6 focus:bg-white dark:focus:bg-slate-900 focus:border-primary/20 transition-all text-slate-700 dark:text-slate-100 font-medium placeholder:text-slate-300 dark:placeholder:text-slate-600 outline-none resize-none"
               placeholder="What went well? Any areas for improvement?"
             ></textarea>
           </div>
 
-          <div className="flex gap-4 pt-2">
+          <div className="flex items-center gap-4 pt-2">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 py-4 text-slate-400 font-black text-xs uppercase tracking-widest hover:text-slate-600 transition-colors"
+              className="flex-1 py-4 text-slate-400 dark:text-slate-500 font-black text-xs uppercase tracking-widest hover:text-slate-600 dark:hover:text-slate-300 transition-colors cursor-pointer"
             >
               Skip
             </button>
             <button
               type="submit"
-              className="flex-2y-4 bg-primary hover:bg-secondary text-white font-black text-xs uppercase tracking-widest rounded-2xl shadow-xl shadow-primary/10ransition-all transform active:scale-95"
+              className="flex-1 py-4 bg-primary hover:bg-primary/90 text-white font-black text-xs uppercase tracking-widest rounded-2xl shadow-xl shadow-primary/10 transition-all transform active:scale-95 cursor-pointer"
             >
               Submit Review
             </button>

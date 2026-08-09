@@ -122,18 +122,20 @@ export default function AdminChat() {
   if (!mounted || !user || !user.email) return null;
 
   return (
-    <div className="h-[calc(100vh-160px)] flex rounded-2xl overflow-hidden bg-white shadow-sm border border-gray-100 font-outfit">
+    <div className="h-[calc(100vh-160px)] flex rounded-2xl overflow-hidden bg-white dark:bg-slate-900 shadow-sm border border-gray-100 dark:border-slate-800 font-outfit">
       <div
-        className={`${isSidebarOpen ? 'w-80' : 'w-0'} border-r border-gray-100 flex flex-col bg-gray-50/30 transition-all duration-300 overflow-hidden`}
+        className={`${isSidebarOpen ? 'w-80' : 'w-0'} border-r border-gray-100 dark:border-slate-800 flex flex-col bg-gray-50/30 dark:bg-slate-950/40 transition-all duration-300 overflow-hidden`}
       >
-        <div className="p-5 border-b border-gray-100 bg-white shrink-0">
-          <h2 className="text-lg font-black text-gray-800 tracking-tight">Messages</h2>
+        <div className="p-5 border-b border-gray-100 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0">
+          <h2 className="text-lg font-black text-gray-800 dark:text-slate-100 tracking-tight">
+            Messages
+          </h2>
           <div className="relative mt-3">
-            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs" />
+            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-slate-500 text-xs" />
             <input
               type="text"
               placeholder="Search conversations..."
-              className="w-full bg-gray-50 border-none rounded-xl pl-9 pr-3 h-9 text-xs font-bold focus:ring-2 focus:ring-primary/20"
+              className="w-full bg-gray-50 dark:bg-slate-800/80 border-none rounded-xl pl-9 pr-3 h-9 text-xs font-bold text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20"
             />
           </div>
         </div>
@@ -144,28 +146,28 @@ export default function AdminChat() {
               key={conv._id}
               onClick={() => handleConversationClick(conv)}
               data-testid={`conversation-${conv._id}`}
-              className={`w-full p-3 flex gap-3 hover:bg-white transition-all border-b border-gray-50 text-left ${
+              className={`w-full p-3 flex gap-3 hover:bg-white dark:hover:bg-slate-800/80 transition-all border-b border-gray-50 dark:border-slate-800 text-left ${
                 selectedConversation?._id === conv._id
-                  ? 'bg-white ring-2 ring-primary/5 z-10 shadow-sm'
+                  ? 'bg-white dark:bg-slate-800 ring-2 ring-primary/20 z-10 shadow-sm'
                   : ''
               }`}
             >
-              <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 shrink-0">
+              <div className="w-10 h-10 bg-blue-50 dark:bg-slate-800 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
                 <FiUser className="text-lg" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex justify-between items-center mb-1">
-                  <span className="font-black text-xs text-gray-800 truncate">
+                  <span className="font-black text-xs text-gray-800 dark:text-slate-100 truncate">
                     {conv.lastMessage.senderEmail === user.email ||
                     conv.lastMessage.senderEmail === 'admin@gram2city.com'
                       ? conv.lastMessage.receiverEmail
                       : conv.lastMessage.senderName || conv.lastMessage.senderEmail}
                   </span>
-                  <span className="text-[9px] font-bold text-gray-400 uppercase">
+                  <span className="text-[9px] font-bold text-gray-400 dark:text-slate-500 uppercase">
                     {moment(conv.lastMessage.timestamp).format('HH:mm')}
                   </span>
                 </div>
-                <p className="textarea-xs text-gray-500 truncate font-medium">
+                <p className="textarea-xs text-gray-500 dark:text-slate-400 truncate font-medium">
                   {conv.lastMessage.message}
                 </p>
               </div>
@@ -177,7 +179,7 @@ export default function AdminChat() {
             </button>
           ))}
           {conversations.length === 0 && (
-            <div className="p-4 text-center textarea-xs text-gray-400 font-bold">
+            <div className="p-4 text-center textarea-xs text-gray-400 dark:text-slate-500 font-bold">
               No conversations yet
             </div>
           )}
@@ -187,32 +189,32 @@ export default function AdminChat() {
       <div className="flex-1 flex flex-col min-w-0">
         {selectedConversation ? (
           <>
-            <div className="px-6 py-3 border-b border-gray-50 flex items-center gap-3 bg-white shrink-0">
+            <div className="px-6 py-3 border-b border-gray-50 dark:border-slate-800 flex items-center gap-3 bg-white dark:bg-slate-900 shrink-0">
               <button
                 type="button"
                 onClick={() => setIsSidebarOpen((prev) => !prev)}
-                className="lg:hidden w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100"
+                className="lg:hidden w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 dark:hover:bg-slate-800"
               >
                 <FiChevronDown className="rotate-90" />
               </button>
-              <div className="w-9 h-9 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center shrink-0">
+              <div className="w-9 h-9 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 rounded-xl flex items-center justify-center shrink-0">
                 <FiUser className="text-lg" />
               </div>
               <div className="min-w-0">
-                <h3 className="font-black text-xs text-gray-800 truncate">
+                <h3 className="font-black text-xs text-gray-800 dark:text-slate-100 truncate">
                   {selectedConversation.lastMessage.senderEmail === user.email ||
                   selectedConversation.lastMessage.senderEmail === 'admin@gram2city.com'
                     ? selectedConversation.lastMessage.receiverEmail
                     : selectedConversation.lastMessage.senderName ||
                       selectedConversation.lastMessage.senderEmail}
                 </h3>
-                <p className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest flex items-center gap-1">
+                <p className="text-[10px] font-bold text-emerald-500 dark:text-emerald-400 uppercase tracking-widest flex items-center gap-1">
                   <FiClock /> Active Support Session
                 </p>
               </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50/20">
+            <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50/20 dark:bg-slate-950/30">
               {messages.map((msg: Message, idx: number) => {
                 const isMe =
                   msg.senderEmail === user.email || msg.senderEmail === 'admin@gram2city.com';
@@ -225,8 +227,8 @@ export default function AdminChat() {
                       <div
                         className={`p-3 rounded-2xl text-sm shadow-sm ${
                           isMe
-                            ? 'bg-gray-900 text-white rounded-tr-none'
-                            : 'bg-white text-gray-800 rounded-tl-none border border-gray-100'
+                            ? 'bg-primary text-white rounded-tr-none'
+                            : 'bg-white dark:bg-slate-800 text-gray-800 dark:text-slate-100 rounded-tl-none border border-gray-100 dark:border-slate-700/60'
                         }`}
                       >
                         {msg.imageUrl && (
@@ -242,7 +244,7 @@ export default function AdminChat() {
                         )}
                       </div>
                       <div
-                        className={`flex items-center gap-1 text-[9px] font-bold text-gray-400 ${
+                        className={`flex items-center gap-1 text-[9px] font-bold text-gray-400 dark:text-slate-500 ${
                           isMe ? 'justify-end' : 'justify-start'
                         }`}
                       >
@@ -254,10 +256,10 @@ export default function AdminChat() {
               })}
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="bg-white px-4 py-2 rounded-2xl border border-gray-100 flex gap-1">
-                    <div className="w-1.5 h-1.5 bg-gray-300 rounded-full animate-bounce"></div>
-                    <div className="w-1.5 h-1.5 bg-gray-300 rounded-full animate-bounce [animation-delay:0.2s]"></div>
-                    <div className="w-1.5 h-1.5 bg-gray-300 rounded-full animate-bounce [animation-delay:0.4s]"></div>
+                  <div className="bg-white dark:bg-slate-800 px-4 py-2 rounded-2xl border border-gray-100 dark:border-slate-700 flex gap-1">
+                    <div className="w-1.5 h-1.5 bg-gray-300 dark:bg-slate-600 rounded-full animate-bounce"></div>
+                    <div className="w-1.5 h-1.5 bg-gray-300 dark:bg-slate-600 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                    <div className="w-1.5 h-1.5 bg-gray-300 dark:bg-slate-600 rounded-full animate-bounce [animation-delay:0.4s]"></div>
                   </div>
                 </div>
               )}
@@ -266,7 +268,7 @@ export default function AdminChat() {
 
             <form
               onSubmit={handleSendMessage}
-              className="p-4 border-t border-gray-50 bg-white flex gap-3 items-center"
+              className="p-4 border-t border-gray-50 dark:border-slate-800 bg-white dark:bg-slate-900 flex gap-3 items-center"
             >
               <input
                 type="file"
@@ -279,10 +281,10 @@ export default function AdminChat() {
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading}
-                className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all shrink-0 ${
+                className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all shrink-0 cursor-pointer ${
                   uploading
-                    ? 'bg-gray-50 text-gray-300'
-                    : 'bg-gray-50 text-gray-400 hover:text-primary hover:bg-primary/5'
+                    ? 'bg-gray-50 dark:bg-slate-800 text-gray-300 dark:text-slate-600'
+                    : 'bg-gray-50 dark:bg-slate-800 text-gray-400 dark:text-slate-400 hover:text-primary dark:hover:text-primary hover:bg-primary/5'
                 }`}
               >
                 {uploading ? <FiImage className="animate-pulse" /> : <FiSend className="text-lg" />}
@@ -290,24 +292,26 @@ export default function AdminChat() {
               <input
                 type="text"
                 placeholder="Type a response..."
-                className="flex-1 bg-gray-50 border-none rounded-xl px-4 h-11 text-sm font-medium focus:ring-2 focus:ring-primary/20 transition-all"
+                className="flex-1 bg-gray-50 dark:bg-slate-800/80 border-none rounded-xl px-4 h-11 text-sm font-medium text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 transition-all"
                 value={newMessage}
                 onChange={handleInputChange}
               />
               <button
                 type="submit"
                 disabled={!newMessage.trim()}
-                className="w-11 h-11 bg-primary text-white rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-transform shrink-0 disabled:opacity-50"
+                className="w-11 h-11 bg-primary text-white rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-transform shrink-0 disabled:opacity-50 cursor-pointer"
               >
                 <FiSend className="text-lg" />
               </button>
             </form>
           </>
         ) : (
-          <div className="flex-1 flex flex-col items-center justify-center text-center p-10 opacity-25">
+          <div className="flex-1 flex flex-col items-center justify-center text-center p-10 opacity-30 text-slate-400 dark:text-slate-500">
             <FiMessageSquare className="text-7xl mb-4" />
-            <h3 className="text-xl font-black uppercase tracking-widest">Select a Conversation</h3>
-            <p className="max-w-xs font-bold mt-2 text-sm">
+            <h3 className="text-xl font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">
+              Select a Conversation
+            </h3>
+            <p className="max-w-xs font-bold mt-2 text-sm text-slate-500 dark:text-slate-400">
               Choose a conversation from the left or wait for incoming messages to start response in
               real-time.
             </p>

@@ -133,74 +133,116 @@ const PaymentForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto mt-10 grid lg:grid-cols-2 gap-8 p-6 bg-base-100 rounded-xl shadow-xl">
+    <div className="max-w-6xl mx-auto mt-10 grid lg:grid-cols-2 gap-8 p-8 md:p-10 bg-white dark:bg-slate-900 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-800 font-outfit">
       {/* Parcel Details */}
-      <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-primary">Parcel Summary</h2>
-        <div className="grid grid-cols-2 gap-3 text-sm">
+      <div className="space-y-6">
+        <div>
+          <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
+            Parcel Summary
+          </h2>
+          <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-0.5">
+            Order details prior to payment
+          </p>
+        </div>
+        <div className="grid grid-cols-2 gap-4 text-xs font-medium bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-100 dark:border-slate-800">
           <div>
-            <p className="font-semibold">Parcel Name:</p>
-            <p>{parcel.parcelName}</p>
-          </div>
-          <div>
-            <p className="font-semibold">Weight:</p>
-            <p>{parcel.parcelWeight} kg</p>
-          </div>
-          <div>
-            <p className="font-semibold">Sender:</p>
-            <p>
-              {parcel.senderName} ({parcel.senderContact})
+            <p className="font-black text-slate-400 dark:text-slate-500 uppercase text-[10px] tracking-widest">
+              Parcel Name
+            </p>
+            <p className="font-bold text-slate-800 dark:text-slate-100 text-sm mt-0.5">
+              {parcel.parcelName}
             </p>
           </div>
           <div>
-            <p className="font-semibold">Receiver:</p>
-            <p>
-              {parcel.receiverName} ({parcel.receiverPhoneNumber})
+            <p className="font-black text-slate-400 dark:text-slate-500 uppercase text-[10px] tracking-widest">
+              Weight
+            </p>
+            <p className="font-bold text-slate-800 dark:text-slate-100 text-sm mt-0.5">
+              {parcel.parcelWeight || parcel.weight} kg
+            </p>
+          </div>
+          <div>
+            <p className="font-black text-slate-400 dark:text-slate-500 uppercase text-[10px] tracking-widest">
+              Sender
+            </p>
+            <p className="font-bold text-slate-700 dark:text-slate-300 mt-0.5">
+              {parcel.senderName} ({parcel.senderContact || parcel.senderPhone})
+            </p>
+          </div>
+          <div>
+            <p className="font-black text-slate-400 dark:text-slate-500 uppercase text-[10px] tracking-widest">
+              Receiver
+            </p>
+            <p className="font-bold text-slate-700 dark:text-slate-300 mt-0.5">
+              {parcel.receiverName} ({parcel.receiverPhoneNumber || parcel.receiverContact})
             </p>
           </div>
           <div className="col-span-2">
-            <p className="font-semibold">From:</p>
-            <p>{parcel.senderAddress}</p>
+            <p className="font-black text-slate-400 dark:text-slate-500 uppercase text-[10px] tracking-widest">
+              Pickup From
+            </p>
+            <p className="font-bold text-slate-700 dark:text-slate-300 mt-0.5">
+              {parcel.senderAddress}
+            </p>
           </div>
           <div className="col-span-2">
-            <p className="font-semibold">To:</p>
-            <p>{parcel.deliveryAddress}</p>
+            <p className="font-black text-slate-400 dark:text-slate-500 uppercase text-[10px] tracking-widest">
+              Deliver To
+            </p>
+            <p className="font-bold text-slate-700 dark:text-slate-300 mt-0.5">
+              {parcel.deliveryAddress}
+            </p>
           </div>
           <div>
-            <p className="font-semibold">Cost:</p>
-            <p className="text-green-600 font-bold">৳ {parcel.cost}</p>
+            <p className="font-black text-slate-400 dark:text-slate-500 uppercase text-[10px] tracking-widest">
+              Cost
+            </p>
+            <p className="text-emerald-600 dark:text-emerald-400 font-black text-base mt-0.5">
+              ৳ {parcel.cost}
+            </p>
           </div>
           <div>
-            <p className="font-semibold">Tracking ID:</p>
-            <p className="text-blue-600">{parcel.trackingId}</p>
+            <p className="font-black text-slate-400 dark:text-slate-500 uppercase text-[10px] tracking-widest">
+              Tracking ID
+            </p>
+            <p className="text-blue-600 dark:text-blue-400 font-mono font-bold mt-0.5">
+              {parcel.trackingId}
+            </p>
           </div>
         </div>
       </div>
 
       {/* Payment Form */}
       <div className="space-y-6">
-        <h2 className="text-2xl font-bold text-primary">Payment</h2>
+        <div>
+          <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
+            Checkout
+          </h2>
+          <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-0.5">
+            Secure Stripe Gateway
+          </p>
+        </div>
 
         {error && (
-          <div className="alert alert-error shadow-sm">
+          <div className="p-4 bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-300 rounded-2xl border border-rose-100 dark:border-rose-900/40 text-xs font-bold">
             <span>{error}</span>
           </div>
         )}
 
-        <form onSubmit={handlePayment} className="space-y-4">
-          <div className="p-4 border rounded-md bg-white">
+        <form onSubmit={handlePayment} className="space-y-6">
+          <div className="p-6 border border-slate-200 dark:border-slate-700 rounded-2xl bg-slate-50 dark:bg-slate-800">
             <CardElement
               options={{
                 style: {
                   base: {
                     fontSize: '16px',
-                    color: '#000',
+                    color: '#f8fafc',
                     '::placeholder': {
-                      color: '#a0aec0',
+                      color: '#64748b',
                     },
                   },
                   invalid: {
-                    color: '#dc2626',
+                    color: '#f43f5e',
                   },
                 },
               }}
@@ -209,13 +251,13 @@ const PaymentForm: React.FC = () => {
 
           <button
             type="submit"
-            className="btn btn-primary w-full"
+            className="btn bg-emerald-500 hover:bg-emerald-600 text-white border-none w-full h-14 rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-emerald-500/20 cursor-pointer"
             disabled={!stripe || !elements || isProcessing}
           >
             {isProcessing ? (
               <>
                 <span className="loading loading-spinner loading-sm"></span>
-                Processing...
+                Processing Payment...
               </>
             ) : (
               `Pay ৳${parcel.cost}`

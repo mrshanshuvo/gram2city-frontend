@@ -48,8 +48,8 @@ export default function AvatarsTab({
   };
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+    <div className="space-y-8 font-outfit">
+      <div className="flex flex-wrap items-center justify-between gap-4 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-800">
         {/* Left: select-all + count */}
         <div className="flex items-center gap-3">
           <input
@@ -61,7 +61,7 @@ export default function AvatarsTab({
             onChange={handleSelectAll}
             className="checkbox checkbox-primary checkbox-sm rounded-lg"
           />
-          <span className="text-xs font-black text-slate-500 uppercase tracking-wider">
+          <span className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider">
             {selectedCount} / {avatars.length} Selected
           </span>
         </div>
@@ -72,7 +72,7 @@ export default function AvatarsTab({
             <button
               onClick={handleBulkDelete}
               disabled={isBulkDeleting}
-              className="btn btn-sm bg-rose-500 hover:bg-rose-600 text-white font-black rounded-xl gap-2 shadow-md border-none"
+              className="btn btn-sm bg-rose-500 hover:bg-rose-600 text-white font-black rounded-xl gap-2 shadow-md border-none cursor-pointer"
             >
               {isBulkDeleting ? (
                 <>
@@ -88,9 +88,9 @@ export default function AvatarsTab({
           <button
             onClick={onMagicGenerate}
             disabled={generatePending}
-            className="btn bg-accent hover:bg-[#EBC00D] text-slate-900 rounded-2xl font-black gap-2"
+            className="btn bg-amber-400 hover:bg-amber-500 text-slate-950 rounded-xl font-black gap-2 cursor-pointer border-none shadow-md"
           >
-            <Wand2 size={20} /> {generatePending ? 'Generating...' : 'Magic Generate'}
+            <Wand2 size={18} /> {generatePending ? 'Generating...' : 'Magic Generate'}
           </button>
         </div>
       </div>
@@ -99,7 +99,7 @@ export default function AvatarsTab({
         {avatars.map((a: Avatar) => (
           <div
             key={a._id}
-            className={`relative group bg-slate-50 p-3 rounded-2xl border border-slate-100 flex flex-col items-center ${
+            className={`relative group bg-slate-50 dark:bg-slate-800/50 p-3 rounded-2xl border border-slate-100 dark:border-slate-800 flex flex-col items-center ${
               selectedItems.includes(a._id) ? 'ring-2 ring-primary border-transparent' : ''
             }`}
           >
@@ -108,13 +108,17 @@ export default function AvatarsTab({
                 type="checkbox"
                 checked={selectedItems.includes(a._id)}
                 onChange={() => toggleSelectItem(a._id)}
-                className="checkbox checkbox-primary checkbox-xs bg-white rounded shadow-sm cursor-pointer"
+                className="checkbox checkbox-primary checkbox-xs bg-white dark:bg-slate-900 rounded shadow-sm cursor-pointer"
               />
             </div>
-            <img src={a.url} className="w-16 h-16 rounded-xl shadow-sm" alt="" />
+            <img
+              src={a.url}
+              className="w-16 h-16 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 object-cover"
+              alt=""
+            />
             <button
               onClick={() => onDelete(a._id)}
-              className="absolute -top-2 -right-2 p-1.5 bg-white rounded-lg text-red-500 opacity-0 group-hover:opacity-100 shadow-md"
+              className="absolute -top-2 -right-2 p-1.5 bg-white dark:bg-slate-900 rounded-lg text-rose-500 shadow-md opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer border border-slate-100 dark:border-slate-800"
             >
               <Trash2 size={12} />
             </button>

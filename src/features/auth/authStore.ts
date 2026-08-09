@@ -1,11 +1,9 @@
 import { create } from 'zustand';
 import {
-  signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
   GoogleAuthProvider,
   UserCredential,
-  createUserWithEmailAndPassword,
   updateProfile,
 } from 'firebase/auth';
 import { auth } from '../../firebase/firebase.init';
@@ -40,14 +38,42 @@ export const useAuthStore = create<AuthState>((set) => ({
   setRole: (role) => set({ role }),
   setLoading: (loading) => set({ isLoading: loading }),
 
-  createUser: (email, password) => {
+  createUser: async (email, password) => {
     set({ isLoading: true });
-    return createUserWithEmailAndPassword(auth, email, password);
+    try {
+      const { axiosPublic } = await import('../../api/axios');
+      const res = await axiosPublic.post('/auth/register', {
+        email,
+        password,
+        name: email.split('@')[0],
+      });
+      if (res.data.token) {
+        localStorage.setItem('gram2city_jwt_token', res.data.token);
+      }
+      if (res.data.user) {
+        set({ user: res.data.user, role: res.data.role, isLoading: false });
+      }
+      return { user: res.data.user } as unknown as UserCredential;
+    } finally {
+      set({ isLoading: false });
+    }
   },
 
-  signInUser: (email, password) => {
+  signInUser: async (email, password) => {
     set({ isLoading: true });
-    return signInWithEmailAndPassword(auth, email, password);
+    try {
+      const { axiosPublic } = await import('../../api/axios');
+      const res = await axiosPublic.post('/auth/login', { email, password });
+      if (res.data.token) {
+        localStorage.setItem('gram2city_jwt_token', res.data.token);
+      }
+      if (res.data.user) {
+        set({ user: res.data.user, role: res.data.role, isLoading: false });
+      }
+      return { user: res.data.user } as unknown as UserCredential;
+    } finally {
+      set({ isLoading: false });
+    }
   },
 
   signInWithGoogle: () => {
@@ -56,13 +82,18 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   updateUserProfile: (profileInfo) => {
-    if (!auth.currentUser) return Promise.reject('No user logged in');
+    if (!auth.currentUser) return Promise.resolve();
     return updateProfile(auth.currentUser, profileInfo);
   },
 
   logout: async () => {
     set({ isLoading: true });
-    await signOut(auth);
+    localStorage.removeItem('gram2city_jwt_token');
+    try {
+      await signOut(auth);
+    } catch (err) {
+      console.error('Logout error:', err);
+    }
     set({ user: null, role: null, isLoading: false });
   },
 }));

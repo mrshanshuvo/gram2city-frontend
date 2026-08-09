@@ -89,43 +89,45 @@ const NotificationBell: React.FC = () => {
       {isOpen && (
         <>
           <div className="fixed inset-0 z-10" onClick={() => setIsOpen(false)}></div>
-          <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 z-20 overflow-hidden transform origin-top-right transition-all">
+          <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-slate-800 z-20 overflow-hidden transform origin-top-right transition-all font-outfit">
             <div className="bg-primary p-4 text-white flex justify-between items-center shadow-lg">
               <div className="flex flex-col">
-                <h3 className="font-bold text-base">Notifications</h3>
-                <span className="text-[10px] opacity-80 uppercase tracking-widest leading-none mt-1">
+                <h3 className="font-black text-base">Notifications</h3>
+                <span className="text-[10px] font-bold opacity-80 uppercase tracking-widest leading-none mt-1">
                   {notifications.length} Unread Updates
                 </span>
               </div>
               {notifications.length > 0 && (
                 <button
                   onClick={handleMarkAllRead}
-                  className="text-[10px] font-bold bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full transition-colors flex items-center gap-1"
+                  className="text-[10px] font-black bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full transition-colors flex items-center gap-1 cursor-pointer uppercase tracking-widest"
                 >
                   <FiCheckCircle className="h-2.5 w-2.5" /> MARK ALL READ
                 </button>
               )}
             </div>
 
-            <div className="max-h-96 overflow-y-auto">
+            <div className="max-h-96 overflow-y-auto divide-y divide-gray-50 dark:divide-slate-800">
               {notifications.length === 0 ? (
-                <div className="p-8 text-center text-gray-400">
+                <div className="p-8 text-center text-gray-400 dark:text-slate-500">
                   <FiBell className="h-12 w-12 mx-auto mb-2 opacity-20" />
-                  <p>All caught up!</p>
+                  <p className="font-bold text-sm">All caught up!</p>
                 </div>
               ) : (
                 notifications.map((notif) => (
                   <div
                     key={notif._id}
-                    className="p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors cursor-pointer group flex gap-3 items-start"
+                    className="p-4 hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer group flex gap-3 items-start"
                     onClick={() => handleMarkRead(notif._id)}
                   >
-                    <div className="mt-1 p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                    <div className="mt-1 p-2 bg-gray-100 dark:bg-slate-800 rounded-xl group-hover:bg-white dark:group-hover:bg-slate-700 transition-colors">
                       {getIcon(notif.type)}
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm text-gray-800 leading-tight">{notif.message}</p>
-                      <span className="text-[10px] text-gray-400 mt-1 block">
+                      <p className="text-sm font-bold text-gray-800 dark:text-slate-200 leading-tight">
+                        {notif.message}
+                      </p>
+                      <span className="text-[10px] font-medium text-gray-400 dark:text-slate-500 mt-1 block">
                         {moment(notif.time).fromNow()}
                       </span>
                     </div>
@@ -136,8 +138,8 @@ const NotificationBell: React.FC = () => {
             </div>
 
             {notifications.length > 0 && (
-              <div className="p-3 bg-gray-50 text-center">
-                <button className="text-xs text-primary font-bold hover:underline">
+              <div className="p-3 bg-gray-50 dark:bg-slate-800/50 text-center border-t border-gray-100 dark:border-slate-800">
+                <button className="text-xs text-primary dark:text-blue-400 font-black hover:underline cursor-pointer uppercase tracking-widest">
                   View All Activity
                 </button>
               </div>

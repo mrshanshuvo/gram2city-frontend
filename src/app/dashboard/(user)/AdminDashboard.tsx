@@ -137,9 +137,11 @@ const AdminDashboard = () => {
   return (
     <div className="space-y-8 pb-20">
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-black text-slate-800 tracking-tight">System Authority</h2>
+        <h2 className="text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
+          System Authority
+        </h2>
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 bg-emerald-50 text-emerald-600 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border border-emerald-100 shadow-sm">
+          <div className="flex items-center gap-2 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border border-emerald-100 dark:border-emerald-800 shadow-sm">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -154,17 +156,19 @@ const AdminDashboard = () => {
         {coreCards.map((card, i) => (
           <div
             key={i}
-            className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-all group"
+            className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group"
           >
             <div
-              className={`w-12 h-12 ${card.bg} ${card.color} rounded-2xl flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform`}
+              className={`w-12 h-12 ${card.bg} dark:bg-slate-800 ${card.color} rounded-2xl flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform`}
             >
               {card.icon}
             </div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+            <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">
               {card.label}
             </p>
-            <h3 className="text-2xl font-black text-slate-800 tracking-tighter">{card.value}</h3>
+            <h3 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tighter">
+              {card.value}
+            </h3>
           </div>
         ))}
       </div>
@@ -172,11 +176,13 @@ const AdminDashboard = () => {
       {/* Analytics & Live Feed */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Chart */}
-        <div className="lg:col-span-2 bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
+        <div className="lg:col-span-2 bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
           <div className="flex justify-between items-center mb-10">
             <div>
-              <h3 className="text-xl font-black text-slate-800">Growth Velocity</h3>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+              <h3 className="text-xl font-black text-slate-800 dark:text-slate-100">
+                Growth Velocity
+              </h3>
+              <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">
                 Live order ingestion metrics
               </p>
             </div>
@@ -185,7 +191,7 @@ const AdminDashboard = () => {
           <div className="h-75">
             <ResponsiveContainer>
               <BarChart data={data?.dailyBookings || []}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#334155" />
                 <XAxis
                   dataKey="_id"
                   axisLine={false}
@@ -198,11 +204,13 @@ const AdminDashboard = () => {
                   tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 900 }}
                 />
                 <Tooltip
-                  cursor={{ fill: '#f8fafc' }}
+                  cursor={{ fill: '#1e293b' }}
                   contentStyle={{
                     borderRadius: '20px',
                     border: 'none',
-                    boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)',
+                    backgroundColor: '#0f172a',
+                    color: '#f8fafc',
+                    boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.5)',
                   }}
                 />
                 <Bar dataKey="count" fill="#1E5AA8" radius={[10, 10, 0, 0]} barSize={40} />
@@ -249,8 +257,8 @@ const AdminDashboard = () => {
       {/* Distribution Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Pipeline */}
-        <div className="bg-white p-10 rounded-2xl border border-slate-100 shadow-sm">
-          <h3 className="text-xl font-black text-slate-800 mb-8 uppercase tracking-tighter">
+        <div className="bg-white dark:bg-slate-900 p-10 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+          <h3 className="text-xl font-black text-slate-800 dark:text-slate-100 mb-8 uppercase tracking-tighter">
             Pipeline Health
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-10">
@@ -279,18 +287,20 @@ const AdminDashboard = () => {
               {deliveryPipeline.map((item, i) => (
                 <div
                   key={i}
-                  className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl"
+                  className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl"
                 >
                   <div className="flex items-center gap-3">
                     <div
                       className="w-2.5 h-2.5 rounded-full"
                       style={{ backgroundColor: item.color }}
                     ></div>
-                    <span className="text-[10px] font-black text-slate-500 uppercase">
+                    <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase">
                       {item.name}
                     </span>
                   </div>
-                  <span className="text-sm font-black text-slate-800">{item.value}</span>
+                  <span className="text-sm font-black text-slate-800 dark:text-slate-100">
+                    {item.value}
+                  </span>
                 </div>
               ))}
             </div>
@@ -298,8 +308,8 @@ const AdminDashboard = () => {
         </div>
 
         {/* Fleet */}
-        <div className="bg-white p-10 rounded-2xl border border-slate-100 shadow-sm">
-          <h3 className="text-xl font-black text-slate-800 mb-8 uppercase tracking-tighter">
+        <div className="bg-white dark:bg-slate-900 p-10 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+          <h3 className="text-xl font-black text-slate-800 dark:text-slate-100 mb-8 uppercase tracking-tighter">
             Fleet Distribution
           </h3>
           <div className="h-75">
@@ -335,9 +345,9 @@ const AdminDashboard = () => {
 
       {/* Leaderboards */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-          <div className="px-10 py-8 border-b border-slate-50 flex justify-between items-center bg-slate-50/30">
-            <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest">
+        <div className="lg:col-span-2 bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+          <div className="px-10 py-8 border-b border-slate-50 dark:border-slate-800 flex justify-between items-center bg-slate-50/30 dark:bg-slate-800/30">
+            <h3 className="text-sm font-black text-slate-800 dark:text-slate-100 uppercase tracking-widest">
               Rider Hall of Fame
             </h3>
             <FiAward className="text-amber-500 text-xl" />
@@ -345,25 +355,32 @@ const AdminDashboard = () => {
           <div className="overflow-x-auto">
             <table className="table w-full">
               <thead>
-                <tr className="text-[9px] font-black text-slate-400 uppercase tracking-widest border-none">
+                <tr className="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest border-none">
                   <th className="px-10 py-6">Rider Identity</th>
                   <th>Deliveries</th>
                   <th className="text-right px-10">Rating</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-50">
+              <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
                 {data?.riderLeaderboard?.map((rider, i) => (
-                  <tr key={i} className="hover:bg-slate-50/50 transition-colors">
+                  <tr
+                    key={i}
+                    className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors"
+                  >
                     <td className="px-10 py-6">
-                      <div className="font-black text-slate-800 text-sm">{rider.name}</div>
-                      <div className="text-[10px] text-slate-400 font-bold">{rider.email}</div>
+                      <div className="font-black text-slate-800 dark:text-slate-100 text-sm">
+                        {rider.name}
+                      </div>
+                      <div className="text-[10px] text-slate-400 dark:text-slate-500 font-bold">
+                        {rider.email}
+                      </div>
                     </td>
                     <td>
                       <div className="flex items-center gap-3">
-                        <span className="text-sm font-black text-slate-800">
+                        <span className="text-sm font-black text-slate-800 dark:text-slate-100">
                           {rider.deliveredCount}
                         </span>
-                        <div className="flex-1 h-1.5 bg-slate-100 rounded-full max-w-25 overflow-hidden">
+                        <div className="flex-1 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full max-w-25 overflow-hidden">
                           <div
                             className="h-full bg-blue-500"
                             style={{
@@ -385,23 +402,23 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <div className="bg-white p-10 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between">
-          <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest mb-10">
+        <div className="bg-white dark:bg-slate-900 p-10 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+          <h3 className="text-sm font-black text-slate-800 dark:text-slate-100 uppercase tracking-widest mb-10">
             Platform Vitality
           </h3>
           <div className="space-y-10">
             {platformStats.map((stat, i) => (
               <div key={i} className="flex items-center gap-6">
                 <div
-                  className={`w-14 h-14 ${stat.bg} ${stat.color} rounded-2xl flex items-center justify-center text-2xl shadow-sm`}
+                  className={`w-14 h-14 ${stat.bg} dark:bg-slate-800 ${stat.color} rounded-2xl flex items-center justify-center text-2xl shadow-sm`}
                 >
                   {stat.icon}
                 </div>
                 <div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">
                     {stat.label}
                   </p>
-                  <h4 className="text-2xl font-black text-slate-800 tracking-tighter">
+                  <h4 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tighter">
                     {stat.value}
                   </h4>
                 </div>
@@ -409,7 +426,7 @@ const AdminDashboard = () => {
             ))}
           </div>
           <div className="mt-auto pt-10">
-            <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-emerald-500 bg-emerald-50 p-4 rounded-2xl">
+            <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-emerald-500 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-800/60 p-4 rounded-2xl">
               <span>Cloud Status</span>
               <span>Nominal</span>
             </div>

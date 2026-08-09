@@ -18,7 +18,6 @@ export const metadata: Metadata = {
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
-
 async function getLandingData() {
   const [bannersRes, partnersRes, servicesRes, featuresRes, testimonialsRes] = await Promise.all([
     fetch(`${apiUrl}/landing/banners`, { cache: 'no-store' })

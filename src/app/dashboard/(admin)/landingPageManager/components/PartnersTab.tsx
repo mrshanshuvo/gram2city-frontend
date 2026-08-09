@@ -25,9 +25,11 @@ export default function PartnersTab({
   AddButton,
 }: PartnersTabProps) {
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 font-outfit">
       <div className="flex justify-between items-center">
-        <h3 className="text-xl font-black text-slate-900">Partners & Clients</h3>
+        <h3 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
+          Partners & Clients
+        </h3>
         <AddButton label="Add Partner" onClick={onAdd} />
       </div>
       {renderBulkActionsBar()}
@@ -35,7 +37,7 @@ export default function PartnersTab({
         {partners.map((p: Partner) => (
           <div
             key={p._id}
-            className={`p-6 bg-slate-50 rounded-3xl border border-slate-100 flex flex-col items-center group relative ${
+            className={`p-6 bg-slate-50 dark:bg-slate-800/50 rounded-3xl border border-slate-100 dark:border-slate-800 flex flex-col items-center group relative ${
               selectedItems.includes(p._id as string)
                 ? 'ring-2 ring-primary border-transparent'
                 : ''
@@ -46,23 +48,27 @@ export default function PartnersTab({
                 type="checkbox"
                 checked={selectedItems.includes(p._id as string)}
                 onChange={() => toggleSelectItem(p._id as string)}
-                className="checkbox checkbox-primary checkbox-sm bg-white rounded-lg shadow-sm cursor-pointer"
+                className="checkbox checkbox-primary checkbox-sm bg-white dark:bg-slate-900 rounded-lg shadow-sm cursor-pointer"
               />
             </div>
-            <img src={p.logo} className="h-12 w-auto object-contain" alt={p.name || ''} />
-            <p className="text-xs font-black text-slate-900 mt-4 tracking-tighter">
+            <img
+              src={p.logo}
+              className="h-12 w-auto object-contain brightness-100 dark:brightness-90"
+              alt={p.name || ''}
+            />
+            <p className="text-xs font-black text-slate-900 dark:text-slate-100 mt-4 tracking-tighter">
               {p.name || ''}
             </p>
             <div className="absolute top-2 right-2 flex opacity-0 group-hover:opacity-100 transition-opacity">
               <button
                 onClick={() => onEdit(p)}
-                className="p-1.5 hover:bg-white rounded-lg text-blue-500"
+                className="p-1.5 hover:bg-white dark:hover:bg-slate-700 rounded-lg text-blue-500 dark:text-blue-400 cursor-pointer"
               >
                 <Edit3 size={14} />
               </button>
               <button
                 onClick={() => onDelete(p._id as string)}
-                className="p-1.5 hover:bg-white rounded-lg text-red-500"
+                className="p-1.5 hover:bg-white dark:hover:bg-slate-700 rounded-lg text-rose-500 dark:text-rose-400 cursor-pointer"
               >
                 <Trash2 size={14} />
               </button>

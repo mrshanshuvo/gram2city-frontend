@@ -36,7 +36,7 @@ const AvatarRevealModal = () => {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
-            className="relative w-full max-w-lg bg-white rounded-2xl p-10 overflow-hidden shadow-2xl text-center"
+            className="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-3xl p-10 overflow-hidden shadow-2xl text-center border border-slate-100 dark:border-slate-800 font-outfit"
           >
             {/* Background Sparkles */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -62,7 +62,7 @@ const AvatarRevealModal = () => {
 
             <button
               onClick={closeReveal}
-              className="absolute top-6 right-6 p-2 hover:bg-slate-50 rounded-full text-slate-400 transition-colors"
+              className="absolute top-6 right-6 p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-full text-slate-400 dark:text-slate-500 transition-colors cursor-pointer"
             >
               <X size={24} />
             </button>
@@ -75,9 +75,9 @@ const AvatarRevealModal = () => {
                 className="flex flex-col items-center"
               >
                 <div className="w-16 h-1 bg-accent rounded-full mb-6" />
-                <h2 className="text-4xl font-black text-slate-900 tracking-tight leading-tight">
+                <h2 className="text-4xl font-black text-slate-900 dark:text-slate-100 tracking-tight leading-tight">
                   Welcome to <br />
-                  <span className="text-[#2E7D32]">Gram2City</span>
+                  <span className="text-[#2E7D32] dark:text-emerald-400">Gram2City</span>
                 </h2>
               </motion.div>
 
@@ -94,7 +94,7 @@ const AvatarRevealModal = () => {
                   }}
                   className="relative"
                 >
-                  <div className="w-48 h-48 rounded-2xl bg-slate-50 border-8 border-white shadow-2xl overflow-hidden relative group">
+                  <div className="w-48 h-48 rounded-3xl bg-slate-50 dark:bg-slate-800 border-8 border-white dark:border-slate-800 shadow-2xl overflow-hidden relative group">
                     <Image
                       src={user?.photoURL || ''}
                       fill
@@ -103,14 +103,14 @@ const AvatarRevealModal = () => {
                       alt="Assigned Avatar"
                     />
                     {/* Gloss Effect */}
-                    <div className="absolute inset-0 bg-linear-to-tr from-white/20 to-transparent pointer-events-none" />
+                    <div className="absolute inset-0 bg-linear-to-tr from-white/20 to-transparent dark:from-white/10 pointer-events-none" />
                   </div>
 
                   {/* Floating Elements */}
                   <motion.div
                     animate={{ y: [0, -10, 0] }}
                     transition={{ duration: 3, repeat: Infinity }}
-                    className="absolute -bottom-4 -right-4 p-4 bg-primary text-white rounded-2xl shadow-xl border-4 border-white"
+                    className="absolute -bottom-4 -right-4 p-4 bg-primary text-white rounded-2xl shadow-xl border-4 border-white dark:border-slate-900"
                   >
                     <Ship size={24} />
                   </motion.div>
@@ -123,13 +123,16 @@ const AvatarRevealModal = () => {
                 transition={{ delay: 1 }}
                 className="space-y-6"
               >
-                <p className="text-slate-500 font-medium text-lg px-4">
-                  We've assigned you a **unique explorer avatar** to get you started! Feel free to
-                  keep it or upload your own photo later.
+                <p className="text-slate-500 dark:text-slate-400 font-medium text-sm md:text-base px-4 leading-relaxed">
+                  We've assigned you a{' '}
+                  <strong className="text-slate-700 dark:text-slate-200">
+                    unique explorer avatar
+                  </strong>{' '}
+                  to get you started! Feel free to keep it or upload your own photo later.
                 </p>
                 <button
                   onClick={closeReveal}
-                  className="w-full py-4 bg-primary hover:bg-secondary text-white font-black rounded-2xl shadow-xl shadow-primary/20 transition-all flex items-center justify-center gap-2 group"
+                  className="w-full py-4 bg-primary hover:bg-secondary text-white font-black rounded-2xl shadow-xl shadow-primary/20 transition-all flex items-center justify-center gap-2 group cursor-pointer"
                 >
                   <Sparkles size={20} />
                   Start Shipping
