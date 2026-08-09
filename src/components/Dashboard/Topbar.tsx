@@ -264,7 +264,7 @@ const Topbar: React.FC<TopbarProps> = ({ breadcrumbs, onOpenMobileMenu }) => {
                     }}
                   />
                 ) : (
-                  <div className="w-10 h-10 rounded-xl shadow-md border-2 border-white dark:border-slate-700 bg-gradient-to-tr from-primary to-secondary flex items-center justify-center text-white font-black text-sm shrink-0">
+                  <div className="w-10 h-10 rounded-xl shadow-md border-2 border-white dark:border-slate-700 bg-linear-to-tr from-primary to-secondary flex items-center justify-center text-white font-black text-sm shrink-0">
                     {mounted && (user?.name || user?.displayName || user?.email)
                       ? (user.name || user.displayName || user.email || '').charAt(0).toUpperCase()
                       : 'U'}
