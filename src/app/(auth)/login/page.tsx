@@ -232,10 +232,11 @@ const Login: React.FC = () => {
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
+            type="button"
             onClick={handleGoogleSignIn}
-            className="flex justify-center items-center py-4 px-6 border-2 border-slate-100 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-800/60 transition-all cursor-pointer shadow-sm hover:border-slate-200 dark:hover:border-slate-700"
+            className="flex justify-center items-center py-4 px-6 border border-slate-200 dark:border-slate-700 rounded-2xl bg-white dark:bg-slate-800/80 transition-all cursor-pointer shadow-xs hover:border-primary/50 dark:hover:border-primary/50"
           >
-            <FcGoogle className="w-6 h-6 mr-3" />
+            <FcGoogle className="w-6 h-6 mr-3 shrink-0" />
             <span className="text-sm font-bold text-slate-700 dark:text-slate-200">
               Sign in with Google
             </span>
