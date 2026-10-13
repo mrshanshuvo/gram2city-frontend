@@ -53,7 +53,7 @@ ehthumbs.db
 Thumbs.db
 
 # Coverage files (if using vitest/jest)
-coverage/
+/coverage/
 .nyc_output/
 
 # Temporary files
