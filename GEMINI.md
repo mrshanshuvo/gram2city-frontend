@@ -124,5 +124,4 @@ src/
 
 - `components.json` present — shadcn/ui compatible (Radix primitives used: Dialog, Select)
 - Deployed to Vercel (`gram2city.vercel.app`, `gram2city-web-client.vercel.app`)
-- `next.config.ts` — minimal config, images not yet optimized externally
-- The project was previously named **ZapShift**; package name is now `gram2city-client`
+- The project is named **Gram2City** (`gram2city-client`)
