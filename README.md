@@ -47,8 +47,8 @@ The application is built with the Next.js App Router and uses a modular architec
 
 ### Authentication & Services
 
-* Firebase
-* Firebase Authentication
+* Google Identity Services (`@react-oauth/google`)
+* Native JWT Session Management (Access + httpOnly Refresh)
 * Stripe
 
 ### Real-Time & Maps
@@ -124,7 +124,6 @@ gram2city/
 │   ├── assets/
 │   ├── components/
 │   ├── features/
-│   ├── firebase/
 │   ├── hooks/
 │   ├── lib/
 │   ├── routes/
@@ -149,7 +148,7 @@ Public-facing pages and platform information.
 
 Authentication-related pages and application initialization.
 
-Firebase is used for authentication and user identity management.
+Direct Google OAuth 2.0 (via Google Identity Services) and native JWT dual-token authentication are used for user identity and session management.
 
 ### Dashboard
 
@@ -182,14 +181,10 @@ Create an environment file based on the variables required by the application.
 Example:
 
 ```env
-NEXT_PUBLIC_API_URL=your_backend_api_url
-NEXT_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_firebase_project_id
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id
-NEXT_PUBLIC_FIREBASE_APP_ID=your_firebase_app_id
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+NEXT_PUBLIC_API_URL=http://localhost:5000
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_oauth_client_id.apps.googleusercontent.com
+NEXT_PUBLIC_STRIPE_PK=pk_test_your_stripe_publishable_key
+NEXT_PUBLIC_IMGBB_API_KEY=your_imgbb_api_key
 ```
 
 Use the actual environment variable names defined by the project configuration.
@@ -275,8 +270,8 @@ gram2city-backend
 
 The application uses multiple layers of client-side and service-level security, including:
 
-* Firebase authentication
-* Protected application routes
+* Google OAuth 2.0 & Native Dual-Token JWT verification
+* Protected application routes and role-based guards
 * Environment-based configuration
 * API authentication
 * Form validation

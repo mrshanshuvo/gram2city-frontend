@@ -21,7 +21,7 @@ Three user roles: **User**, **Rider**, **Admin** (+ Merchant sub-type).
 | Server state  | TanStack Query v5                                |
 | Global state  | Zustand v5                                       |
 | Forms         | React Hook Form + Zod v4                         |
-| Auth          | Firebase client SDK v11                          |
+| Auth          | Google Identity Services (@react-oauth/google) + JWT |
 | HTTP          | Axios                                            |
 | Real-time     | Socket.io-client v4                              |
 | Maps          | Leaflet + React-Leaflet + react-leaflet-cluster  |
@@ -75,14 +75,13 @@ src/
 │   ├── parcels/
 │   ├── riders/
 │   └── users/
-├── firebase/             # Firebase client config & init
 ├── hooks/                # Custom React hooks
 ├── layouts/              # Shared layout wrappers
 ├── lib/                  # Utility/helper functions
 ├── routes/               # Route guards and helpers
 ├── store/                # Zustand stores
 ├── types.ts              # Shared TypeScript types
-└── AuthInitializer.tsx   # Firebase auth state listener
+└── AuthInitializer.tsx   # Silent session restoration & cookie sync
 ```
 
 ---
@@ -101,11 +100,12 @@ src/
 
 ## Auth Flow
 
-1. Firebase client SDK handles email/password + Google sign-in
-2. `AuthInitializer.tsx` listens for `onAuthStateChanged` and syncs to Zustand
-3. Firebase ID token sent as `Authorization: Bearer <token>` on every API request
-4. Role (`user` | `rider` | `admin`) is stored in MongoDB and returned from the server
-5. Client-side role guards redirect to `/forbidden` on mismatch
+1. Google Identity Services (`@react-oauth/google`) handles Google OAuth flow, sending Google access tokens to `POST /api/auth/google`.
+2. Native Email/Password authentication handled directly via `POST /api/auth/login` and `POST /api/auth/register`.
+3. Dual-token JWT session model: Access tokens in memory / Zustand, refresh tokens secured via httpOnly cookies.
+4. `AuthInitializer.tsx` performs silent authentication restoration via `GET /api/auth/me` on startup.
+5. Role (`user` | `rider` | `admin` | `merchant`) is verified and stored in MongoDB.
+6. Client-side role guards redirect to `/forbidden` on mismatch.
 
 ---
 
@@ -123,6 +123,6 @@ src/
 ## Notes
 
 - `components.json` present — shadcn/ui compatible (Radix primitives used: Dialog, Select)
-- `firebase.json` + `.firebaserc` — client deployed to Firebase Hosting
+- Deployed to Vercel (`gram2city.vercel.app`, `gram2city-web-client.vercel.app`)
 - `next.config.ts` — minimal config, images not yet optimized externally
 - The project was previously named **ZapShift**; package name is now `gram2city-client`

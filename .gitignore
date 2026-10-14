@@ -25,10 +25,6 @@ node_modules/
 .env.production.local
 *.local
 
-# Firebase
-.firebase/
-firebase-debug.log
-ui-debug.log
 
 # Git / Version Control
 .git/
