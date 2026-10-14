@@ -34,7 +34,13 @@ const ManageMerchants = () => {
     return <SkeletonLoader type="table" rows={5} />;
   }
 
-  const merchants: Merchant[] = data?.merchants || [];
+  const merchants: Merchant[] = Array.isArray(data)
+    ? data
+    : Array.isArray(data?.data)
+      ? data.data
+      : Array.isArray(data?.merchants)
+        ? data.merchants
+        : [];
 
   return (
     <div className="space-y-8 pb-12">

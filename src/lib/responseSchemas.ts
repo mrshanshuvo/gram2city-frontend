@@ -12,7 +12,7 @@ export const userResponseSchema = baseResponseSchema.extend({
     .object({
       _id: z.string().optional(),
       email: z.string().email(),
-      role: z.enum(['user', 'admin', 'rider', 'superAdmin']),
+      role: z.enum(['user', 'admin', 'rider', 'merchant', 'superAdmin']),
       name: z.string().optional().nullable(),
       photoURL: z.string().optional().nullable(),
       isProfileComplete: z.boolean().optional(),
@@ -46,6 +46,9 @@ export const parcelSchema = z.object({
     'delivered',
     'cancelled',
     'returned',
+    'picked_up',
+    'collected',
+    'not_collected',
   ]),
   payment_status: z.enum(['paid', 'unpaid']),
   receiverName: z.string(),

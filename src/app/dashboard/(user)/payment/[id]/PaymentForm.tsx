@@ -98,10 +98,13 @@ const PaymentForm: React.FC = () => {
 
         const paymentRes = await axiosSecure.post('/payments', paymentData);
 
-        if (paymentRes.data.data.paymentInsertResult.insertedId) {
+        if (paymentRes.data?.success || paymentRes.data?.data?.paymentInsertResult?.insertedId) {
           // Step 4: Show SweetAlert and Redirect
           queryClient.invalidateQueries({
             queryKey: ['payment-history', user?.email],
+          });
+          queryClient.invalidateQueries({
+            queryKey: ['myParcels', user?.email],
           });
           Swal.fire({
             icon: 'success',
@@ -116,11 +119,11 @@ const PaymentForm: React.FC = () => {
             await logTracking({
               trackingId: parcel.trackingId || '',
               status: 'paid',
-              details: `Parcel booked by ${user?.displayName}`,
-              location: parcel.senderServiceCenter,
+              details: `Parcel payment completed by ${user?.displayName || user?.name || user?.email}`,
+              location: parcel.senderServiceCenter || 'Payment Gateway',
               updated_by: user?.email || '',
             });
-            router.push('/dashboard/myParcels'); // Adjust the route if necessary
+            router.push('/dashboard/myParcels');
           });
         }
       }

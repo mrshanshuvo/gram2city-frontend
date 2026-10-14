@@ -29,8 +29,10 @@ export interface Parcel extends ParcelFormData {
   created_by?: string | null;
   payment_status: 'paid' | 'unpaid';
   delivery_status:
+    | 'pending'
     | 'not_collected'
     | 'collected'
+    | 'picked_up'
     | 'in_transit'
     | 'delivered'
     | 'cancelled'

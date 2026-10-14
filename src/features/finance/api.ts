@@ -11,6 +11,6 @@ export const fetchRiderCashouts = async (email: string) => {
 };
 
 export const requestCashout = async (parcelId: string) => {
-  const res = await axiosSecure.post('/rider/cashout', { parcelId });
+  const res = await axiosSecure.post('/riders/payout', { parcelId });
   return res.data;
 };

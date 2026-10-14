@@ -39,7 +39,10 @@ const AllParcels = () => {
     queryFn: () => fetchAllParcels({ page, size, status, startDate, endDate }),
   });
 
-  const parcels = data?.data || [];
+  const parcels =
+    data?.data ||
+    (data as unknown as { parcels?: Parcel[] })?.parcels ||
+    (Array.isArray(data) ? (data as unknown as Parcel[]) : []);
   const pagination = data?.pagination || {
     totalItems: 0,
     totalPages: 1,
