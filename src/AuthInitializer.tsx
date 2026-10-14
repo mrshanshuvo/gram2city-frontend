@@ -6,7 +6,6 @@ import { User } from './features/auth/types';
 import { useAuthStore } from './features/auth/authStore';
 import { useSocketStore } from './store/useSocketStore';
 import { axiosSecure } from './api/axios';
-import { userResponseSchema } from './lib/responseSchemas';
 
 const AuthInitializer = () => {
   const { setUser, setRole, setLoading } = useAuthStore();
@@ -17,39 +16,38 @@ const AuthInitializer = () => {
     initializeSocket();
 
     const checkAuth = async () => {
-      const localToken = localStorage.getItem('gram2city_jwt_token');
-      if (localToken) {
-        try {
-          const res = await axiosSecure.get('/auth/me');
-          if (res.data.success && res.data.user) {
-            setUser(res.data.user as User);
-            setRole(res.data.user.role);
-            setLoading(false);
-            return;
-          }
-        } catch {
-          localStorage.removeItem('gram2city_jwt_token');
+      try {
+        const res = await axiosSecure.get('/auth/me');
+        if (res.data.success && res.data.user) {
+          setUser(res.data.user as User);
+          setRole(res.data.user.role);
+          setLoading(false);
+          return;
         }
+      } catch {
+        // Access token invalid or no refresh session
+        localStorage.removeItem('gram2city_jwt_token');
       }
 
       const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
-        // Set basic user info first
-        setUser(currentUser as User);
-
         if (currentUser) {
           try {
-            const res = await axiosSecure.post('/users/sync');
-            const validated = userResponseSchema.safeParse(res.data);
-
-            if (validated.success && validated.data.user) {
-              setRole(validated.data.user.role);
-            } else if (!validated.success) {
-              console.error('Auth Initializer: Validation failed', validated.error);
+            const idToken = await currentUser.getIdToken();
+            const { axiosPublic } = await import('./api/axios');
+            const googleRes = await axiosPublic.post('/auth/google', { credential: idToken });
+            if (googleRes.data.token) {
+              localStorage.setItem('gram2city_jwt_token', googleRes.data.token);
+            }
+            if (googleRes.data.user) {
+              setUser(googleRes.data.user as User);
+              setRole(googleRes.data.user.role);
             }
           } catch (error) {
-            console.error('Auth Initializer: Sync failed', error);
+            console.error('Auth Initializer: Google sync failed', error);
+            setUser(currentUser as unknown as User);
           }
         } else {
+          setUser(null);
           setRole(null);
         }
 

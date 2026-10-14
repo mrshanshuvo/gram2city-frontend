@@ -186,9 +186,7 @@ export const useChatSocket = ({
       // the customer is the one that is NOT admin@gram2city.com.
       // If the current user is a customer, the receiver is always the virtual support inbox (admin@gram2city.com).
       const isAdmin =
-        userRole === 'admin' ||
-        userEmail === 'admin@gram2city.com' ||
-        userEmail === 'mrshanshuvo@gmail.com';
+        userRole === 'admin' || userRole === 'superAdmin' || userEmail === 'admin@gram2city.com';
 
       const receiverEmail = isAdmin
         ? conversationId.split('_').find((p) => p !== 'admin@gram2city.com') || ''

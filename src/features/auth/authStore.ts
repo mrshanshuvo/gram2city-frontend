@@ -20,9 +20,17 @@ interface AuthState {
   setLoading: (loading: boolean) => void;
 
   // Actions
-  createUser: (email: string, password: string) => Promise<UserCredential>;
+  createUser: (
+    email: string,
+    password: string,
+    name?: string,
+    photoURL?: string,
+  ) => Promise<{ user: User }>;
   signInUser: (email: string, password: string) => Promise<UserCredential>;
-  signInWithGoogle: () => Promise<UserCredential>;
+  signInWithGoogle: (googleToken?: {
+    credential?: string;
+    access_token?: string;
+  }) => Promise<{ user: User; token?: string; role?: string }>;
   updateUserProfile: (profileInfo: {
     displayName?: string | null;
     photoURL?: string | null;
@@ -38,14 +46,15 @@ export const useAuthStore = create<AuthState>((set) => ({
   setRole: (role) => set({ role }),
   setLoading: (loading) => set({ isLoading: loading }),
 
-  createUser: async (email, password) => {
+  createUser: async (email, password, name, photoURL) => {
     set({ isLoading: true });
     try {
       const { axiosPublic } = await import('../../api/axios');
       const res = await axiosPublic.post('/auth/register', {
         email,
         password,
-        name: email.split('@')[0],
+        name: name || email.split('@')[0],
+        photoURL,
       });
       if (res.data.token) {
         localStorage.setItem('gram2city_jwt_token', res.data.token);
@@ -53,7 +62,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       if (res.data.user) {
         set({ user: res.data.user, role: res.data.role, isLoading: false });
       }
-      return { user: res.data.user } as unknown as UserCredential;
+      return { user: res.data.user };
     } finally {
       set({ isLoading: false });
     }
@@ -76,9 +85,31 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   },
 
-  signInWithGoogle: () => {
+  signInWithGoogle: async (googleToken) => {
     set({ isLoading: true });
-    return signInWithPopup(auth, googleProvider);
+    try {
+      let payload: { credential?: string; access_token?: string } = {};
+
+      if (googleToken?.credential || googleToken?.access_token) {
+        payload = googleToken;
+      } else {
+        const result = await signInWithPopup(auth, googleProvider);
+        const idToken = await result.user.getIdToken();
+        payload = { credential: idToken };
+      }
+
+      const { axiosPublic } = await import('../../api/axios');
+      const res = await axiosPublic.post('/auth/google', payload);
+      if (res.data.token) {
+        localStorage.setItem('gram2city_jwt_token', res.data.token);
+      }
+      if (res.data.user) {
+        set({ user: res.data.user, role: res.data.role, isLoading: false });
+      }
+      return res.data;
+    } finally {
+      set({ isLoading: false });
+    }
   },
 
   updateUserProfile: (profileInfo) => {
@@ -90,9 +121,15 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({ isLoading: true });
     localStorage.removeItem('gram2city_jwt_token');
     try {
+      const { axiosPublic } = await import('../../api/axios');
+      await axiosPublic.post('/auth/logout');
+    } catch (err) {
+      console.error('Logout backend error:', err);
+    }
+    try {
       await signOut(auth);
     } catch (err) {
-      console.error('Logout error:', err);
+      console.error('Logout Firebase error:', err);
     }
     set({ user: null, role: null, isLoading: false });
   },

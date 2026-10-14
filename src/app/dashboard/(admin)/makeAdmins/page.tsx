@@ -27,11 +27,10 @@ import { usePageHeader } from '@/hooks/usePageHeader';
 import { UserRecord } from '@/types';
 
 const MakeAdmins = () => {
-  const SUPER_ADMIN_EMAIL = 'shahidhasanshovu@gmail.com';
   usePageHeader('User & Staff Authority', 'Global account management and role hierarchy');
 
   const queryClient = useQueryClient();
-  const { isLoading: authLoading } = useAuthStore();
+  const { isLoading: authLoading, user: currentUser } = useAuthStore();
 
   const [searchText, setSearchText] = useState('');
   const [debouncedEmail, setDebouncedEmail] = useState('');
@@ -276,7 +275,7 @@ const MakeAdmins = () => {
                     </span>
                   </td>
                   <td className="text-right px-10 space-x-2">
-                    {user.email !== SUPER_ADMIN_EMAIL && (
+                    {user.role !== 'superAdmin' && user.email !== currentUser?.email && (
                       <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         {/* Status Toggle */}
                         <button

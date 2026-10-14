@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 
 import { useAuthStore } from '@/features/auth/authStore';
+import { useGoogleLogin } from '@react-oauth/google';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import {
@@ -57,18 +58,24 @@ const Login: React.FC = () => {
       });
   };
 
-  const handleGoogleSignIn = () => {
-    signInWithGoogle()
-      .then(() => {
+  const handleGoogleSignIn = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        await signInWithGoogle({ access_token: tokenResponse.access_token });
         toast.success('Google login successful!');
-        router.push('/dashboard');
-      })
-      .catch((error: unknown) => {
-        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+        router.push(from !== '/' ? from : '/dashboard');
+      } catch (error: unknown) {
+        const errorMessage =
+          error instanceof Error ? error.message : 'Google authentication failed';
         toast.error('Google sign-in failed: ' + errorMessage);
         console.error('Google sign-in error:', error);
-      });
-  };
+      }
+    },
+    onError: (errorResponse) => {
+      toast.error('Google sign-in was cancelled or failed.');
+      console.error('Google OAuth error:', errorResponse);
+    },
+  });
 
   return (
     <div className="w-full">
@@ -233,7 +240,7 @@ const Login: React.FC = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="button"
-            onClick={handleGoogleSignIn}
+            onClick={() => handleGoogleSignIn()}
             className="flex justify-center items-center py-4 px-6 border border-slate-200 dark:border-slate-700 rounded-2xl bg-white dark:bg-slate-800/80 transition-all cursor-pointer shadow-xs hover:border-primary/50 dark:hover:border-primary/50"
           >
             <FcGoogle className="w-6 h-6 mr-3 shrink-0" />

@@ -6,10 +6,10 @@ import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 
 import { useAuthStore } from '@/features/auth/authStore';
+import { useGoogleLogin } from '@react-oauth/google';
 import { toast } from 'sonner';
 import React, { useState } from 'react';
 import { axiosPublic } from '@/api/axios';
-import { UserInfoDB } from '@/features/auth/types';
 import { motion } from 'framer-motion';
 import { User, Mail, Lock, ArrowRight, Loader2, Sparkles, Eye, EyeOff } from 'lucide-react';
 import { FcGoogle } from 'react-icons/fc';
@@ -26,12 +26,7 @@ const Register: React.FC = () => {
   });
 
   const router = useRouter();
-  const {
-    createUser,
-    signInWithGoogle,
-    updateUserProfile,
-    isLoading: authLoading,
-  } = useAuthStore();
+  const { createUser, signInWithGoogle, isLoading: authLoading } = useAuthStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const searchParams = useSearchParams();
@@ -55,28 +50,8 @@ const Register: React.FC = () => {
         console.warn('Using fallback avatar due to error:', e);
       }
 
-      // 2. Create user in Firebase
-      const userCredential = await createUser(data.email, data.password);
-      const token = await userCredential.user.getIdToken();
-
-      // 3. Prepare the user info object for DB
-      const userInfoDB: UserInfoDB = {
-        email: data.email,
-        name: data.name,
-        photoURL: finalPhotoURL,
-        isProfileComplete: false, // Mark as incomplete for progressive onboarding
-      };
-
-      // 4. Send to backend DB
-      await axiosPublic.post('/users', userInfoDB, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      // 5. Update Firebase user profile
-      await updateUserProfile({
-        displayName: data.name,
-        photoURL: finalPhotoURL,
-      });
+      // 2. Register user in database with profile
+      await createUser(data.email, data.password, data.name, finalPhotoURL);
 
       toast.success(`Welcome to Gram2City, ${data.name}!`);
       router.replace(from);
@@ -89,18 +64,24 @@ const Register: React.FC = () => {
     }
   };
 
-  const handleGoogleSignIn = () => {
-    signInWithGoogle()
-      .then(() => {
-        toast.success('Google login successful!');
-        router.push('/dashboard');
-      })
-      .catch((error: unknown) => {
-        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+  const handleGoogleSignIn = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        await signInWithGoogle({ access_token: tokenResponse.access_token });
+        toast.success('Google registration successful! Welcome to Gram2City.');
+        router.push(from !== '/' ? from : '/dashboard');
+      } catch (error: unknown) {
+        const errorMessage =
+          error instanceof Error ? error.message : 'Google authentication failed';
         toast.error('Google sign-in failed: ' + errorMessage);
         console.error('Google sign-in error:', error);
-      });
-  };
+      }
+    },
+    onError: (errorResponse) => {
+      toast.error('Google sign-in was cancelled or failed.');
+      console.error('Google OAuth error:', errorResponse);
+    },
+  });
 
   return (
     <div className="w-full">
@@ -262,7 +243,7 @@ const Register: React.FC = () => {
       <motion.button
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
-        onClick={handleGoogleSignIn}
+        onClick={() => handleGoogleSignIn()}
         type="button"
         className="w-full flex justify-center items-center py-4 px-6 border border-slate-200 dark:border-slate-700 rounded-2xl bg-white dark:bg-slate-800/80 transition-all cursor-pointer shadow-xs hover:border-primary/50 dark:hover:border-primary/50"
       >
