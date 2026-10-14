@@ -92,7 +92,7 @@ The application is built with the Next.js App Router and uses a modular architec
           │                  │                  │
      Authentication      Dashboard          Public Pages
           │                  │                  │
-       Firebase       ┌──────┼──────┐           │
+     Google / JWT     ┌──────┼──────┐           │
                       │      │      │           │
                     User   Admin   Other     Marketing
                     Area   Area   Modules      Pages
