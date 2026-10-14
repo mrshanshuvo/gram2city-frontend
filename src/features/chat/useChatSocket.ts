@@ -18,7 +18,7 @@ export const useChatSocket = ({
     email: string;
     displayName?: string | null;
     role?: string | null;
-    getIdToken: () => Promise<string>;
+    getIdToken?: () => Promise<string>;
   } | null;
   onMessagesMarkedRead?: (data: { conversationId: string; readByEmail: string }) => void;
   onMessageReceived?: (msg: Message) => void;
@@ -41,6 +41,9 @@ export const useChatSocket = ({
   }, [getIdToken]);
 
   const getToken = useCallback(async () => {
+    const localToken =
+      typeof window !== 'undefined' ? localStorage.getItem('gram2city_jwt_token') : null;
+    if (localToken) return localToken;
     try {
       return getIdTokenRef.current ? await getIdTokenRef.current() : null;
     } catch {

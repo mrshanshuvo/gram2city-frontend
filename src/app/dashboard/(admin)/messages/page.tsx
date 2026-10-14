@@ -56,9 +56,8 @@ export default function AdminChat() {
     user: user
       ? {
           email: user.email ?? '',
-          displayName: user.displayName,
+          displayName: user.displayName || user.name,
           role: 'admin',
-          getIdToken: () => user.getIdToken(),
         }
       : null,
     onMessageReceived: (msg) => {

@@ -8,8 +8,7 @@ import Link from 'next/link';
 import { toast } from 'sonner';
 import { Mail, ArrowRight, Loader2, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { sendPasswordResetEmail } from 'firebase/auth';
-import { auth } from '@/firebase/firebase.init';
+import { axiosPublic } from '@/api/axios';
 
 const forgotPasswordSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -32,7 +31,7 @@ export default function ForgotPasswordPage() {
   const onSubmit = async (data: ForgotPasswordValues) => {
     setLoading(true);
     try {
-      await sendPasswordResetEmail(auth, data.email);
+      await axiosPublic.post('/auth/reset-password', { email: data.email });
       setSubmitted(true);
       toast.success('Password reset link sent to your email!');
     } catch (err: unknown) {

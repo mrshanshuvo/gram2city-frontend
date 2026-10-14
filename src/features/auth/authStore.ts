@@ -1,15 +1,5 @@
 import { create } from 'zustand';
-import {
-  signInWithPopup,
-  signOut,
-  GoogleAuthProvider,
-  UserCredential,
-  updateProfile,
-} from 'firebase/auth';
-import { auth } from '../../firebase/firebase.init';
 import { User } from './types';
-
-const googleProvider = new GoogleAuthProvider();
 
 interface AuthState {
   user: User | null;
@@ -26,7 +16,7 @@ interface AuthState {
     name?: string,
     photoURL?: string,
   ) => Promise<{ user: User }>;
-  signInUser: (email: string, password: string) => Promise<UserCredential>;
+  signInUser: (email: string, password: string) => Promise<{ user: User }>;
   signInWithGoogle: (googleToken?: {
     credential?: string;
     access_token?: string;
@@ -79,7 +69,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       if (res.data.user) {
         set({ user: res.data.user, role: res.data.role, isLoading: false });
       }
-      return { user: res.data.user } as unknown as UserCredential;
+      return { user: res.data.user };
     } finally {
       set({ isLoading: false });
     }
@@ -88,18 +78,8 @@ export const useAuthStore = create<AuthState>((set) => ({
   signInWithGoogle: async (googleToken) => {
     set({ isLoading: true });
     try {
-      let payload: { credential?: string; access_token?: string } = {};
-
-      if (googleToken?.credential || googleToken?.access_token) {
-        payload = googleToken;
-      } else {
-        const result = await signInWithPopup(auth, googleProvider);
-        const idToken = await result.user.getIdToken();
-        payload = { credential: idToken };
-      }
-
       const { axiosPublic } = await import('../../api/axios');
-      const res = await axiosPublic.post('/auth/google', payload);
+      const res = await axiosPublic.post('/auth/google', googleToken || {});
       if (res.data.token) {
         localStorage.setItem('gram2city_jwt_token', res.data.token);
       }
@@ -112,9 +92,24 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   },
 
-  updateUserProfile: (profileInfo) => {
-    if (!auth.currentUser) return Promise.resolve();
-    return updateProfile(auth.currentUser, profileInfo);
+  updateUserProfile: async (profileInfo) => {
+    set((state) => ({
+      user: state.user
+        ? {
+            ...state.user,
+            displayName:
+              profileInfo.displayName !== undefined
+                ? profileInfo.displayName
+                : state.user.displayName,
+            name:
+              profileInfo.displayName !== undefined && profileInfo.displayName !== null
+                ? profileInfo.displayName
+                : state.user.name,
+            photoURL:
+              profileInfo.photoURL !== undefined ? profileInfo.photoURL : state.user.photoURL,
+          }
+        : null,
+    }));
   },
 
   logout: async () => {
@@ -124,12 +119,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       const { axiosPublic } = await import('../../api/axios');
       await axiosPublic.post('/auth/logout');
     } catch (err) {
-      console.error('Logout backend error:', err);
-    }
-    try {
-      await signOut(auth);
-    } catch (err) {
-      console.error('Logout Firebase error:', err);
+      console.error('Logout error:', err);
     }
     set({ user: null, role: null, isLoading: false });
   },

@@ -48,7 +48,7 @@ const Login: React.FC = () => {
     signInUser(data.email, data.password)
       .then((userCredential) => {
         const user = userCredential.user;
-        toast.success(`Welcome back, ${user.displayName || 'User'}!`);
+        toast.success(`Welcome back, ${user.displayName || user.name || 'User'}!`);
         router.replace(from);
       })
       .catch((error: unknown) => {

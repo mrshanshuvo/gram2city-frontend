@@ -55,14 +55,7 @@ const ChatWidget = () => {
     user: user
       ? {
           email: user.email ?? '',
-          displayName: user.displayName,
-          getIdToken: async () => {
-            try {
-              return await user.getIdToken();
-            } catch {
-              return '';
-            }
-          },
+          displayName: user.displayName || user.name,
         }
       : null,
     onMessagesMarkedRead: () => {},

@@ -25,13 +25,13 @@ export default function PrivacyPage() {
       id: 'sharing',
       title: '3. Data Sharing & Third Parties',
       content:
-        'We do not sell your personal data. We share necessary recipient contact and address details only with assigned riders and third-party infrastructure providers (e.g., Stripe for payments, Firebase for authentication) strictly for service fulfillment.',
+        'We do not sell your personal data. We share necessary recipient contact and address details only with assigned riders and third-party infrastructure providers (e.g., Stripe for payments, Google for OAuth sign-in) strictly for service fulfillment.',
     },
     {
       id: 'security',
       title: '4. Data Security',
       content:
-        'We employ industry-standard encryption, tokenized authentication via Firebase, and secure MongoDB data storage to safeguard your information against unauthorized access or disclosure.',
+        'We employ industry-standard encryption, cryptographically signed tokenized JWT authentication, and secure MongoDB data storage to safeguard your information against unauthorized access or disclosure.',
     },
     {
       id: 'rights',

@@ -24,17 +24,6 @@ axiosSecure.interceptors.request.use(
       typeof window !== 'undefined' ? localStorage.getItem('gram2city_jwt_token') : null;
     if (localToken) {
       config.headers.authorization = `Bearer ${localToken}`;
-      return config;
-    }
-
-    const { user } = useAuthStore.getState();
-    if (user && typeof user.getIdToken === 'function') {
-      try {
-        const token = await user.getIdToken();
-        config.headers.authorization = `Bearer ${token}`;
-      } catch (error) {
-        console.error('AxiosSecure: Failed to get token', error);
-      }
     }
     return config;
   },
