@@ -1,6 +1,9 @@
 node_modules
 .next
 dist
-.firebase
 build
+.vercel
 package-lock.json
+*.tsbuildinfo
+*.log
+coverage

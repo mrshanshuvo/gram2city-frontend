@@ -29,7 +29,7 @@ export default function AllCustomersPage() {
   const size = 10;
 
   const { data, isLoading } = useQuery({
-    queryKey: ['all-customers', searchTerm, page],
+    queryKey: ['all-customers', searchTerm, page, size],
     queryFn: async () => {
       const res = await axiosSecure.get(
         `/admin/users?search=${encodeURIComponent(searchTerm)}&page=${page}&size=${size}`,
