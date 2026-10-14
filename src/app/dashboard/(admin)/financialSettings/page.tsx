@@ -30,15 +30,17 @@ const FinancialSettings: React.FC = () => {
   });
 
   // Fetch Payouts
-  const { data: payoutsData } = useQuery<Payout[]>({
+  const { data: payoutsData } = useQuery<Payout[] | { data?: Payout[]; payouts?: Payout[] }>({
     queryKey: ['admin-payouts'],
     queryFn: async () => {
       const res = await axiosSecure.get('/admin/payouts');
-      return res.data.data;
+      return res.data?.data || res.data?.payouts || res.data || [];
     },
   });
 
-  const payouts = payoutsData || [];
+  const payouts = Array.isArray(payoutsData)
+    ? payoutsData
+    : payoutsData?.data || payoutsData?.payouts || [];
 
   // Payout Status Mutation
   const payoutStatusMutation = useMutation({
