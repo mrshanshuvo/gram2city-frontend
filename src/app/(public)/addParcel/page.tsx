@@ -85,6 +85,18 @@ const AddParcel: React.FC = () => {
     queryFn: fetchWarehouses,
   });
 
+  const { data: systemSettings } = useQuery({
+    queryKey: ['system-settings-public'],
+    queryFn: async () => {
+      const res = await axiosSecure.get('/public/settings').catch(() => null);
+      return res?.data?.settings || { base_delivery_fee: 50, cost_per_kg: 20 };
+    },
+    staleTime: 300000,
+  });
+
+  const baseDeliveryFee = systemSettings?.base_delivery_fee ?? 50;
+  const costPerKg = systemSettings?.cost_per_kg ?? 20;
+
   useEffect(() => {
     const predefinedWeight = searchParams?.get('predefinedWeight');
     if (predefinedWeight) {
@@ -113,9 +125,6 @@ const AddParcel: React.FC = () => {
   const requiredVehicle = watch('requiredVehicle', 'bike');
 
   const calculateCost = (): number => {
-    const isSameDistrict = senderDistrict === receiverDistrict && !!senderDistrict;
-    if (parcelType === 'Document') return isSameDistrict ? 60 : 80;
-
     const vehicleMultipliers: Record<string, number> = {
       bike: 1,
       car: 1.5,
@@ -124,18 +133,13 @@ const AddParcel: React.FC = () => {
     };
     const multiplier = vehicleMultipliers[requiredVehicle] || 1;
 
-    let baseCost = isSameDistrict ? 110 : 150;
-    if (weight > 3) {
-      const extra = Math.ceil(weight - 3);
-      baseCost += extra * 40;
-      if (!isSameDistrict) baseCost += 40;
-    }
-    return baseCost * multiplier;
+    const baseCost = baseDeliveryFee + (weight > 1 ? (weight - 1) * costPerKg : 0);
+    return Math.round(baseCost * multiplier);
   };
 
   const liveCost = calculateCost();
   const isSameDistrict = senderDistrict === receiverDistrict && !!senderDistrict;
-  const extraWeight = weight > 3 ? Math.ceil(weight - 3) : 0;
+  const extraWeight = weight > 1 ? Number((weight - 1).toFixed(1)) : 0;
 
   const onSubmit: SubmitHandler<ParcelFormValues> = (data) => {
     setFormData(data as unknown as ParcelFormData);
@@ -747,8 +751,8 @@ const AddParcel: React.FC = () => {
                 )}
                 {extraWeight > 0 && (
                   <div className="flex justify-between text-xs font-bold text-amber-400">
-                    <span>Extra weight</span>
-                    <span>+৳{extraWeight * 40}</span>
+                    <span>Extra weight ({extraWeight} kg)</span>
+                    <span>+৳{Math.round(extraWeight * costPerKg)}</span>
                   </div>
                 )}
               </div>
@@ -768,10 +772,10 @@ const AddParcel: React.FC = () => {
               </p>
               <ul className="space-y-2">
                 {[
-                  'Documents: ৳60 (same) / ৳80 (outside)',
-                  'Non-doc: ৳110 (same) / ৳150 (outside)',
-                  'Extra weight: ৳40/kg after 3kg',
-                  'Cross-district extra weight: +৳40',
+                  `Base delivery fee: ৳${baseDeliveryFee} (up to 1 kg)`,
+                  `Weight surcharge: ৳${costPerKg}/kg beyond 1 kg`,
+                  'Vehicle rates: Bike (1.0×), Car (1.5×)',
+                  'Cargo rates: Mini Pickup (2.2×), Large (3.5×)',
                 ].map((tip) => (
                   <li
                     key={tip}
@@ -886,7 +890,7 @@ const AddParcel: React.FC = () => {
                   </p>
                   <p className="text-xs text-blue-600/70">
                     {isSameDistrict ? 'Inside District' : 'Outside District'} •{' '}
-                    {extraWeight > 0 ? `Incl. ${extraWeight}kg extra` : 'Base Weight'}
+                    {extraWeight > 0 ? `Incl. ${extraWeight}kg extra` : 'Base Weight (1kg)'}
                   </p>
                 </div>
                 <div className="text-4xl font-bold text-secondary tracking-tight">৳{liveCost}</div>

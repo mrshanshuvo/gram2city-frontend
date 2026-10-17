@@ -6,7 +6,6 @@ import toast from 'react-hot-toast';
 import { fetchRiderCashouts, requestCashout } from '@/features/finance/api';
 import { fetchRiderParcels } from '@/features/parcels/api';
 import { Parcel } from '@/features/parcels/types';
-import { Cashout } from '@/features/finance/types';
 
 import moment from 'moment';
 import SkeletonLoader from '@/components/Shared/SkeletonLoader/SkeletonLoader';
@@ -35,14 +34,12 @@ const CompletedDeliveries = () => {
     queryFn: async () => {
       if (!user?.email) return [];
       const raw = await fetchRiderCashouts(user.email);
-      const list = (
-        Array.isArray(raw) ? raw : (raw as { data?: unknown[] })?.data || []
-      ) as (Cashout & {
+      const list = (Array.isArray(raw) ? raw : (raw as { data?: unknown[] })?.data || []) as Array<{
         parcel_id?: string | { _id?: string };
-      })[];
+      }>;
       return list
         .map((item) => {
-          if (typeof item.parcel_id === 'object' && item.parcel_id !== null) {
+          if (item.parcel_id && typeof item.parcel_id === 'object' && '_id' in item.parcel_id) {
             return String(item.parcel_id._id || '');
           }
           return String(item.parcel_id || '');

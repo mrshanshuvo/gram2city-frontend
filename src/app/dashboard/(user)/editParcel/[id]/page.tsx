@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/Select';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuthStore } from '@/features/auth/authStore';
+import { axiosSecure } from '@/api/axios';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchWarehouses } from '@/features/landing/api';
 import { fetchParcelById, updateParcelDetails } from '@/features/parcels/api';
@@ -104,19 +105,29 @@ const EditParcel: React.FC = () => {
   const parcelType = watch('parcelType');
   const weight = parseFloat(watch('weight') || '0') || 0;
   const senderRegion = watch('senderRegion');
-  const senderDistrict = watch('senderDistrict');
-  const receiverDistrict = watch('receiverDistrict');
+
+  const { data: systemSettings } = useQuery({
+    queryKey: ['system-settings-public'],
+    queryFn: async () => {
+      const res = await axiosSecure.get('/public/settings').catch(() => null);
+      return res?.data?.settings || { base_delivery_fee: 50, cost_per_kg: 20 };
+    },
+    staleTime: 300000,
+  });
+
+  const baseDeliveryFee = systemSettings?.base_delivery_fee ?? 50;
+  const costPerKg = systemSettings?.cost_per_kg ?? 20;
 
   const calculateCost = (): number => {
-    const isSameDistrict = senderDistrict === receiverDistrict && !!senderDistrict;
-    if (parcelType === 'Document') return isSameDistrict ? 60 : 80;
-    let cost = isSameDistrict ? 110 : 150;
-    if (weight > 3) {
-      const extra = Math.ceil(weight - 3);
-      cost += extra * 40;
-      if (!isSameDistrict) cost += 40;
-    }
-    return cost;
+    const vehicleMultipliers: Record<string, number> = {
+      bike: 1,
+      car: 1.5,
+      mini_pickup: 2.2,
+      large_pickup: 3.5,
+    };
+    const multiplier = vehicleMultipliers[parcel?.requiredVehicle || 'bike'] || 1;
+    const baseCost = baseDeliveryFee + (weight > 1 ? (weight - 1) * costPerKg : 0);
+    return Math.round(baseCost * multiplier);
   };
 
   const liveCost = calculateCost();

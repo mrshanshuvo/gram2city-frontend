@@ -22,12 +22,12 @@ const CostCalculator = () => {
     staleTime: 600000, // 10 minutes
   });
 
-  const basePrice = settings?.base_delivery_fee || 60;
-  const pricePerKg = settings?.cost_per_kg || 15;
+  const basePrice = settings?.base_delivery_fee ?? 50;
+  const pricePerKg = settings?.cost_per_kg ?? 20;
   const expressMultiplier = 1.5;
 
   useEffect(() => {
-    let cost = basePrice + (weight - 1) * pricePerKg;
+    let cost = basePrice + Math.max(0, weight - 1) * pricePerKg;
     if (type === 'express') cost *= expressMultiplier;
     setTotalCost(Math.round(cost));
   }, [weight, type, basePrice, pricePerKg]);
