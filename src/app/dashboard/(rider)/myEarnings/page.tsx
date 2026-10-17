@@ -96,7 +96,11 @@ const MyEarnings = () => {
       ? cashoutsData
       : (cashoutsData as { data?: Cashout[] }).data || [];
 
-    const parcelsList = Array.isArray(deliveredParcels) ? deliveredParcels : [];
+    const parcelsList = Array.isArray(deliveredParcels)
+      ? deliveredParcels
+      : (deliveredParcels as { data?: Parcel[]; parcels?: Parcel[] })?.data ||
+        (deliveredParcels as { data?: Parcel[]; parcels?: Parcel[] })?.parcels ||
+        [];
 
     const filteredDelivered = (parcelsList as Parcel[]).filter((p) =>
       isWithinRange(p.delivered_at, selectedRange),

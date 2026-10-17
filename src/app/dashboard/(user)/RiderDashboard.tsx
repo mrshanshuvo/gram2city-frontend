@@ -59,7 +59,7 @@ const RiderDashboard = () => {
     },
     {
       label: 'Avg Rating',
-      value: `${stats?.avgRating?.toFixed(1) || 0} / 5`,
+      value: `${(stats?.avgRating ?? stats?.averageRating ?? stats?.stats?.avgRating ?? stats?.stats?.averageRating ?? 0).toFixed(1)} / 5`,
       icon: <FiStar />,
       color: 'text-yellow-600',
       bg: 'bg-yellow-50',

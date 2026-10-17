@@ -11,7 +11,14 @@ export const fetchRiderParcels = async (email: string, status?: string) => {
     ? `/parcels?rider_email=${email}&delivery_status=${status}`
     : `/parcels?rider_email=${email}`;
   const res = await axiosSecure.get(url);
-  return res.data;
+  const data = res.data;
+  return Array.isArray(data)
+    ? data
+    : Array.isArray(data?.data)
+      ? data.data
+      : Array.isArray(data?.parcels)
+        ? data.parcels
+        : [];
 };
 
 export const fetchAssignedParcels = async () => {

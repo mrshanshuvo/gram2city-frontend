@@ -34,8 +34,20 @@ const CompletedDeliveries = () => {
     enabled: !!user?.email,
     queryFn: async () => {
       if (!user?.email) return [];
-      const data = (await fetchRiderCashouts(user.email)) as Cashout[];
-      return data.map((item) => item.parcel_id);
+      const raw = await fetchRiderCashouts(user.email);
+      const list = (
+        Array.isArray(raw) ? raw : (raw as { data?: unknown[] })?.data || []
+      ) as (Cashout & {
+        parcel_id?: string | { _id?: string };
+      })[];
+      return list
+        .map((item) => {
+          if (typeof item.parcel_id === 'object' && item.parcel_id !== null) {
+            return String(item.parcel_id._id || '');
+          }
+          return String(item.parcel_id || '');
+        })
+        .filter(Boolean);
     },
   });
 
@@ -58,7 +70,11 @@ const CompletedDeliveries = () => {
   });
 
   // Calculate total earnings
-  const parcelList = Array.isArray(parcels) ? parcels : [];
+  const parcelList = Array.isArray(parcels)
+    ? parcels
+    : (parcels as unknown as { data?: Parcel[]; parcels?: Parcel[] })?.data ||
+      (parcels as unknown as { data?: Parcel[]; parcels?: Parcel[] })?.parcels ||
+      [];
   const totalEarnings = parcelList.reduce((sum: number, p) => sum + (p.rider_earning || 0), 0);
 
   // Loading and empty state
@@ -166,7 +182,7 @@ const CompletedDeliveries = () => {
                     </div>
                   </td>
                   <td className="px-8 py-6 text-right">
-                    {Array.isArray(cashedOut) && cashedOut.includes(parcel._id) ? (
+                    {Array.isArray(cashedOut) && cashedOut.includes(String(parcel._id)) ? (
                       <span className="px-3 py-1 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/40 text-[10px] font-black rounded-full uppercase tracking-widest inline-flex items-center gap-1">
                         <FiCheckCircle /> Cashed Out
                       </span>
