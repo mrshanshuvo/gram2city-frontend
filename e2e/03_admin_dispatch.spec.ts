@@ -42,7 +42,7 @@ test.describe('Admin Fleet Journey — Pending Parcel Dispatch & Rider Assignmen
     await page.goto('/dashboard/assignRider');
 
     // Header validation
-    await expect(page.getByText('Dispatch Center')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Dispatch Center' })).toBeVisible();
     await expect(page.getByText('Assign pending parcels to available field riders')).toBeVisible();
 
     // Table content validation
