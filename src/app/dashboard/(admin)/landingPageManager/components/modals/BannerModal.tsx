@@ -87,17 +87,28 @@ const BannerModal: React.FC<BannerModalProps> = ({
     setPreviewUrl(URL.createObjectURL(file));
   };
 
-  const handleFormSubmit = (formValues: Banner) => {
+  const handleFormSubmit = async (formValues: Banner) => {
     if (!selectedFile && !initialData?.image) {
       toast.error('Please upload a banner image.');
       return;
     }
-    const fd = new FormData();
-    if (selectedFile) fd.append('image', selectedFile);
-    Object.entries(formValues).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) fd.append(key, String(value));
-    });
-    onSubmit(fd);
+    let imageUrl = initialData?.image || '';
+    if (selectedFile) {
+      try {
+        const { uploadDirectToCloudinary } = await import('@/lib/cloudinary');
+        imageUrl = await uploadDirectToCloudinary(selectedFile, 'gram2city/cms');
+      } catch (err) {
+        console.warn('Direct upload failed; falling back to multipart form:', err);
+        const fd = new FormData();
+        fd.append('image', selectedFile);
+        Object.entries(formValues).forEach(([key, value]) => {
+          if (value !== undefined && value !== null) fd.append(key, String(value));
+        });
+        onSubmit(fd);
+        return;
+      }
+    }
+    onSubmit({ ...formValues, image: imageUrl });
   };
 
   return (

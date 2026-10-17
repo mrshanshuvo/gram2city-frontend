@@ -46,17 +46,28 @@ const TestimonialModal: React.FC<TestimonialModalProps> = ({
     setPreviewUrl(URL.createObjectURL(file));
   };
 
-  const handleFormSubmit = (formValues: Testimonial) => {
+  const handleFormSubmit = async (formValues: Testimonial) => {
     if (!selectedFile && !initialData?.image) {
       toast.error('Please upload a client avatar.');
       return;
     }
-    const fd = new FormData();
-    if (selectedFile) fd.append('image', selectedFile);
-    Object.entries(formValues).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) fd.append(key, String(value));
-    });
-    onSubmit(fd);
+    let avatarUrl = initialData?.image || '';
+    if (selectedFile) {
+      try {
+        const { uploadDirectToCloudinary } = await import('@/lib/cloudinary');
+        avatarUrl = await uploadDirectToCloudinary(selectedFile, 'gram2city/cms');
+      } catch (err) {
+        console.warn('Direct upload failed; falling back to multipart form:', err);
+        const fd = new FormData();
+        fd.append('image', selectedFile);
+        Object.entries(formValues).forEach(([key, value]) => {
+          if (value !== undefined && value !== null) fd.append(key, String(value));
+        });
+        onSubmit(fd);
+        return;
+      }
+    }
+    onSubmit({ ...formValues, image: avatarUrl });
   };
 
   return (

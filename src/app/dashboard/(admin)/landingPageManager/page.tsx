@@ -233,46 +233,55 @@ const LandingPageManager = () => {
     }
   };
 
-  const handleSaveConfig = (e: React.FormEvent<HTMLFormElement>, ogImageFile?: File | null) => {
+  const handleSaveConfig = async (
+    e: React.FormEvent<HTMLFormElement>,
+    ogImageFile?: File | null,
+  ) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const ogImageUrl = formData.get('seoImage')?.toString() || '';
+    let ogImageUrl = formData.get('seoImage')?.toString() || '';
 
-    // If a file was selected, send as multipart FormData so the server
-    // can process the image upload (same pattern as banners/services)
+    // Directly upload OG image to Cloudinary CDN edge if a new file is chosen
     if (ogImageFile) {
-      const fd = new FormData();
-      fd.append('ogImage', ogImageFile);
-      fd.append('merchantSection[title]', formData.get('title')?.toString() || '');
-      fd.append('merchantSection[description]', formData.get('description')?.toString() || '');
-      fd.append(
-        'merchantSection[ctaText]',
-        formData.get('ctaText')?.toString() || 'Become a Merchant',
-      );
-      fd.append('merchantSection[ctaLink]', formData.get('ctaLink')?.toString() || '/register');
-      (formData.get('benefits')?.toString() || '')
-        .split(',')
-        .map((b) => b.trim())
-        .forEach((b) => fd.append('merchantSection[benefits][]', b));
-      fd.append('contactInfo[address]', formData.get('address')?.toString() || '');
-      fd.append('contactInfo[phone]', formData.get('phone')?.toString() || '');
-      fd.append('contactInfo[whatsapp]', formData.get('whatsapp')?.toString() || '');
-      fd.append('contactInfo[email]', formData.get('email')?.toString() || '');
-      fd.append('socialLinks[twitter]', formData.get('twitter')?.toString() || '');
-      fd.append('socialLinks[facebook]', formData.get('facebook')?.toString() || '');
-      fd.append('socialLinks[linkedin]', formData.get('linkedin')?.toString() || '');
-      fd.append('socialLinks[instagram]', formData.get('instagram')?.toString() || '');
-      fd.append('socialLinks[youtube]', formData.get('youtube')?.toString() || '');
-      fd.append('seo[title]', formData.get('seoTitle')?.toString() || '');
-      fd.append('seo[description]', formData.get('seoDescription')?.toString() || '');
-      fd.append('seo[keywords]', formData.get('seoKeywords')?.toString() || '');
-      updateConfigMutation.mutate(fd);
-      return;
+      try {
+        const { uploadDirectToCloudinary } = await import('@/lib/cloudinary');
+        ogImageUrl = await uploadDirectToCloudinary(ogImageFile, 'gram2city/config');
+      } catch (err) {
+        console.warn('Direct OG image upload failed; falling back to multipart form:', err);
+        const fd = new FormData();
+        fd.append('ogImage', ogImageFile);
+        fd.append('merchantSection[title]', formData.get('title')?.toString() || '');
+        fd.append('merchantSection[description]', formData.get('description')?.toString() || '');
+        fd.append(
+          'merchantSection[ctaText]',
+          formData.get('ctaText')?.toString() || 'Become a Merchant',
+        );
+        fd.append('merchantSection[ctaLink]', formData.get('ctaLink')?.toString() || '/register');
+        (formData.get('benefits')?.toString() || '')
+          .split(',')
+          .map((b) => b.trim())
+          .forEach((b) => fd.append('merchantSection[benefits][]', b));
+        fd.append('contactInfo[address]', formData.get('address')?.toString() || '');
+        fd.append('contactInfo[phone]', formData.get('phone')?.toString() || '');
+        fd.append('contactInfo[whatsapp]', formData.get('whatsapp')?.toString() || '');
+        fd.append('contactInfo[email]', formData.get('email')?.toString() || '');
+        fd.append('socialLinks[twitter]', formData.get('twitter')?.toString() || '');
+        fd.append('socialLinks[facebook]', formData.get('facebook')?.toString() || '');
+        fd.append('socialLinks[linkedin]', formData.get('linkedin')?.toString() || '');
+        fd.append('socialLinks[instagram]', formData.get('instagram')?.toString() || '');
+        fd.append('socialLinks[youtube]', formData.get('youtube')?.toString() || '');
+        fd.append('seo[title]', formData.get('seoTitle')?.toString() || '');
+        fd.append('seo[description]', formData.get('seoDescription')?.toString() || '');
+        fd.append('seo[keywords]', formData.get('seoKeywords')?.toString() || '');
+        updateConfigMutation.mutate(fd);
+        return;
+      }
     }
 
     const newData: LandingConfig = {
       merchantSection: {
         title: formData.get('title')?.toString() || '',
+
         description: formData.get('description')?.toString() || '',
         benefits:
           formData

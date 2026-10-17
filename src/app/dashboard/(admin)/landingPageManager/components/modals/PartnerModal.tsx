@@ -46,17 +46,28 @@ const PartnerModal: React.FC<PartnerModalProps> = ({
     setPreviewUrl(URL.createObjectURL(file));
   };
 
-  const handleFormSubmit = (formValues: Partner) => {
+  const handleFormSubmit = async (formValues: Partner) => {
     if (!selectedFile && !initialData?.logo) {
       toast.error('Please upload a partner logo.');
       return;
     }
-    const fd = new FormData();
-    if (selectedFile) fd.append('logo', selectedFile);
-    Object.entries(formValues).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) fd.append(key, String(value));
-    });
-    onSubmit(fd);
+    let logoUrl = initialData?.logo || '';
+    if (selectedFile) {
+      try {
+        const { uploadDirectToCloudinary } = await import('@/lib/cloudinary');
+        logoUrl = await uploadDirectToCloudinary(selectedFile, 'gram2city/cms');
+      } catch (err) {
+        console.warn('Direct upload failed; falling back to multipart form:', err);
+        const fd = new FormData();
+        fd.append('logo', selectedFile);
+        Object.entries(formValues).forEach(([key, value]) => {
+          if (value !== undefined && value !== null) fd.append(key, String(value));
+        });
+        onSubmit(fd);
+        return;
+      }
+    }
+    onSubmit({ ...formValues, logo: logoUrl });
   };
 
   return (
