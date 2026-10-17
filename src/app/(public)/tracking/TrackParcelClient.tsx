@@ -49,7 +49,8 @@ export default function TrackParcelClient({ id = '', initialData }: TrackParcelC
       return fetchPublicTracking(trackingId);
     },
     enabled: !!trackingId,
-    initialData: trackingId === id ? initialData : undefined,
+    initialData:
+      trackingId === id && initialData && initialData.length > 0 ? initialData : undefined,
   });
 
   // Real-time Socket Integration
@@ -159,7 +160,10 @@ export default function TrackParcelClient({ id = '', initialData }: TrackParcelC
 
               <div className="space-y-0">
                 {trackings.map((update, idx) => (
-                  <div key={update._id} className="relative flex gap-6 pb-10 group last:pb-0">
+                  <div
+                    key={update._id || `${update.status}-${idx}`}
+                    className="relative flex gap-6 pb-10 group last:pb-0"
+                  >
                     {idx !== trackings.length - 1 && (
                       <div className="absolute left-6 top-10 bottom-0 w-1 bg-linear-to-b from-primary/50 to-gray-100 -translate-x-1/2"></div>
                     )}
