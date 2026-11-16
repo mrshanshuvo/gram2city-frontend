@@ -109,3 +109,11 @@ jobs:
         run: npm ci
       - name: Production Build
         run: npm run build
+        env:
+          NEXT_PUBLIC_FIREBASE_API_KEY: AIzaSyD1ee80ZS-KyN_zdIgln8hamahjHxH4ZRs
+          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: gram-2-city.firebaseapp.com
+          NEXT_PUBLIC_FIREBASE_PROJECT_ID: gram-2-city
+          NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: gram-2-city.firebasestorage.app
+          NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: "70114789791"
+          NEXT_PUBLIC_FIREBASE_APP_ID: "1:70114789791:web:8fd387f26c2bc8e1d155aa"
+          NEXT_PUBLIC_API_URL: "https://gram2city-server.vercel.app"
