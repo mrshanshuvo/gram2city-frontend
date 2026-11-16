@@ -62,3 +62,6 @@ coverage/
 .gitignore
 
 *.env
+
+# Editor & Attack Vector Defense
+.vscode/
